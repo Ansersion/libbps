@@ -1,2 +1,2 @@
-# libbps
-The library of BPS
+# libbpclient
+C library for BP client
