@@ -13,8 +13,8 @@
 /// See the License for the specific language governing permissions and
 /// limitations under the License.
 ///
-/// @file   bps_cmd_comm_test.h
-/// @brief  definations of functions and variable types for command 'communication test'
+/// @file   bps_cmd_ping.h
+/// @brief  definations of functions and variable types for command 'ping'
 /// 
 /// @version    0.1
 /// @author     Ansersion
@@ -22,62 +22,63 @@
 /// 
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef __BPS_CMD_COMM_TEST_H
-#define __BPS_CMD_COMM_TEST_H
+#ifndef __BPS_CMD_PING_H
+#define __BPS_CMD_PING_H
 
 #include <bps_public.h>
 #include <bps_cwords.h>
 
-#define CMD_COMM_TEST_WORD_REQ  0x00
-#define CMD_COMM_TEST_WORD_RSP  0x01
+#define CMD_PING_WORD_REQ  0x04
+#define CMD_PING_WORD_RSP  0x05
 
-typedef struct BPSCmdCommTestReq {
-    BP_UINT8 recv;
-} BPSCmdCommTestReq;
+typedef struct BPSCmdPingReq {
+    BP_UINT8 type;
+    BP_UINT16 interval;
+} BPSCmdPingReq;
 
-typedef struct BPSCmdCommTestRsp {
-    BP_UINT8 recv;
-} BPSCmdCommTestRsp;
+typedef struct BPSCmdPingRsp {
+    BP_UINT16 interval;
+} BPSCmdPingRsp;
 
 /** 
-  * @Brief BPSPackCommTestReq construct packet of 'communication test' request
+  * @Brief BPSPackPingReq construct packet of 'ping' request
   * @Param req the request parameter
   * @Param buf the buffer to store the message(point at the commond word position)
   * @Param size the buffer size
   * @return the number of bytes which the function handled
  */
-EXPORT_API BP_UINT16 BPSPackCommTestReq(BPSCmdCommTestReq * req, BP_UINT8 * buf, BP_WORD size);
+EXPORT_API BP_UINT16 BPSPackPingReq(BPSCmdPingReq * req, BP_UINT8 * buf, BP_WORD size);
 
 /** 
-  * @Brief BPSPackCommTestRsp construct packet of 'communication test' response
+  * @Brief BPSPackPingRsp construct packet of 'ping' response
   * @Param rsp the response parameter
   * @Param buf the buffer to store the message(point at the commond word position)
   * @Param size the buffer size
   * @return the number of bytes which the function handled
  */
-EXPORT_API BP_UINT16 BPSPackCommTestRsp(BPSCmdCommTestRsp * rsp, BP_UINT8 * buf, BP_WORD size);
+EXPORT_API BP_UINT16 BPSPackPingRsp(BPSCmdPingRsp * rsp, BP_UINT8 * buf, BP_WORD size);
 
 /** 
-  * @Brief BPSParseCommTestReq parse packet of 'communication test' request
+  * @Brief BPSParsePingReq parse packet of 'ping' request
   * @Param req the request data struct to store the message
   * @Param buf the buffer stored the message(point at the commond word position)
   * @Param size the buffer size
   * @return the number of bytes which the function handled, 0 means parsing failed
  */
-EXPORT_API BP_UINT16 BPSParseCommTestReq(BPSCmdCommTestReq * req, BP_UINT8 * buf, BP_WORD size);
+EXPORT_API BP_UINT16 BPSParsePingReq(BPSCmdPingReq * req, BP_UINT8 * buf, BP_WORD size);
 
 /** 
-  * @Brief BPSParseCommTestRsp parse packet of 'communication test' response
+  * @Brief BPSParsePingRsp parse packet of 'ping' response
   * @Param rsp the response data struct to store the message
   * @Param buf the buffer to store the message(point at the commond word position)
   * @Param size the buffer size
   * @return the number of bytes which the function handled, 0 means parsing failed
  */
-EXPORT_API BP_UINT16 BPSParseCommTestRsp(BPSCmdCommTestRsp * rsp, BP_UINT8 * buf, BP_WORD size);
+EXPORT_API BP_UINT16 BPSParsePingRsp(BPSCmdPingRsp * rsp, BP_UINT8 * buf, BP_WORD size);
 
 #ifdef BP_MEM_DYN
-    #define ParseCommTestReqDyn     ParseCommTestReq
-    #define ParseCommTestRspDyn     ParseCommTestRsp
+    #define ParsePingReqDyn     ParsePingReq
+    #define ParsePingRspDyn     ParsePingRsp
 #endif
 
 #endif

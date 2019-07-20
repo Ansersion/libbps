@@ -1,5 +1,4 @@
 COMPILE_OPTS =		$(INCLUDES) -I. -c -g -Wall
-COMPILE_OPTS +=		-std=c99
 # COMPILE_OPTS += -O2
 CC = cc
 
@@ -9,8 +8,8 @@ OBJ =
 INCLUDES =
 MACRO 	=
 LINK_OPTS =		
-LIBRARY_SHARE_LINK =
-SHARE_LINK_OPTS =
+LIBRARY_SHARE_LINK = ar
+LIBRARY_SHARE_LINK_OPTS = cr
 
 INCLUDES += -Iinc
 
@@ -35,16 +34,18 @@ TARGET_STATIC_LIB = libbps.a
 TARGET_SHARE_LIB = libbps.so
 
 ALL += $(TARGET_STATIC_LIB) 
-#ALL += $(TARGET_SHARE_LIB)
+ALL += $(TARGET_SHARE_LIB)
 
 all: $(ALL)
 
 $(TARGET_STATIC_LIB): $(OBJ) 
 	$(LIBRARY_LINK) $(LINK_OPTS) $@ $(OBJ)
+	ctags -R --exclude=.git --exclude=log *
 	cscope -Rbq
 
 $(TARGET_SHARE_LIB): $(OBJ) 
-	$(LIBRARY_SHARE_LINK) $@ $(LIBRARY_SHARE_LINK_OPTS) $(OBJ)
+	$(LIBRARY_SHARE_LINK) $(LIBRARY_SHARE_LINK_OPTS) $@ $(OBJ)
+	ctags -R --exclude=.git --exclude=log *
 	cscope -Rbq
 
 $(OBJ):%.o:%.c

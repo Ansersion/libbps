@@ -14,7 +14,7 @@
 
 # Points to the root of Google Test, relative to where this file is.
 # Remember to tweak this if you move this file.
-GTEST_DIR = /home/hub/Desktop/gtest/gtest-1.7.0
+GTEST_DIR = /Users/ansersion/MacData/opt/gtest-1.7.0
 
 # Where to find user code.
 USER_DIR = ..
@@ -56,7 +56,7 @@ USER_OBJ_DIR 	:= $(USER_DIR)
 
 LIBS += -lpthread
 LIBS += gtest_main.a
-LIBS += $(USER_DIR)/libbpclient.a
+LIBS += $(USER_DIR)/libbps.a
 
 INCLUDE_DIR += -I$(USER_DIR)/inc
 

@@ -324,3 +324,4 @@ __pycache__/
 *.pyc
 
 .depend
+tags
