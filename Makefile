@@ -20,7 +20,7 @@ SRC_DIR = src
 MACRO 	+= -DBP_CPU64
 MACRO 	+= -DBP_USE_STD
 MACRO 	+= -DDEBUG
-# MACRO 	+= -DBP_MEM_DYN
+MACRO 	+= -DBP_MEM_DYN
 
 CFLAGS +=		$(COMPILE_OPTS) 
 CFLAGS +=		$(MACRO) 
@@ -45,8 +45,8 @@ $(TARGET_STATIC_LIB): $(OBJ)
 
 $(TARGET_SHARE_LIB): $(OBJ) 
 	$(LIBRARY_SHARE_LINK) $(LIBRARY_SHARE_LINK_OPTS) $@ $(OBJ)
-	ctags -R --exclude=.git --exclude=log *
-	cscope -Rbq
+#   ctags -R --exclude=.git --exclude=log *
+#	cscope -Rbq
 
 $(OBJ):%.o:%.c
 	$(CC) $(CFLAGS) $< -o $@ -MMD -MF $*.d -MP

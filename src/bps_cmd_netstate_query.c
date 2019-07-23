@@ -13,8 +13,8 @@
 /// See the License for the specific language governing permissions and
 /// limitations under the License.
 ///
-/// @file 	bps_cmd_ping.c
-/// @brief 	APIs for command 'ping'
+/// @file 	bps_cmd_config_netset.c
+/// @brief 	APIs for command 'configure net setting'
 /// 
 /// @version 	0.1
 /// @author 	Ansersion
@@ -22,9 +22,9 @@
 /// 
 ///////////////////////////////////////////////////////////////////////////////
 
-#include <bps_cmd_ping.h>
+#include <bps_cmd_config_netset.h>
 
-BP_UINT16 BPSPackPingReq(BPSCmdPingReq * req, BP_UINT8 * buf, BP_WORD size)
+BP_UINT16 BPSPackConfigNetsetReq(BPSCmdConfigNetsetReq * req, BP_UINT8 * buf, BP_WORD size)
 {
     BP_UINT16 i = 0;
     if(BP_NULL == req || BP_NULL == buf) {
@@ -33,24 +33,24 @@ BP_UINT16 BPSPackPingReq(BPSCmdPingReq * req, BP_UINT8 * buf, BP_WORD size)
     if(0 == size--) {
         return 0;
     }
-    buf[i++] = CMD_PING_WORD_REQ;
+    buf[i++] = CMD_CONFIG_NETSET_WORD_REQ;
 
     if(0 == size--) {
         return 0;
     }
     buf[i++] = req->type;
 
-    if(size < sizeof(BP_UINT16)) {
-        return 0;
+    if(SET_RT_CONFIG_NET == req->type) {
+        if(0 == size--) {
+            return 0;
+        }
+        buf[i++] = req->mode;
     }
-    size -= sizeof(BP_UINT16);
-    buf = BP_SetBig16(&(buf[i]), req->interval);
-    i += sizeof(BP_UINT16);
 
     return i;
 }
 
-BP_UINT16 BPSPackPingRsp(BPSCmdPingRsp * rsp, BP_UINT8 * buf, BP_WORD size)
+BP_UINT16 BPSPackConfigNetsetRsp(BPSCmdConfigNetsetRsp * rsp, BP_UINT8 * buf, BP_WORD size)
 {
     BP_UINT16 i = 0;
     if(BP_NULL == rsp || BP_NULL == buf) {
@@ -59,19 +59,27 @@ BP_UINT16 BPSPackPingRsp(BPSCmdPingRsp * rsp, BP_UINT8 * buf, BP_WORD size)
     if(0 == size--) {
         return 0;
     }
-    buf[i++] = CMD_PING_WORD_RSP;
+    buf[i++] = CMD_CONFIG_NETSET_WORD_RSP;
 
-    if(size < sizeof(BP_UINT16)) {
+    if(0 == size--) {
         return 0;
     }
-    size -= sizeof(BP_UINT16);
-    buf = BP_SetBig16(&(buf[i]), rsp->interval);
-    i += sizeof(BP_UINT16);
+    buf[i++] = rsp->retCode;
+
+    if(0 == size--) {
+        return 0;
+    }
+    buf[i++] = rsp->signalType;
+
+    if(0 == size--) {
+        return 0;
+    }
+    buf[i++] = rsp->mode;
 
     return i;
 }
 
-BP_UINT16 BPSParsePingReq(BPSCmdPingReq * req, BP_UINT8 * buf, BP_WORD size)
+BP_UINT16 BPSParseConfigNetsetReq(BPSCmdConfigNetsetReq * req, BP_UINT8 * buf, BP_WORD size)
 {
     BP_UINT16 i = 0;
     if(BP_NULL == req || BP_NULL == buf) {
@@ -83,29 +91,37 @@ BP_UINT16 BPSParsePingReq(BPSCmdPingReq * req, BP_UINT8 * buf, BP_WORD size)
     }
     req->type = buf[i++];
 
-    if(size < sizeof(BP_UINT16)) {
-        return 0;
+    if(SET_RT_CONFIG_NET == req->type) {
+        if(0 == size--) {
+            return 0;
+        }
+        req->mode = buf[i++];
     }
-    size -= sizeof(BP_UINT16);
-    buf = BP_GetBig16(&(buf[i]), &(req->interval));
-    i += sizeof(BP_UINT16);
 
     return i;
 }
 
-BP_UINT16 BPSParsePingRsp(BPSCmdPingRsp * rsp, BP_UINT8 * buf, BP_WORD size)
+BP_UINT16 BPSParseConfigNetsetRsp(BPSCmdConfigNetsetRsp * rsp, BP_UINT8 * buf, BP_WORD size)
 {
     BP_UINT16 i = 0;
     if(BP_NULL == rsp || BP_NULL == buf) {
         return 0;
     }
 
-    if(size < sizeof(BP_UINT16)) {
+    if(0 == size--) {
         return 0;
     }
-    size -= sizeof(BP_UINT16);
-    buf = BP_GetBig16(&(buf[i]), &(rsp->interval));
-    i += sizeof(BP_UINT16);
+    rsp->retCode = buf[i++];
+
+    if(0 == size--) {
+        return 0;
+    }
+    rsp->signalType = buf[i++];
+
+    if(0 == size--) {
+        return 0;
+    }
+    rsp->mode = buf[i++];
 
     return i;
 }

@@ -13,8 +13,8 @@
 /// See the License for the specific language governing permissions and
 /// limitations under the License.
 ///
-/// @file   bps_cmd_ping.h
-/// @brief  definations of functions and variable types for command 'ping'
+/// @file   bps_cmd_config_netset.h
+/// @brief  definations of functions and variable types for command 'configure net setting'
 /// 
 /// @version    0.1
 /// @author     Ansersion
@@ -22,63 +22,70 @@
 /// 
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef __BPS_CMD_PING_H
-#define __BPS_CMD_PING_H
+#ifndef __BPS_CMD_CONFIG_NETSET_H
+#define __BPS_CMD_CONFIG_NETSET_H
 
 #include <bps_public.h>
 #include <bps_cwords.h>
 
-#define CMD_PING_WORD_REQ  0x04
-#define CMD_PING_WORD_RSP  0x05
+#define CMD_CONFIG_NETSET_WORD_REQ  0x08
+#define CMD_CONFIG_NETSET_WORD_RSP  0x09
 
-typedef struct BPSCmdPingReq {
+typedef enum ReqTypeConfigNet {
+    QUERY_RT_CONFIG_NET = 0,
+    SET_RT_CONFIG_NET,
+} ReqTypeConfigNet;
+
+typedef struct BPSCmdConfigNetsetReq {
     BP_UINT8 type;
-    BP_UINT16 interval;
-} BPSCmdPingReq;
+    BP_UINT8 mode;
+} BPSCmdConfigNetsetReq;
 
-typedef struct BPSCmdPingRsp {
-    BP_UINT16 interval;
-} BPSCmdPingRsp;
+typedef struct BPSCmdConfigNetsetRsp {
+    BP_UINT8 retCode;
+    BP_UINT8 signalType;
+    BP_UINT8 mode;
+} BPSCmdConfigNetsetRsp;
 
 /** 
-  * @Brief BPSPackPingReq construct packet of 'ping' request
+  * @Brief BPSPackConfigNetsetReq construct packet of 'configure net setting' request
   * @Param req the request parameter
   * @Param buf the buffer to store the message(point at the commond word position)
   * @Param size the buffer size
   * @return the number of bytes which the function handled
  */
-EXPORT_API BP_UINT16 BPSPackPingReq(BPSCmdPingReq * req, BP_UINT8 * buf, BP_WORD size);
+EXPORT_API BP_UINT16 BPSPackConfigNetsetReq(BPSCmdConfigNetsetReq * req, BP_UINT8 * buf, BP_WORD size);
 
 /** 
-  * @Brief BPSPackPingRsp construct packet of 'ping' response
+  * @Brief BPSPackConfigNetsetRsp construct packet of 'configure net setting' response
   * @Param rsp the response parameter
   * @Param buf the buffer to store the message(point at the commond word position)
   * @Param size the buffer size
   * @return the number of bytes which the function handled
  */
-EXPORT_API BP_UINT16 BPSPackPingRsp(BPSCmdPingRsp * rsp, BP_UINT8 * buf, BP_WORD size);
+EXPORT_API BP_UINT16 BPSPackConfigNetsetRsp(BPSCmdConfigNetsetRsp * rsp, BP_UINT8 * buf, BP_WORD size);
 
 /** 
-  * @Brief BPSParsePingReq parse packet of 'ping' request
+  * @Brief BPSParseConfigNetsetReq parse packet of 'configure net setting' request
   * @Param req the request data struct to store the message
   * @Param buf the buffer stored the message(point at the commond word position+1)
   * @Param size the buffer size
   * @return the number of bytes which the function handled, 0 means parsing failed/none
  */
-EXPORT_API BP_UINT16 BPSParsePingReq(BPSCmdPingReq * req, BP_UINT8 * buf, BP_WORD size);
+EXPORT_API BP_UINT16 BPSParseConfigNetsetReq(BPSCmdConfigNetsetReq * req, BP_UINT8 * buf, BP_WORD size);
 
 /** 
-  * @Brief BPSParsePingRsp parse packet of 'ping' response
+  * @Brief BPSParseConfigNetsetRsp parse packet of 'configure net setting' response
   * @Param rsp the response data struct to store the message
   * @Param buf the buffer to store the message(point at the commond word position+1)
   * @Param size the buffer size
   * @return the number of bytes which the function handled, 0 means parsing failed/none
  */
-EXPORT_API BP_UINT16 BPSParsePingRsp(BPSCmdPingRsp * rsp, BP_UINT8 * buf, BP_WORD size);
+EXPORT_API BP_UINT16 BPSParseConfigNetsetRsp(BPSCmdConfigNetsetRsp * rsp, BP_UINT8 * buf, BP_WORD size);
 
 #ifdef BP_MEM_DYN
-    #define ParsePingReqDyn     ParsePingReq
-    #define ParsePingRspDyn     ParsePingRsp
+    #define ParseConfigNetsetReqDyn     ParseConfigNetsetReq
+    #define ParseConfigNetsetRspDyn     ParseConfigNetsetRsp
 #endif
 
 #endif

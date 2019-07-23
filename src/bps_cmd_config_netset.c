@@ -13,8 +13,8 @@
 /// See the License for the specific language governing permissions and
 /// limitations under the License.
 ///
-/// @file 	bps_cmd_comm_test.c
-/// @brief 	APIs for command 'communication test'
+/// @file 	bps_cmd_netstate_query.c
+/// @brief 	APIs for command 'query net state'
 /// 
 /// @version 	0.1
 /// @author 	Ansersion
@@ -22,9 +22,9 @@
 /// 
 ///////////////////////////////////////////////////////////////////////////////
 
-#include <bps_cmd_comm_test.h>
+#include <bps_cmd_netstate_query.h>
 
-BP_UINT16 BPSPackCommTestReq(BPSCmdCommTestReq * req, BP_UINT8 * buf, BP_WORD size)
+BP_UINT16 BPSPackNetstateQueryReq(BPSCmdNetstateQueryReq * req, BP_UINT8 * buf, BP_WORD size)
 {
     BP_UINT16 i = 0;
     if(BP_NULL == req || BP_NULL == buf) {
@@ -33,12 +33,12 @@ BP_UINT16 BPSPackCommTestReq(BPSCmdCommTestReq * req, BP_UINT8 * buf, BP_WORD si
     if(0 == size--) {
         return 0;
     }
-    buf[i++] = CMD_COMM_TEST_WORD_REQ;
+    buf[i++] = CMD_NETSTATE_QUERY_WORD_REQ;
 
     return i;
 }
 
-BP_UINT16 BPSPackCommTestRsp(BPSCmdCommTestRsp * rsp, BP_UINT8 * buf, BP_WORD size)
+BP_UINT16 BPSPackNetstateQueryRsp(BPSCmdNetstateQueryRsp * rsp, BP_UINT8 * buf, BP_WORD size)
 {
     BP_UINT16 i = 0;
     if(BP_NULL == rsp || BP_NULL == buf) {
@@ -47,26 +47,38 @@ BP_UINT16 BPSPackCommTestRsp(BPSCmdCommTestRsp * rsp, BP_UINT8 * buf, BP_WORD si
     if(0 == size--) {
         return 0;
     }
-    buf[i++] = CMD_COMM_TEST_WORD_RSP;
+    buf[i++] = CMD_NETSTATE_QUERY_WORD_RSP;
+
+    if(0 == size--) {
+        return 0;
+    }
+    buf[i++] = rsp->state;
 
     return i;
 }
 
-BP_UINT16 BPSParseCommTestReq(BPSCmdCommTestReq * req, BP_UINT8 * buf, BP_WORD size)
+BP_UINT16 BPSParseNetstateQueryReq(BPSCmdNetstateQueryReq * req, BP_UINT8 * buf, BP_WORD size)
 {
     BP_UINT16 i = 0;
     if(BP_NULL == req || BP_NULL == buf) {
         return 0;
     }
+
     return i;
 }
 
-BP_UINT16 BPSParseCommTestRsp(BPSCmdCommTestRsp * rsp, BP_UINT8 * buf, BP_WORD size)
+BP_UINT16 BPSParseNetstateQueryRsp(BPSCmdNetstateQueryRsp * rsp, BP_UINT8 * buf, BP_WORD size)
 {
     BP_UINT16 i = 0;
     if(BP_NULL == rsp || BP_NULL == buf) {
         return 0;
     }
+
+    if(0 == size--) {
+        return 0;
+    }
+    rsp->state = buf[i++];
+
     return i;
 }
 
