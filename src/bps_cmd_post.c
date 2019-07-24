@@ -13,8 +13,8 @@
 /// See the License for the specific language governing permissions and
 /// limitations under the License.
 ///
-/// @file 	bps_cmd_report_sig.c
-/// @brief 	APIs for command 'report signal values'
+/// @file 	bps_cmd_post.c
+/// @brief 	APIs for command 'post signal'
 /// 
 /// @version 	0.1
 /// @author 	Ansersion
@@ -24,7 +24,7 @@
 
 #include <bps_public.h>
 #include <bps_sig_ret_code.h>
-#include <bps_cmd_report_sig.h>
+#include <bps_cmd_post.h>
 #include <bps_memcpy.h>
 #include <bps_memset.h>
 
@@ -32,19 +32,19 @@
     #include <bps_memmng.h>
 #endif
 
-BP_UINT16 BPSPackReportSigReq(BPSCmdReportSigReq * req, BP_UINT8 * buf, BP_WORD size)
+BP_UINT16 BPSPackPostReq(BPSCmdPostReq * req, BP_UINT8 * buf, BP_WORD size)
 {
     BP_UINT16 i = 0;
     BP_UINT8 field_num, j;
     BP_WORD len;
-    BPSCmdReportSigField * field_tmp;
+    BPSCmdPostField * field_tmp;
     if(BP_NULL == req || BP_NULL == buf) {
         return 0;
     }
     if(0 == size--) {
         return 0;
     }
-    buf[i++] = CMD_REPORT_SIG_WORD_REQ;
+    buf[i++] = CMD_POST_WORD_REQ;
 
     if(0 == size--) {
         return 0;
@@ -78,7 +78,7 @@ BP_UINT16 BPSPackReportSigReq(BPSCmdReportSigReq * req, BP_UINT8 * buf, BP_WORD 
     return i;
 }
 
-BP_UINT16 BPSPackReportSigRsp(BPSCmdReportSigRsp * rsp, BP_UINT8 * buf, BP_WORD size)
+BP_UINT16 BPSPackPostRsp(BPSCmdPostRsp * rsp, BP_UINT8 * buf, BP_WORD size)
 {
     BP_UINT16 i = 0;
     if(BP_NULL == rsp || BP_NULL == buf) {
@@ -87,7 +87,7 @@ BP_UINT16 BPSPackReportSigRsp(BPSCmdReportSigRsp * rsp, BP_UINT8 * buf, BP_WORD 
     if(0 == size--) {
         return 0;
     }
-    buf[i++] = CMD_REPORT_SIG_WORD_RSP;
+    buf[i++] = CMD_POST_WORD_RSP;
 
 
     if(0 == size--) {
@@ -110,12 +110,12 @@ BP_UINT16 BPSPackReportSigRsp(BPSCmdReportSigRsp * rsp, BP_UINT8 * buf, BP_WORD 
     return i;
 }
 
-BP_UINT16 BPSParseReportSigReq(BPSCmdReportSigReq * req, BP_UINT8 * buf, BP_WORD size)
+BP_UINT16 BPSParsePostReq(BPSCmdPostReq * req, BP_UINT8 * buf, BP_WORD size)
 {
     BP_UINT16 i = 0;
     BP_UINT8 field_num, j;
     BP_WORD len;
-    BPSCmdReportSigField * field_tmp;
+    BPSCmdPostField * field_tmp;
     if(BP_NULL == req || BP_NULL == buf) {
         return 0;
     }
@@ -159,7 +159,7 @@ BP_UINT16 BPSParseReportSigReq(BPSCmdReportSigReq * req, BP_UINT8 * buf, BP_WORD
     return i;
 }
 
-BP_UINT16 BPSParseReportSigRsp(BPSCmdReportSigRsp * rsp, BP_UINT8 * buf, BP_WORD size)
+BP_UINT16 BPSParsePostRsp(BPSCmdPostRsp * rsp, BP_UINT8 * buf, BP_WORD size)
 {
     BP_UINT16 i = 0;
     if(BP_NULL == rsp || BP_NULL == buf) {
@@ -187,12 +187,12 @@ BP_UINT16 BPSParseReportSigRsp(BPSCmdReportSigRsp * rsp, BP_UINT8 * buf, BP_WORD
 }
 
 #ifdef BP_MEM_DYN
-BP_UINT16 BPSParseReportSigReqDyn(BPSCmdReportSigReq * req, BP_UINT8 * buf, BP_WORD size)
+BP_UINT16 BPSParsePostReqDyn(BPSCmdPostReq * req, BP_UINT8 * buf, BP_WORD size)
 {
     BP_UINT16 i = 0;
     BP_UINT8 field_num, j;
     BP_WORD len;
-    BPSCmdReportSigField * field_tmp;
+    BPSCmdPostField * field_tmp;
     if(BP_NULL == req || BP_NULL == buf) {
         return 0;
     }
@@ -203,12 +203,12 @@ BP_UINT16 BPSParseReportSigReqDyn(BPSCmdReportSigReq * req, BP_UINT8 * buf, BP_W
     field_num = buf[i++];
     req->fieldNum = field_num;
 
-    req->fieldArray = (BPSCmdReportSigField *)malloc_bps(field_num * sizeof(BPSCmdReportSigField));
-    memset_bps(req->fieldArray, 0, field_num * sizeof(BPSCmdReportSigField));
+    req->fieldArray = (BPSCmdPostField *)malloc_bps(field_num * sizeof(BPSCmdPostField));
+    memset_bps(req->fieldArray, 0, field_num * sizeof(BPSCmdPostField));
 
     for(j = 0; j < field_num; j++) {
         if(sizeof(BP_UINT16) > size) {
-            BPSFreeMemReportSigReq(req);
+            BPSFreeMemPostReq(req);
             return 0;
         }
         size -= sizeof(BP_UINT16);
@@ -217,14 +217,14 @@ BP_UINT16 BPSParseReportSigReqDyn(BPSCmdReportSigReq * req, BP_UINT8 * buf, BP_W
         i += sizeof(BP_UINT16);
 
         if(0 == size--) {
-            BPSFreeMemReportSigReq(req);
+            BPSFreeMemPostReq(req);
             return 0;
         }
         field_tmp->signalType = buf[i++];
 
         if(BPS_SIG_TYPE_STR == field_tmp->signalType) {
             if(0 == size--) {
-                BPSFreeMemReportSigReq(req);
+                BPSFreeMemPostReq(req);
                 return 0;
             }
             len = buf[i++];
@@ -234,7 +234,7 @@ BP_UINT16 BPSParseReportSigReqDyn(BPSCmdReportSigReq * req, BP_UINT8 * buf, BP_W
         }
 
         if(len > size) {
-            BPSFreeMemReportSigReq(req);
+            BPSFreeMemPostReq(req);
             return 0;
         }
         size -= len;
@@ -245,7 +245,7 @@ BP_UINT16 BPSParseReportSigReqDyn(BPSCmdReportSigReq * req, BP_UINT8 * buf, BP_W
     return i;
 }
 
-BP_UINT16 BPSParseReportSigRspDyn(BPSCmdReportSigRsp * rsp, BP_UINT8 * buf, BP_WORD size)
+BP_UINT16 BPSParsePostRspDyn(BPSCmdPostRsp * rsp, BP_UINT8 * buf, BP_WORD size)
 {
     BP_UINT16 i = 0;
     if(BP_NULL == rsp || BP_NULL == buf) {
@@ -273,10 +273,10 @@ BP_UINT16 BPSParseReportSigRspDyn(BPSCmdReportSigRsp * rsp, BP_UINT8 * buf, BP_W
     return i;
 }
 
-void BPSFreeMemReportSigReq(BPSCmdReportSigReq * req)
+void BPSFreeMemPostReq(BPSCmdPostReq * req)
 {
     BP_WORD i;
-    BPSCmdReportSigField * field_tmp;
+    BPSCmdPostField * field_tmp;
     if(BP_NULL == req) {
         return;
     }
@@ -293,7 +293,7 @@ void BPSFreeMemReportSigReq(BPSCmdReportSigReq * req)
     req->fieldArray = BP_NULL;
 }
 
-void BPSFreeMemReportSigRsp(BPSCmdReportSigRsp * rsp)
+void BPSFreeMemPostRsp(BPSCmdPostRsp * rsp)
 {
     if(BP_NULL == rsp) {
         return;
