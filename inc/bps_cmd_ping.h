@@ -79,6 +79,8 @@ EXPORT_API BP_UINT16 BPSParsePingRsp(BPSCmdPingRsp * rsp, BP_UINT8 * buf, BP_WOR
 #ifdef BP_MEM_DYN
     #define ParsePingReqDyn     ParsePingReq
     #define ParsePingRspDyn     ParsePingRsp
+    #define BPSFreeMemPingReq(x)     
+    #define BPSFreeMemPingRsp(x)     
 #endif
 
 #endif

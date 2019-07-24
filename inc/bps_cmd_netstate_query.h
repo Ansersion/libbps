@@ -78,6 +78,8 @@ EXPORT_API BP_UINT16 BPSParseNetstateQueryRsp(BPSCmdNetstateQueryRsp * rsp, BP_U
 #ifdef BP_MEM_DYN
     #define ParseNetstateQueryReqDyn     ParseNetstateQueryReq
     #define ParseNetstateQueryRspDyn     ParseNetstateQueryRsp
+    #define BPSFreeMemNetstateQueryReq(x)     
+    #define BPSFreeMemNetstateQueryRsp(x)     
 #endif
 
 #endif

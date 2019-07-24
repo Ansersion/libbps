@@ -44,7 +44,7 @@ BP_UINT16 BPSPackPingReq(BPSCmdPingReq * req, BP_UINT8 * buf, BP_WORD size)
         return 0;
     }
     size -= sizeof(BP_UINT16);
-    buf = BP_SetBig16(&(buf[i]), req->interval);
+    buf = BPS_SetBig16(&(buf[i]), req->interval);
     i += sizeof(BP_UINT16);
 
     return i;
@@ -65,7 +65,7 @@ BP_UINT16 BPSPackPingRsp(BPSCmdPingRsp * rsp, BP_UINT8 * buf, BP_WORD size)
         return 0;
     }
     size -= sizeof(BP_UINT16);
-    buf = BP_SetBig16(&(buf[i]), rsp->interval);
+    buf = BPS_SetBig16(&(buf[i]), rsp->interval);
     i += sizeof(BP_UINT16);
 
     return i;
@@ -87,7 +87,7 @@ BP_UINT16 BPSParsePingReq(BPSCmdPingReq * req, BP_UINT8 * buf, BP_WORD size)
         return 0;
     }
     size -= sizeof(BP_UINT16);
-    buf = BP_GetBig16(&(buf[i]), &(req->interval));
+    buf = BPS_GetBig16(&(buf[i]), &(req->interval));
     i += sizeof(BP_UINT16);
 
     return i;
@@ -104,7 +104,7 @@ BP_UINT16 BPSParsePingRsp(BPSCmdPingRsp * rsp, BP_UINT8 * buf, BP_WORD size)
         return 0;
     }
     size -= sizeof(BP_UINT16);
-    buf = BP_GetBig16(&(buf[i]), &(rsp->interval));
+    buf = BPS_GetBig16(&(buf[i]), &(rsp->interval));
     i += sizeof(BP_UINT16);
 
     return i;

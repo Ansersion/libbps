@@ -78,6 +78,8 @@ EXPORT_API BP_UINT16 BPSParseOpenNetsetRsp(BPSCmdOpenNetsetRsp * rsp, BP_UINT8 *
 #ifdef BP_MEM_DYN
     #define ParseOpenNetsetReqDyn     ParseOpenNetsetReq
     #define ParseOpenNetsetRspDyn     ParseOpenNetsetRsp
+    #define BPSFreeMemOpenNetsetReq(x)     
+    #define BPSFreeMemOpenNetsetRsp(x)     
 #endif
 
 #endif

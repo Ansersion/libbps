@@ -86,6 +86,8 @@ EXPORT_API BP_UINT16 BPSParseConfigNetsetRsp(BPSCmdConfigNetsetRsp * rsp, BP_UIN
 #ifdef BP_MEM_DYN
     #define ParseConfigNetsetReqDyn     ParseConfigNetsetReq
     #define ParseConfigNetsetRspDyn     ParseConfigNetsetRsp
+    #define BPSFreeMemConfigNetsetReq(x)     
+    #define BPSFreeMemConfigNetsetRsp(x)     
 #endif
 
 #endif

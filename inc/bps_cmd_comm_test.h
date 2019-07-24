@@ -78,6 +78,8 @@ EXPORT_API BP_UINT16 BPSParseCommTestRsp(BPSCmdCommTestRsp * rsp, BP_UINT8 * buf
 #ifdef BP_MEM_DYN
     #define ParseCommTestReqDyn     ParseCommTestReq
     #define ParseCommTestRspDyn     ParseCommTestRsp
+    #define BPSFreeMemCommTestReq(x)     
+    #define BPSFreeMemCommTestRsp(x)     
 #endif
 
 #endif

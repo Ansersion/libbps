@@ -90,13 +90,20 @@ EXPORT_API BP_UINT16 BPSParseGetSigtabRsp(BPSCmdGetSigtabRsp * rsp, BP_UINT8 * b
   * @Brief BPSParseGetSigtabRsp parse packet of 'get signal table' response
   * @Param rsp the response data struct to store the message.
   *         YOU HAVE TO CLEAR THE MEMORY OF ALL THE POINTERS RECURSIVELY IN 'rsp' 
-  *         when the address of 'rsp' is unreachable
+  *         when the address of 'rsp' is unreachable(if the function return 0, you need do nothing about clearing memory)
   * @Param buf the buffer to store the message(point at the commond word position+1)
   * @Param size the buffer size
   * @return the number of bytes which the function handled, 0 means parsing failed/none
   *         rsp 
  */
 EXPORT_API BP_UINT16 BPSParseGetSigtabRspDyn(BPSCmdGetSigtabRsp * rsp, BP_UINT8 * buf, BP_WORD size);
+
+    #define BPSFreeMemGetSigtabReq(x)  
+/** 
+  * @Brief BPSFreeMemGetSigtabRsp free the memory of the response struct
+  * @Param rsp the response data struct.
+ */
+EXPORT_API void BPSFreeMemGetSigtabRsp(BPSCmdGetSigtabRsp * rsp);
 #endif
 
 #endif

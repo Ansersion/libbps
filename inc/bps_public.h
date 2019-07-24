@@ -44,23 +44,57 @@
 
 #define BPS_CHECKSUM_SIZE 	1
 
-#define BP_SetBig16 	BP_SetNet16
-#define BP_SetBig32 	BP_SetNet32
+#define BPS_SetBig16 	BPS_SetNet16
+#define BPS_SetBig32 	BPS_SetNet32
 
-#define BP_GetBig16 	BP_GetNet16
-#define BP_GetBig32 	BP_GetNet32
+#define BPS_GetBig16 	BPS_GetNet16
+#define BPS_GetBig32 	BPS_GetNet32
 
-EXPORT_API BP_UINT8 * BP_SetNet16(BP_UINT8 * dst, BP_UINT16 val);
-EXPORT_API BP_UINT8 * BP_SetNet32(BP_UINT8 * dst, BP_UINT32 val);
-EXPORT_API BP_UINT8 * BP_SetNBytes(BP_UINT8 * dst, BP_UINT8 * src, BP_WORD num);
+#define MAX_STRING_LEN  255
 
-EXPORT_API BP_UINT8 * BP_Set2ByteField(BP_UINT8 * pack, BP_UINT8 * field, BP_UINT16 field_len);
-EXPORT_API BP_UINT8 * BP_Set1ByteField(BP_UINT8 * pack, const BP_UINT8 * field, BP_UINT8 field_len);
+typedef enum BPSSigType {
+	BPS_SIG_TYPE_U32 = 0, 
+	BPS_SIG_TYPE_U16,
+	BPS_SIG_TYPE_I32, 
+	BPS_SIG_TYPE_I16, 
+	BPS_SIG_TYPE_ENM, 
+	BPS_SIG_TYPE_FLT, 
+	BPS_SIG_TYPE_STR, 
+	BPS_SIG_TYPE_BOOLEAN, 
+	BPS_SIG_TYPE_TIME, 
+	BPS_SIG_TYPE_DATE, 
+	BPS_SIG_TYPE_UNKNOWN = 15,
+} BPSSigType;
 
-EXPORT_API BP_UINT8 * BP_GetNet16(BP_UINT8 * src, BP_UINT16 * val);
-EXPORT_API BP_UINT8 * BP_GetNet32(BP_UINT8 * src, BP_UINT32 * val);
+typedef union BPSSigTypeU {
+	BP_UINT32 	t_u32;
+	BP_UINT16 	t_u16;
+	BP_INT32 	t_i32;
+	BP_INT16 	t_i16;
+	BP_UINT16 	t_enm;
+	BP_FLOAT 	t_flt;
+	BP_UINT8* 	t_str;
+	BP_UINT8 	t_bool;
+	BP_UINT32 	t_time;
+	BP_UINT32 	t_date;
+} BPSSigTypeU;
 
-EXPORT_API BP_UINT8 * BP_Get2ByteField(BP_UINT8 * pack, BP_UINT8 * field_buf, BP_UINT16 * field_len);
+EXPORT_API BP_UINT8 * BPS_SetNet16(BP_UINT8 * dst, BP_UINT16 val);
+EXPORT_API BP_UINT8 * BPS_SetNet32(BP_UINT8 * dst, BP_UINT32 val);
+EXPORT_API BP_UINT8 * BPS_SetNBytes(BP_UINT8 * dst, BP_UINT8 * src, BP_WORD num);
+
+EXPORT_API BP_UINT8 * BPS_Set2ByteField(BP_UINT8 * pack, BP_UINT8 * field, BP_UINT16 field_len);
+EXPORT_API BP_UINT8 * BPS_Set1ByteField(BP_UINT8 * pack, const BP_UINT8 * field, BP_UINT8 field_len);
+
+EXPORT_API BP_UINT8 * BPS_GetNet16(BP_UINT8 * src, BP_UINT16 * val);
+EXPORT_API BP_UINT8 * BPS_GetNet32(BP_UINT8 * src, BP_UINT32 * val);
+
+EXPORT_API BP_UINT8 * BPS_Get2ByteField(BP_UINT8 * pack, BP_UINT8 * field_buf, BP_UINT16 * field_len);
+EXPORT_API BP_WORD BPS_GetSigValueLen(BPSSigType type, BPSSigTypeU value);
+/* except BPS_SIG_TYPE_STR */
+EXPORT_API BP_WORD BPS_GetSigValueLen2(BPSSigType type);
+EXPORT_API BP_UINT8 * BPS_SetSigValue(BP_UINT8 * pack, BPSSigType type, BPSSigTypeU value);
+EXPORT_API BP_UINT8 * BPS_GetSigValue(BP_UINT8 * pack, BPSSigType type, BPSSigTypeU * value, BP_WORD len);
 
 /** 
   * @Brief IsBPSHeader2 check b1==0xBB and b2==0xCC

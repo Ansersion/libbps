@@ -24,9 +24,10 @@
 
 #include <bps_cmd_hd_info.h>
 #include <bps_memcpy.h>
+#include <bps_memset.h>
 
 #ifdef BP_MEM_DYN
-    #include <stdlib.h>
+    #include <bps_memmng.h>
 #endif
 
 BP_UINT16 BPSPackHDInfoReq(BPSCmdHDInfoReq * req, BP_UINT8 * buf, BP_WORD size)
@@ -65,7 +66,7 @@ BP_UINT16 BPSPackHDInfoRsp(BPSCmdHDInfoRsp * rsp, BP_UINT8 * buf, BP_WORD size)
         }
         size -= tmp;
         buf[i++] = field_tmp->type;
-        if(BP_NULL == BP_Set1ByteField(&(buf[i]), field_tmp->data, field_tmp->len)) {
+        if(BP_NULL == BPS_Set1ByteField(&(buf[i]), field_tmp->data, field_tmp->len)) {
             return 0;
         }
         i += sizeof(BP_UINT8) + field_tmp->len;
@@ -140,10 +141,12 @@ BP_UINT16 BPSParseHDInfoRspDyn(BPSCmdHDInfoRsp * rsp, BP_UINT8 * buf, BP_WORD si
         return 0;
     }
     rsp->fieldArray = (BPSCmdHDInfoField *)malloc(field_mem_step_num * sizeof(BPSCmdHDInfoField) * field_num_step);
+    memset_bps(rsp->fieldArray, 0, field_mem_step_num * sizeof(BPSCmdHDInfoField) * field_num_step);
     field_num_left = field_num_step;
     rsp->fieldNum = 0;
     while(1) {
         if(0 == size--) {
+            BPSFreeMemHDInfoRsp(rsp);
             return 0;
         }
         type = buf[i++];
@@ -153,6 +156,7 @@ BP_UINT16 BPSParseHDInfoRspDyn(BPSCmdHDInfoRsp * rsp, BP_UINT8 * buf, BP_WORD si
         if(0 == field_num_left--) {
             field_mem_step_num++;
             field_tmp = (BPSCmdHDInfoField *)malloc(field_mem_step_num * sizeof(BPSCmdHDInfoField) * field_num_step);
+            memset_bps(field_tmp, 0, field_mem_step_num * sizeof(BPSCmdHDInfoField) * field_num_step);
             memcpy_bps(field_tmp, rsp->fieldArray, (field_mem_step_num - 1) * sizeof(BPSCmdHDInfoField) * field_num_step);
             free(rsp->fieldArray);
             rsp->fieldArray = field_tmp;
@@ -163,11 +167,13 @@ BP_UINT16 BPSParseHDInfoRspDyn(BPSCmdHDInfoRsp * rsp, BP_UINT8 * buf, BP_WORD si
         field_tmp->type = type;
 
         if(0 == size--) {
+            BPSFreeMemHDInfoRsp(rsp);
             return 0;
         }
         field_tmp->len = buf[i++];
 
         if(field_tmp->len > size) {
+            BPSFreeMemHDInfoRsp(rsp);
             return 0;
         }
         size -= field_tmp->len;
@@ -179,6 +185,24 @@ BP_UINT16 BPSParseHDInfoRspDyn(BPSCmdHDInfoRsp * rsp, BP_UINT8 * buf, BP_WORD si
     }
 
     return i;
+}
+
+void BPSFreeMemHDInfoRsp(BPSCmdHDInfoRsp * rsp)
+{
+    BP_WORD i;
+    BPSCmdHDInfoField * field_tmp;
+    if(BP_NULL == rsp) {
+        return;
+    }
+    if(BP_NULL == rsp->fieldArray) {
+        return;
+    }
+    for(i = 0; i < rsp->fieldNum; i++) {
+       field_tmp = rsp->fieldArray + i;
+       free(field_tmp->data);
+    }
+    free(rsp->fieldArray);
+    rsp->fieldArray = BP_NULL;
 }
 #endif
 

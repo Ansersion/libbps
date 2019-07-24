@@ -22,11 +22,13 @@
 /// 
 ///////////////////////////////////////////////////////////////////////////////
 
+#include <bps_public.h>
 #include <bps_cmd_get_sigtab.h>
 #include <bps_memcpy.h>
+#include <bps_memset.h>
 
 #ifdef BP_MEM_DYN
-    #include <stdlib.h>
+    #include <bps_memmng.h>
 #endif
 
 BP_UINT16 BPSPackGetSigtabReq(BPSCmdGetSigtabReq * req, BP_UINT8 * buf, BP_WORD size)
@@ -61,7 +63,7 @@ BP_UINT16 BPSPackGetSigtabRsp(BPSCmdGetSigtabRsp * rsp, BP_UINT8 * buf, BP_WORD 
         return 0;
     }
     size -= sizeof(BP_UINT16);
-    BP_SetBig16(buf+i, (BP_UINT16)(rsp->fieldNum & 0xFFFF));
+    BPS_SetBig16(buf+i, (BP_UINT16)(rsp->fieldNum & 0xFFFF));
     i += sizeof(BP_UINT16);
 
     for(j = 0; j < rsp->fieldNum; j++) {
@@ -71,7 +73,7 @@ BP_UINT16 BPSPackGetSigtabRsp(BPSCmdGetSigtabRsp * rsp, BP_UINT8 * buf, BP_WORD 
             return 0;
         }
         size -= tmp;
-        BP_SetBig16(buf+i, field_tmp->signalId);
+        BPS_SetBig16(buf+i, field_tmp->signalId);
         i += sizeof(BP_UINT16);
 
         if(0 == size--) {
@@ -110,7 +112,7 @@ BP_UINT16 BPSParseGetSigtabRsp(BPSCmdGetSigtabRsp * rsp, BP_UINT8 * buf, BP_WORD
         return 0;
     }
     size -= sizeof(BP_UINT16);
-    BP_GetBig16(buf+i, &tmpU16);
+    BPS_GetBig16(buf+i, &tmpU16);
     rsp->fieldNum = tmpU16;
     i += sizeof(BP_UINT16);
 
@@ -121,7 +123,7 @@ BP_UINT16 BPSParseGetSigtabRsp(BPSCmdGetSigtabRsp * rsp, BP_UINT8 * buf, BP_WORD
             return 0;
         }
         size -= sizeof(BP_UINT16);
-        BP_GetBig16(buf+i, &tmpU16);
+        BPS_GetBig16(buf+i, &tmpU16);
         field_tmp->signalId = tmpU16;
         i += sizeof(BP_UINT16);
 
@@ -148,11 +150,12 @@ BP_UINT16 BPSParseGetSigtabRspDyn(BPSCmdGetSigtabRsp * rsp, BP_UINT8 * buf, BP_W
     if(BP_NULL == rsp || BP_NULL == buf) {
         return 0;
     }
+    rsp->fieldArray = BP_NULL;
     if(sizeof(BP_UINT16) > size) {
         return 0;
     }
     size -= sizeof(BP_UINT16);
-    BP_GetBig16(buf+i, &tmpU16);
+    BPS_GetBig16(buf+i, &tmpU16);
     rsp->fieldNum = tmpU16;
     i += sizeof(BP_UINT16);
 
@@ -160,22 +163,26 @@ BP_UINT16 BPSParseGetSigtabRspDyn(BPSCmdGetSigtabRsp * rsp, BP_UINT8 * buf, BP_W
         return i;
     }
 
-    rsp->fieldArray = (BPSCmdGetSigtabField *)malloc(rsp->fieldNum);
+    rsp->fieldArray = (BPSCmdGetSigtabField *)malloc_bps(rsp->fieldNum * sizeof(BPSCmdGetSigtabField));
+    memset_bps(rsp->fieldArray, 0, rsp->fieldNum * sizeof(BPSCmdGetSigtabField));
     for(j = 0; j < rsp->fieldNum; j++) {
         field_tmp = rsp->fieldArray + j;
         if(sizeof(BP_UINT16) > size) {
+            BPSFreeMemGetSigtabRsp(rsp);
             return 0;
         }
         size -= sizeof(BP_UINT16);
-        BP_GetBig16(buf+i, &(field_tmp->signalId));
+        BPS_GetBig16(buf+i, &(field_tmp->signalId));
         i += sizeof(BP_UINT16);
 
         if(0 == size--) {
+            BPSFreeMemGetSigtabRsp(rsp);
             return 0;
         }
         field_tmp->signalType = buf[i++];
 
         if(0 == size--) {
+            BPSFreeMemGetSigtabRsp(rsp);
             return 0;
         }
         field_tmp->accuracy = buf[i++];
@@ -183,5 +190,18 @@ BP_UINT16 BPSParseGetSigtabRspDyn(BPSCmdGetSigtabRsp * rsp, BP_UINT8 * buf, BP_W
 
     return i;
 }
+
+void BPSFreeMemGetSigtabRsp(BPSCmdGetSigtabRsp * rsp)
+{
+    if(BP_NULL == rsp) {
+        return;
+    }
+    if(BP_NULL == rsp->fieldArray) {
+        return;
+    }
+    free_bps(rsp->fieldArray);
+    rsp->fieldArray = BP_NULL;
+}
+
 #endif
 
