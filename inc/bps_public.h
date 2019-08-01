@@ -42,6 +42,8 @@
 #define BPS_REMAIN_LEN_SIZE 	2
 #define BPS_REMAIN_LEN_POSITION 	(BPS_ADDR_POSITION + BPS_ADDR_SIZE)
 
+#define BPS_CMD_WORD_SIZE 	1
+
 #define BPS_CHECKSUM_SIZE 	1
 
 #define BPS_SetBig16 	BPS_SetNet16
@@ -149,6 +151,14 @@ EXPORT_API BP_UINT16 GetBPSRemainLen(BP_UINT8 * buf);
   * @return the length, or '0' when something wrong
  */
 EXPORT_API BP_UINT16 GetBPSRemainLen2(BP_UINT8 * buf, BP_WORD size);
+
+/** 
+  * @Brief IsCmdWordValid check whether the command is valid
+  * @Param cmd_word   the command word
+  * @return Success     somegthing not 0
+  *         Failed      0
+ */
+EXPORT_API BP_UINT8 IsCmdWordValid(BP_UINT8 cmd_word);
 
 /** 
   * @Brief IsBPSChksumOK check the checksum of the message

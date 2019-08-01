@@ -26,6 +26,17 @@
 #include <bps_memcpy.h>
 #include <bps_strlen.h>
 
+#include <bps_cmd_comm_test.h>
+#include <bps_cmd_hd_info.h>
+#include <bps_cmd_ping.h>
+#include <bps_cmd_open_netset.h>
+#include <bps_cmd_config_netset.h>
+#include <bps_cmd_netstate_query.h>
+#include <bps_cmd_get_sigtab.h>
+#include <bps_cmd_report_sig.h>
+#include <bps_cmd_post.h>
+#include <bps_cmd_get_sig.h>
+
 BP_UINT8 * BPS_SetNet16(BP_UINT8 * dst, BP_UINT16 val)
 {
 	if(BP_NULL == dst) {
@@ -362,6 +373,35 @@ BP_UINT16 GetBPSRemainLen2(BP_UINT8 * buf, BP_WORD size)
 		return 0;
 	}
 	return GetBPSRemainLen(buf);
+}
+
+BP_UINT8 IsCmdWordValid(BP_UINT8 cmd_word)
+{
+    switch(cmd_word) {
+        case CMD_COMM_TEST_WORD_REQ:
+        case CMD_COMM_TEST_WORD_RSP:
+        case CMD_HD_INFO_WORD_REQ:
+        case CMD_HD_INFO_WORD_RSP:
+        case CMD_PING_WORD_REQ:
+        case CMD_PING_WORD_RSP:
+        case CMD_OPEN_NETSET_WORD_REQ:
+        case CMD_OPEN_NETSET_WORD_RSP:
+        case CMD_CONFIG_NETSET_WORD_REQ:
+        case CMD_CONFIG_NETSET_WORD_RSP:
+        case CMD_NETSTATE_QUERY_WORD_REQ:
+        case CMD_NETSTATE_QUERY_WORD_RSP:
+        case CMD_GET_SIGTAB_WORD_REQ:
+        case CMD_GET_SIGTAB_WORD_RSP:
+        case CMD_REPORT_SIG_WORD_REQ:
+        case CMD_REPORT_SIG_WORD_RSP:
+        case CMD_POST_WORD_REQ:
+        case CMD_POST_WORD_RSP:
+        case CMD_GET_SIG_WORD_REQ:
+        case CMD_GET_SIG_WORD_RSP:
+            return 1;
+    }
+
+    return 0;
 }
 
 BP_UINT8 IsBPSChksumOK(BP_UINT8 * buf)

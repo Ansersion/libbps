@@ -28,8 +28,8 @@ LIBRARY_LINK =		xtensa-lx106-elf-ar ru
 SRC 	+= ${wildcard $(SRC_DIR)/*.c}
 OBJ 	+= ${patsubst %.c, %.o, $(SRC)}
 
-TARGET_STATIC_LIB = libbpclient.a
-TARGET_SHARE_LIB = libbpclient.so
+TARGET_STATIC_LIB = libbps.a
+TARGET_SHARE_LIB = libbps.so
 
 ALL += $(TARGET_STATIC_LIB) 
 #ALL += $(TARGET_SHARE_LIB)
