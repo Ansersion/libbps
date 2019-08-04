@@ -25,7 +25,7 @@
 #ifndef __BPS_MEMMNG_H
 #define __BPS_MEMMNG_H
 
-#ifdef BP_MEM_DYN
+#ifdef BPS_MEM_DYN
 
 /** 
   * @Brief memory management APIs, you can customize this based on different OS

@@ -32,17 +32,17 @@
 #define CMD_GET_SIGTAB_WORD_RSP  0x81
 
 typedef struct BPSCmdGetSigtabReq {
-    BP_UINT8 recv;
+    BPS_UINT8 recv;
 } BPSCmdGetSigtabReq;
 
 typedef struct BPSCmdGetSigtabField {
-    BP_UINT16 signalId;
-    BP_UINT8 signalType;
-    BP_UINT8 accuracy;
+    BPS_UINT16 signalId;
+    BPS_UINT8 signalType;
+    BPS_UINT8 accuracy;
 } BPSCmdGetSigtabField;
 
 typedef struct BPSCmdGetSigtabRsp {
-    BP_WORD fieldNum;
+    BPS_WORD fieldNum;
     BPSCmdGetSigtabField * fieldArray;
 } BPSCmdGetSigtabRsp;
 
@@ -53,7 +53,7 @@ typedef struct BPSCmdGetSigtabRsp {
   * @Param size the buffer size
   * @return the number of bytes which the function handled
  */
-EXPORT_API BP_UINT16 BPSPackGetSigtabReq(BPSCmdGetSigtabReq * req, BP_UINT8 * buf, BP_WORD size);
+EXPORT_API BPS_UINT16 BPSPackGetSigtabReq(BPSCmdGetSigtabReq * req, BPS_UINT8 * buf, BPS_WORD size);
 
 /** 
   * @Brief BPSPackGetSigtabRsp construct packet of 'get signal table' response
@@ -62,7 +62,7 @@ EXPORT_API BP_UINT16 BPSPackGetSigtabReq(BPSCmdGetSigtabReq * req, BP_UINT8 * bu
   * @Param size the buffer size
   * @return the number of bytes which the function handled
  */
-EXPORT_API BP_UINT16 BPSPackGetSigtabRsp(BPSCmdGetSigtabRsp * rsp, BP_UINT8 * buf, BP_WORD size);
+EXPORT_API BPS_UINT16 BPSPackGetSigtabRsp(BPSCmdGetSigtabRsp * rsp, BPS_UINT8 * buf, BPS_WORD size);
 
 /** 
   * @Brief BPSParseGetSigtabReq parse packet of 'get signal table' request
@@ -71,7 +71,7 @@ EXPORT_API BP_UINT16 BPSPackGetSigtabRsp(BPSCmdGetSigtabRsp * rsp, BP_UINT8 * bu
   * @Param size the buffer size
   * @return the number of bytes which the function handled, 0 means parsing failed/none
  */
-EXPORT_API BP_UINT16 BPSParseGetSigtabReq(BPSCmdGetSigtabReq * req, BP_UINT8 * buf, BP_WORD size);
+EXPORT_API BPS_UINT16 BPSParseGetSigtabReq(BPSCmdGetSigtabReq * req, BPS_UINT8 * buf, BPS_WORD size);
 
 /** 
   * @Brief BPSParseGetSigtabRsp parse packet of 'get signal table' response
@@ -82,9 +82,9 @@ EXPORT_API BP_UINT16 BPSParseGetSigtabReq(BPSCmdGetSigtabReq * req, BP_UINT8 * b
   * @Param size the buffer size
   * @return the number of bytes which the function handled, 0 means parsing failed/none
  */
-EXPORT_API BP_UINT16 BPSParseGetSigtabRsp(BPSCmdGetSigtabRsp * rsp, BP_UINT8 * buf, BP_WORD size);
+EXPORT_API BPS_UINT16 BPSParseGetSigtabRsp(BPSCmdGetSigtabRsp * rsp, BPS_UINT8 * buf, BPS_WORD size);
 
-#ifdef BP_MEM_DYN
+#ifdef BPS_MEM_DYN
     #define ParseGetSigtabReqDyn     ParseGetSigtabReq
 /** 
   * @Brief BPSParseGetSigtabRsp parse packet of 'get signal table' response
@@ -96,7 +96,7 @@ EXPORT_API BP_UINT16 BPSParseGetSigtabRsp(BPSCmdGetSigtabRsp * rsp, BP_UINT8 * b
   * @return the number of bytes which the function handled, 0 means parsing failed/none
   *         rsp 
  */
-EXPORT_API BP_UINT16 BPSParseGetSigtabRspDyn(BPSCmdGetSigtabRsp * rsp, BP_UINT8 * buf, BP_WORD size);
+EXPORT_API BPS_UINT16 BPSParseGetSigtabRspDyn(BPSCmdGetSigtabRsp * rsp, BPS_UINT8 * buf, BPS_WORD size);
 
     #define BPSFreeMemGetSigtabReq(x)  
 /** 

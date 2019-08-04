@@ -32,11 +32,11 @@
 #define CMD_COMM_TEST_WORD_RSP  0x01
 
 typedef struct BPSCmdCommTestReq {
-    BP_UINT8 recv;
+    BPS_UINT8 recv;
 } BPSCmdCommTestReq;
 
 typedef struct BPSCmdCommTestRsp {
-    BP_UINT8 recv;
+    BPS_UINT8 recv;
 } BPSCmdCommTestRsp;
 
 /** 
@@ -46,7 +46,7 @@ typedef struct BPSCmdCommTestRsp {
   * @Param size the buffer size
   * @return the number of bytes which the function handled
  */
-EXPORT_API BP_UINT16 BPSPackCommTestReq(BPSCmdCommTestReq * req, BP_UINT8 * buf, BP_WORD size);
+EXPORT_API BPS_UINT16 BPSPackCommTestReq(BPSCmdCommTestReq * req, BPS_UINT8 * buf, BPS_WORD size);
 
 /** 
   * @Brief BPSPackCommTestRsp construct packet of 'communication test' response
@@ -55,7 +55,7 @@ EXPORT_API BP_UINT16 BPSPackCommTestReq(BPSCmdCommTestReq * req, BP_UINT8 * buf,
   * @Param size the buffer size
   * @return the number of bytes which the function handled
  */
-EXPORT_API BP_UINT16 BPSPackCommTestRsp(BPSCmdCommTestRsp * rsp, BP_UINT8 * buf, BP_WORD size);
+EXPORT_API BPS_UINT16 BPSPackCommTestRsp(BPSCmdCommTestRsp * rsp, BPS_UINT8 * buf, BPS_WORD size);
 
 /** 
   * @Brief BPSParseCommTestReq parse packet of 'communication test' request
@@ -64,7 +64,7 @@ EXPORT_API BP_UINT16 BPSPackCommTestRsp(BPSCmdCommTestRsp * rsp, BP_UINT8 * buf,
   * @Param size the buffer size
   * @return the number of bytes which the function handled, 0 means parsing failed/none
  */
-EXPORT_API BP_UINT16 BPSParseCommTestReq(BPSCmdCommTestReq * req, BP_UINT8 * buf, BP_WORD size);
+EXPORT_API BPS_UINT16 BPSParseCommTestReq(BPSCmdCommTestReq * req, BPS_UINT8 * buf, BPS_WORD size);
 
 /** 
   * @Brief BPSParseCommTestRsp parse packet of 'communication test' response
@@ -73,9 +73,9 @@ EXPORT_API BP_UINT16 BPSParseCommTestReq(BPSCmdCommTestReq * req, BP_UINT8 * buf
   * @Param size the buffer size
   * @return the number of bytes which the function handled, 0 means parsing failed/none
  */
-EXPORT_API BP_UINT16 BPSParseCommTestRsp(BPSCmdCommTestRsp * rsp, BP_UINT8 * buf, BP_WORD size);
+EXPORT_API BPS_UINT16 BPSParseCommTestRsp(BPSCmdCommTestRsp * rsp, BPS_UINT8 * buf, BPS_WORD size);
 
-#ifdef BP_MEM_DYN
+#ifdef BPS_MEM_DYN
     #define ParseCommTestReqDyn     ParseCommTestReq
     #define ParseCommTestRspDyn     ParseCommTestRsp
     #define BPSFreeMemCommTestReq(x)     

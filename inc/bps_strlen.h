@@ -35,7 +35,7 @@
  * 	@return  string length
  * 	
  */ 
-EXPORT_API BP_WORD strlen_bps(const char * str);
+EXPORT_API BPS_WORD strlen_bps(const char * str);
 #else
     #include <string.h>
     #define strlen_bps strlen

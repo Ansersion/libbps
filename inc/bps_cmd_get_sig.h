@@ -32,19 +32,19 @@
 #define CMD_GET_SIG_WORD_RSP  0x87
 
 typedef struct BPSCmdGetSigField {
-    BP_UINT16 signalId;
-    BP_UINT8 signalType;
+    BPS_UINT16 signalId;
+    BPS_UINT8 signalType;
     BPSSigTypeU value;
 } BPSCmdGetSigField;
 
 typedef struct BPSCmdGetSigReq {
-    BP_WORD sigNum;
-    BP_UINT16 * sigArray;
+    BPS_WORD sigNum;
+    BPS_UINT16 * sigArray;
 } BPSCmdGetSigReq;
 
 typedef struct BPSCmdGetSigRsp {
-    BP_UINT8 retCode;
-    BP_WORD fieldNum;
+    BPS_UINT8 retCode;
+    BPS_WORD fieldNum;
     BPSCmdGetSigField * fieldArray;
     void * extension;
 } BPSCmdGetSigRsp;
@@ -56,7 +56,7 @@ typedef struct BPSCmdGetSigRsp {
   * @Param size the buffer size
   * @return the number of bytes which the function handled
  */
-EXPORT_API BP_UINT16 BPSPackGetSigReq(BPSCmdGetSigReq * req, BP_UINT8 * buf, BP_WORD size);
+EXPORT_API BPS_UINT16 BPSPackGetSigReq(BPSCmdGetSigReq * req, BPS_UINT8 * buf, BPS_WORD size);
 
 /** 
   * @Brief BPSPackGetSigRsp construct packet of 'get signal values' response
@@ -65,7 +65,7 @@ EXPORT_API BP_UINT16 BPSPackGetSigReq(BPSCmdGetSigReq * req, BP_UINT8 * buf, BP_
   * @Param size the buffer size
   * @return the number of bytes which the function handled
  */
-EXPORT_API BP_UINT16 BPSPackGetSigRsp(BPSCmdGetSigRsp * rsp, BP_UINT8 * buf, BP_WORD size);
+EXPORT_API BPS_UINT16 BPSPackGetSigRsp(BPSCmdGetSigRsp * rsp, BPS_UINT8 * buf, BPS_WORD size);
 
 /** 
   * @Brief BPSParseGetSigReq parse packet of 'get signal values' request
@@ -74,7 +74,7 @@ EXPORT_API BP_UINT16 BPSPackGetSigRsp(BPSCmdGetSigRsp * rsp, BP_UINT8 * buf, BP_
   * @Param size the buffer size
   * @return the number of bytes which the function handled, 0 means parsing failed/none
  */
-EXPORT_API BP_UINT16 BPSParseGetSigReq(BPSCmdGetSigReq * req, BP_UINT8 * buf, BP_WORD size);
+EXPORT_API BPS_UINT16 BPSParseGetSigReq(BPSCmdGetSigReq * req, BPS_UINT8 * buf, BPS_WORD size);
 
 /** 
   * @Brief BPSParseGetSigRsp parse packet of 'get signal values' response
@@ -85,9 +85,9 @@ EXPORT_API BP_UINT16 BPSParseGetSigReq(BPSCmdGetSigReq * req, BP_UINT8 * buf, BP
   * @Param size the buffer size
   * @return the number of bytes which the function handled, 0 means parsing failed/none
  */
-EXPORT_API BP_UINT16 BPSParseGetSigRsp(BPSCmdGetSigRsp * rsp, BP_UINT8 * buf, BP_WORD size);
+EXPORT_API BPS_UINT16 BPSParseGetSigRsp(BPSCmdGetSigRsp * rsp, BPS_UINT8 * buf, BPS_WORD size);
 
-#ifdef BP_MEM_DYN
+#ifdef BPS_MEM_DYN
 /** 
   * @Brief BPSParseGetSigReqDyn parse packet of 'get signal values' request
   * @Param req the request data struct to store the message.
@@ -98,7 +98,7 @@ EXPORT_API BP_UINT16 BPSParseGetSigRsp(BPSCmdGetSigRsp * rsp, BP_UINT8 * buf, BP
   * @return the number of bytes which the function handled, 0 means parsing failed/none
  */
 
-BP_UINT16 BPSParseGetSigReqDyn(BPSCmdGetSigReq * req, BP_UINT8 * buf, BP_WORD size);
+BPS_UINT16 BPSParseGetSigReqDyn(BPSCmdGetSigReq * req, BPS_UINT8 * buf, BPS_WORD size);
 /** 
   * @Brief BPSParseGetSigRsp parse packet of 'get signal values' response
   * @Param rsp the response data struct to store the message.
@@ -109,7 +109,7 @@ BP_UINT16 BPSParseGetSigReqDyn(BPSCmdGetSigReq * req, BP_UINT8 * buf, BP_WORD si
   * @return the number of bytes which the function handled, 0 means parsing failed/none
   *         rsp 
  */
-EXPORT_API BP_UINT16 BPSParseGetSigRspDyn(BPSCmdGetSigRsp * rsp, BP_UINT8 * buf, BP_WORD size);
+EXPORT_API BPS_UINT16 BPSParseGetSigRspDyn(BPSCmdGetSigRsp * rsp, BPS_UINT8 * buf, BPS_WORD size);
 
 /** 
   * @Brief BPSParseGetSigRsp parse packet of 'get signal values' response

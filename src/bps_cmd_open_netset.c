@@ -24,10 +24,10 @@
 
 #include <bps_cmd_open_netset.h>
 
-BP_UINT16 BPSPackOpenNetsetReq(BPSCmdOpenNetsetReq * req, BP_UINT8 * buf, BP_WORD size)
+BPS_UINT16 BPSPackOpenNetsetReq(BPSCmdOpenNetsetReq * req, BPS_UINT8 * buf, BPS_WORD size)
 {
-    BP_UINT16 i = 0;
-    if(BP_NULL == req || BP_NULL == buf) {
+    BPS_UINT16 i = 0;
+    if(BPS_NULL == req || BPS_NULL == buf) {
         return 0;
     }
     if(0 == size--) {
@@ -43,10 +43,10 @@ BP_UINT16 BPSPackOpenNetsetReq(BPSCmdOpenNetsetReq * req, BP_UINT8 * buf, BP_WOR
     return i;
 }
 
-BP_UINT16 BPSPackOpenNetsetRsp(BPSCmdOpenNetsetRsp * rsp, BP_UINT8 * buf, BP_WORD size)
+BPS_UINT16 BPSPackOpenNetsetRsp(BPSCmdOpenNetsetRsp * rsp, BPS_UINT8 * buf, BPS_WORD size)
 {
-    BP_UINT16 i = 0;
-    if(BP_NULL == rsp || BP_NULL == buf) {
+    BPS_UINT16 i = 0;
+    if(BPS_NULL == rsp || BPS_NULL == buf) {
         return 0;
     }
     if(0 == size--) {
@@ -62,10 +62,10 @@ BP_UINT16 BPSPackOpenNetsetRsp(BPSCmdOpenNetsetRsp * rsp, BP_UINT8 * buf, BP_WOR
     return i;
 }
 
-BP_UINT16 BPSParseOpenNetsetReq(BPSCmdOpenNetsetReq * req, BP_UINT8 * buf, BP_WORD size)
+BPS_UINT16 BPSParseOpenNetsetReq(BPSCmdOpenNetsetReq * req, BPS_UINT8 * buf, BPS_WORD size)
 {
-    BP_UINT16 i = 0;
-    if(BP_NULL == req || BP_NULL == buf) {
+    BPS_UINT16 i = 0;
+    if(BPS_NULL == req || BPS_NULL == buf) {
         return 0;
     }
 
@@ -77,10 +77,10 @@ BP_UINT16 BPSParseOpenNetsetReq(BPSCmdOpenNetsetReq * req, BP_UINT8 * buf, BP_WO
     return i;
 }
 
-BP_UINT16 BPSParseOpenNetsetRsp(BPSCmdOpenNetsetRsp * rsp, BP_UINT8 * buf, BP_WORD size)
+BPS_UINT16 BPSParseOpenNetsetRsp(BPSCmdOpenNetsetRsp * rsp, BPS_UINT8 * buf, BPS_WORD size)
 {
-    BP_UINT16 i = 0;
-    if(BP_NULL == rsp || BP_NULL == buf) {
+    BPS_UINT16 i = 0;
+    if(BPS_NULL == rsp || BPS_NULL == buf) {
         return 0;
     }
 

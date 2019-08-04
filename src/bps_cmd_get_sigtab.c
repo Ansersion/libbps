@@ -27,14 +27,14 @@
 #include <bps_memcpy.h>
 #include <bps_memset.h>
 
-#ifdef BP_MEM_DYN
+#ifdef BPS_MEM_DYN
     #include <bps_memmng.h>
 #endif
 
-BP_UINT16 BPSPackGetSigtabReq(BPSCmdGetSigtabReq * req, BP_UINT8 * buf, BP_WORD size)
+BPS_UINT16 BPSPackGetSigtabReq(BPSCmdGetSigtabReq * req, BPS_UINT8 * buf, BPS_WORD size)
 {
-    BP_UINT16 i = 0;
-    if(BP_NULL == req || BP_NULL == buf) {
+    BPS_UINT16 i = 0;
+    if(BPS_NULL == req || BPS_NULL == buf) {
         return 0;
     }
     if(0 == size--) {
@@ -45,13 +45,13 @@ BP_UINT16 BPSPackGetSigtabReq(BPSCmdGetSigtabReq * req, BP_UINT8 * buf, BP_WORD 
     return i;
 }
 
-BP_UINT16 BPSPackGetSigtabRsp(BPSCmdGetSigtabRsp * rsp, BP_UINT8 * buf, BP_WORD size)
+BPS_UINT16 BPSPackGetSigtabRsp(BPSCmdGetSigtabRsp * rsp, BPS_UINT8 * buf, BPS_WORD size)
 {
-    BP_UINT16 i = 0;
-    BP_WORD j;
-    BP_WORD tmp;
+    BPS_UINT16 i = 0;
+    BPS_WORD j;
+    BPS_WORD tmp;
     BPSCmdGetSigtabField * field_tmp;
-    if(BP_NULL == rsp || BP_NULL == buf) {
+    if(BPS_NULL == rsp || BPS_NULL == buf) {
         return 0;
     }
     if(0 == size--) {
@@ -59,22 +59,22 @@ BP_UINT16 BPSPackGetSigtabRsp(BPSCmdGetSigtabRsp * rsp, BP_UINT8 * buf, BP_WORD 
     }
     buf[i++] = CMD_GET_SIGTAB_WORD_RSP;
 
-    if(size < sizeof(BP_UINT16)) {
+    if(size < sizeof(BPS_UINT16)) {
         return 0;
     }
-    size -= sizeof(BP_UINT16);
-    BPS_SetBig16(buf+i, (BP_UINT16)(rsp->fieldNum & 0xFFFF));
-    i += sizeof(BP_UINT16);
+    size -= sizeof(BPS_UINT16);
+    BPS_SetBig16(buf+i, (BPS_UINT16)(rsp->fieldNum & 0xFFFF));
+    i += sizeof(BPS_UINT16);
 
     for(j = 0; j < rsp->fieldNum; j++) {
         field_tmp = rsp->fieldArray + j;
-        tmp = sizeof(BP_UINT16) + sizeof(BP_UINT16) + sizeof(BP_UINT8) + sizeof(BP_UINT8);
+        tmp = sizeof(BPS_UINT16) + sizeof(BPS_UINT16) + sizeof(BPS_UINT8) + sizeof(BPS_UINT8);
         if(tmp > size) {
             return 0;
         }
         size -= tmp;
         BPS_SetBig16(buf+i, field_tmp->signalId);
-        i += sizeof(BP_UINT16);
+        i += sizeof(BPS_UINT16);
 
         if(0 == size--) {
             return 0;
@@ -90,42 +90,42 @@ BP_UINT16 BPSPackGetSigtabRsp(BPSCmdGetSigtabRsp * rsp, BP_UINT8 * buf, BP_WORD 
     return i;
 }
 
-BP_UINT16 BPSParseGetSigtabReq(BPSCmdGetSigtabReq * req, BP_UINT8 * buf, BP_WORD size)
+BPS_UINT16 BPSParseGetSigtabReq(BPSCmdGetSigtabReq * req, BPS_UINT8 * buf, BPS_WORD size)
 {
-    BP_UINT16 i = 0;
-    if(BP_NULL == req || BP_NULL == buf) {
+    BPS_UINT16 i = 0;
+    if(BPS_NULL == req || BPS_NULL == buf) {
         return 0;
     }
 
     return i;
 }
 
-BP_UINT16 BPSParseGetSigtabRsp(BPSCmdGetSigtabRsp * rsp, BP_UINT8 * buf, BP_WORD size)
+BPS_UINT16 BPSParseGetSigtabRsp(BPSCmdGetSigtabRsp * rsp, BPS_UINT8 * buf, BPS_WORD size)
 {
-    BP_UINT16 i = 0, j;
-    BP_UINT16 tmpU16;
+    BPS_UINT16 i = 0, j;
+    BPS_UINT16 tmpU16;
     BPSCmdGetSigtabField * field_tmp;
-    if(BP_NULL == rsp || BP_NULL == buf) {
+    if(BPS_NULL == rsp || BPS_NULL == buf) {
         return 0;
     }
-    if(sizeof(BP_UINT16) > size) {
+    if(sizeof(BPS_UINT16) > size) {
         return 0;
     }
-    size -= sizeof(BP_UINT16);
+    size -= sizeof(BPS_UINT16);
     BPS_GetBig16(buf+i, &tmpU16);
     rsp->fieldNum = tmpU16;
-    i += sizeof(BP_UINT16);
+    i += sizeof(BPS_UINT16);
 
     for(j = 0; j < tmpU16; j++) {
         field_tmp = rsp->fieldArray + j;
 
-        if(sizeof(BP_UINT16) > size) {
+        if(sizeof(BPS_UINT16) > size) {
             return 0;
         }
-        size -= sizeof(BP_UINT16);
+        size -= sizeof(BPS_UINT16);
         BPS_GetBig16(buf+i, &tmpU16);
         field_tmp->signalId = tmpU16;
-        i += sizeof(BP_UINT16);
+        i += sizeof(BPS_UINT16);
 
         if(0 == size--) {
             return 0;
@@ -141,23 +141,23 @@ BP_UINT16 BPSParseGetSigtabRsp(BPSCmdGetSigtabRsp * rsp, BP_UINT8 * buf, BP_WORD
     return i;
 }
 
-#ifdef BP_MEM_DYN
-BP_UINT16 BPSParseGetSigtabRspDyn(BPSCmdGetSigtabRsp * rsp, BP_UINT8 * buf, BP_WORD size)
+#ifdef BPS_MEM_DYN
+BPS_UINT16 BPSParseGetSigtabRspDyn(BPSCmdGetSigtabRsp * rsp, BPS_UINT8 * buf, BPS_WORD size)
 {
-    BP_UINT16 i = 0, j;
-    BP_UINT16 tmpU16;
+    BPS_UINT16 i = 0, j;
+    BPS_UINT16 tmpU16;
     BPSCmdGetSigtabField * field_tmp;
-    if(BP_NULL == rsp || BP_NULL == buf) {
+    if(BPS_NULL == rsp || BPS_NULL == buf) {
         return 0;
     }
-    rsp->fieldArray = BP_NULL;
-    if(sizeof(BP_UINT16) > size) {
+    rsp->fieldArray = BPS_NULL;
+    if(sizeof(BPS_UINT16) > size) {
         return 0;
     }
-    size -= sizeof(BP_UINT16);
+    size -= sizeof(BPS_UINT16);
     BPS_GetBig16(buf+i, &tmpU16);
     rsp->fieldNum = tmpU16;
-    i += sizeof(BP_UINT16);
+    i += sizeof(BPS_UINT16);
 
     if(0 == rsp->fieldNum) {
         return i;
@@ -167,13 +167,13 @@ BP_UINT16 BPSParseGetSigtabRspDyn(BPSCmdGetSigtabRsp * rsp, BP_UINT8 * buf, BP_W
     memset_bps(rsp->fieldArray, 0, rsp->fieldNum * sizeof(BPSCmdGetSigtabField));
     for(j = 0; j < rsp->fieldNum; j++) {
         field_tmp = rsp->fieldArray + j;
-        if(sizeof(BP_UINT16) > size) {
+        if(sizeof(BPS_UINT16) > size) {
             BPSFreeMemGetSigtabRsp(rsp);
             return 0;
         }
-        size -= sizeof(BP_UINT16);
+        size -= sizeof(BPS_UINT16);
         BPS_GetBig16(buf+i, &(field_tmp->signalId));
-        i += sizeof(BP_UINT16);
+        i += sizeof(BPS_UINT16);
 
         if(0 == size--) {
             BPSFreeMemGetSigtabRsp(rsp);
@@ -193,14 +193,14 @@ BP_UINT16 BPSParseGetSigtabRspDyn(BPSCmdGetSigtabRsp * rsp, BP_UINT8 * buf, BP_W
 
 void BPSFreeMemGetSigtabRsp(BPSCmdGetSigtabRsp * rsp)
 {
-    if(BP_NULL == rsp) {
+    if(BPS_NULL == rsp) {
         return;
     }
-    if(BP_NULL == rsp->fieldArray) {
+    if(BPS_NULL == rsp->fieldArray) {
         return;
     }
     free_bps(rsp->fieldArray);
-    rsp->fieldArray = BP_NULL;
+    rsp->fieldArray = BPS_NULL;
 }
 
 #endif

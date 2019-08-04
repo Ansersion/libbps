@@ -32,11 +32,11 @@
 #define CMD_OPEN_NETSET_WORD_RSP  0x07
 
 typedef struct BPSCmdOpenNetsetReq {
-    BP_UINT8 type;
+    BPS_UINT8 type;
 } BPSCmdOpenNetsetReq;
 
 typedef struct BPSCmdOpenNetsetRsp {
-    BP_UINT8 retCode;
+    BPS_UINT8 retCode;
 } BPSCmdOpenNetsetRsp;
 
 /** 
@@ -46,7 +46,7 @@ typedef struct BPSCmdOpenNetsetRsp {
   * @Param size the buffer size
   * @return the number of bytes which the function handled
  */
-EXPORT_API BP_UINT16 BPSPackOpenNetsetReq(BPSCmdOpenNetsetReq * req, BP_UINT8 * buf, BP_WORD size);
+EXPORT_API BPS_UINT16 BPSPackOpenNetsetReq(BPSCmdOpenNetsetReq * req, BPS_UINT8 * buf, BPS_WORD size);
 
 /** 
   * @Brief BPSPackOpenNetsetRsp construct packet of 'open net setting' response
@@ -55,7 +55,7 @@ EXPORT_API BP_UINT16 BPSPackOpenNetsetReq(BPSCmdOpenNetsetReq * req, BP_UINT8 * 
   * @Param size the buffer size
   * @return the number of bytes which the function handled
  */
-EXPORT_API BP_UINT16 BPSPackOpenNetsetRsp(BPSCmdOpenNetsetRsp * rsp, BP_UINT8 * buf, BP_WORD size);
+EXPORT_API BPS_UINT16 BPSPackOpenNetsetRsp(BPSCmdOpenNetsetRsp * rsp, BPS_UINT8 * buf, BPS_WORD size);
 
 /** 
   * @Brief BPSParseOpenNetsetReq parse packet of 'open net setting' request
@@ -64,7 +64,7 @@ EXPORT_API BP_UINT16 BPSPackOpenNetsetRsp(BPSCmdOpenNetsetRsp * rsp, BP_UINT8 * 
   * @Param size the buffer size
   * @return the number of bytes which the function handled, 0 means parsing failed/none
  */
-EXPORT_API BP_UINT16 BPSParseOpenNetsetReq(BPSCmdOpenNetsetReq * req, BP_UINT8 * buf, BP_WORD size);
+EXPORT_API BPS_UINT16 BPSParseOpenNetsetReq(BPSCmdOpenNetsetReq * req, BPS_UINT8 * buf, BPS_WORD size);
 
 /** 
   * @Brief BPSParseOpenNetsetRsp parse packet of 'open net setting' response
@@ -73,9 +73,9 @@ EXPORT_API BP_UINT16 BPSParseOpenNetsetReq(BPSCmdOpenNetsetReq * req, BP_UINT8 *
   * @Param size the buffer size
   * @return the number of bytes which the function handled, 0 means parsing failed/none
  */
-EXPORT_API BP_UINT16 BPSParseOpenNetsetRsp(BPSCmdOpenNetsetRsp * rsp, BP_UINT8 * buf, BP_WORD size);
+EXPORT_API BPS_UINT16 BPSParseOpenNetsetRsp(BPSCmdOpenNetsetRsp * rsp, BPS_UINT8 * buf, BPS_WORD size);
 
-#ifdef BP_MEM_DYN
+#ifdef BPS_MEM_DYN
     #define ParseOpenNetsetReqDyn     ParseOpenNetsetReq
     #define ParseOpenNetsetRspDyn     ParseOpenNetsetRsp
     #define BPSFreeMemOpenNetsetReq(x)     

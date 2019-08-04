@@ -25,9 +25,9 @@
 #include <bps_strlen.h>
 
 #ifndef BPS_USE_STD
-BP_WORD strlen_bps(const char * str)
+BPS_WORD strlen_bps(const char * str)
 {
-    BP_WORD i = 0;
+    BPS_WORD i = 0;
     while((*str++) != '\0')
     {
         i++;

@@ -32,18 +32,18 @@
 #define CMD_POST_WORD_RSP  0x85
 
 typedef struct BPSCmdPostField {
-    BP_UINT16 signalId;
-    BP_UINT8 signalType;
+    BPS_UINT16 signalId;
+    BPS_UINT8 signalType;
     BPSSigTypeU value;
 } BPSCmdPostField;
 
 typedef struct BPSCmdPostReq {
-    BP_WORD fieldNum;
+    BPS_WORD fieldNum;
     BPSCmdPostField * fieldArray;
 } BPSCmdPostReq;
 
 typedef struct BPSCmdPostRsp {
-    BP_UINT8 retCode;
+    BPS_UINT8 retCode;
     void * extension;
 } BPSCmdPostRsp;
 
@@ -54,7 +54,7 @@ typedef struct BPSCmdPostRsp {
   * @Param size the buffer size
   * @return the number of bytes which the function handled
  */
-EXPORT_API BP_UINT16 BPSPackPostReq(BPSCmdPostReq * req, BP_UINT8 * buf, BP_WORD size);
+EXPORT_API BPS_UINT16 BPSPackPostReq(BPSCmdPostReq * req, BPS_UINT8 * buf, BPS_WORD size);
 
 /** 
   * @Brief BPSPackPostRsp construct packet of 'post signal' response
@@ -63,7 +63,7 @@ EXPORT_API BP_UINT16 BPSPackPostReq(BPSCmdPostReq * req, BP_UINT8 * buf, BP_WORD
   * @Param size the buffer size
   * @return the number of bytes which the function handled
  */
-EXPORT_API BP_UINT16 BPSPackPostRsp(BPSCmdPostRsp * rsp, BP_UINT8 * buf, BP_WORD size);
+EXPORT_API BPS_UINT16 BPSPackPostRsp(BPSCmdPostRsp * rsp, BPS_UINT8 * buf, BPS_WORD size);
 
 /** 
   * @Brief BPSParsePostReq parse packet of 'post signal' request
@@ -72,7 +72,7 @@ EXPORT_API BP_UINT16 BPSPackPostRsp(BPSCmdPostRsp * rsp, BP_UINT8 * buf, BP_WORD
   * @Param size the buffer size
   * @return the number of bytes which the function handled, 0 means parsing failed/none
  */
-EXPORT_API BP_UINT16 BPSParsePostReq(BPSCmdPostReq * req, BP_UINT8 * buf, BP_WORD size);
+EXPORT_API BPS_UINT16 BPSParsePostReq(BPSCmdPostReq * req, BPS_UINT8 * buf, BPS_WORD size);
 
 /** 
   * @Brief BPSParsePostRsp parse packet of 'post signal' response
@@ -83,9 +83,9 @@ EXPORT_API BP_UINT16 BPSParsePostReq(BPSCmdPostReq * req, BP_UINT8 * buf, BP_WOR
   * @Param size the buffer size
   * @return the number of bytes which the function handled, 0 means parsing failed/none
  */
-EXPORT_API BP_UINT16 BPSParsePostRsp(BPSCmdPostRsp * rsp, BP_UINT8 * buf, BP_WORD size);
+EXPORT_API BPS_UINT16 BPSParsePostRsp(BPSCmdPostRsp * rsp, BPS_UINT8 * buf, BPS_WORD size);
 
-#ifdef BP_MEM_DYN
+#ifdef BPS_MEM_DYN
 /** 
   * @Brief BPSParsePostReqDyn parse packet of 'post signal' request
   * @Param req the request data struct to store the message.
@@ -96,7 +96,7 @@ EXPORT_API BP_UINT16 BPSParsePostRsp(BPSCmdPostRsp * rsp, BP_UINT8 * buf, BP_WOR
   * @return the number of bytes which the function handled, 0 means parsing failed/none
  */
 
-BP_UINT16 BPSParsePostReqDyn(BPSCmdPostReq * req, BP_UINT8 * buf, BP_WORD size);
+BPS_UINT16 BPSParsePostReqDyn(BPSCmdPostReq * req, BPS_UINT8 * buf, BPS_WORD size);
 /** 
   * @Brief BPSParsePostRsp parse packet of 'post signal' response
   * @Param rsp the response data struct to store the message.
@@ -107,7 +107,7 @@ BP_UINT16 BPSParsePostReqDyn(BPSCmdPostReq * req, BP_UINT8 * buf, BP_WORD size);
   * @return the number of bytes which the function handled, 0 means parsing failed/none
   *         rsp 
  */
-EXPORT_API BP_UINT16 BPSParsePostRspDyn(BPSCmdPostRsp * rsp, BP_UINT8 * buf, BP_WORD size);
+EXPORT_API BPS_UINT16 BPSParsePostRspDyn(BPSCmdPostRsp * rsp, BPS_UINT8 * buf, BPS_WORD size);
 
 /** 
   * @Brief BPSParsePostRsp parse packet of 'post signal' response

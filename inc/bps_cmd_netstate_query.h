@@ -32,11 +32,11 @@
 #define CMD_NETSTATE_QUERY_WORD_RSP  0x0B
 
 typedef struct BPSCmdNetstateQueryReq {
-    BP_UINT8 recv;
+    BPS_UINT8 recv;
 } BPSCmdNetstateQueryReq;
 
 typedef struct BPSCmdNetstateQueryRsp {
-    BP_UINT8 state;
+    BPS_UINT8 state;
 } BPSCmdNetstateQueryRsp;
 
 /** 
@@ -46,7 +46,7 @@ typedef struct BPSCmdNetstateQueryRsp {
   * @Param size the buffer size
   * @return the number of bytes which the function handled
  */
-EXPORT_API BP_UINT16 BPSPackNetstateQueryReq(BPSCmdNetstateQueryReq * req, BP_UINT8 * buf, BP_WORD size);
+EXPORT_API BPS_UINT16 BPSPackNetstateQueryReq(BPSCmdNetstateQueryReq * req, BPS_UINT8 * buf, BPS_WORD size);
 
 /** 
   * @Brief BPSPackNetstateQueryRsp construct packet of 'query net state' response
@@ -55,7 +55,7 @@ EXPORT_API BP_UINT16 BPSPackNetstateQueryReq(BPSCmdNetstateQueryReq * req, BP_UI
   * @Param size the buffer size
   * @return the number of bytes which the function handled
  */
-EXPORT_API BP_UINT16 BPSPackNetstateQueryRsp(BPSCmdNetstateQueryRsp * rsp, BP_UINT8 * buf, BP_WORD size);
+EXPORT_API BPS_UINT16 BPSPackNetstateQueryRsp(BPSCmdNetstateQueryRsp * rsp, BPS_UINT8 * buf, BPS_WORD size);
 
 /** 
   * @Brief BPSParseNetstateQueryReq parse packet of 'query net state' request
@@ -64,7 +64,7 @@ EXPORT_API BP_UINT16 BPSPackNetstateQueryRsp(BPSCmdNetstateQueryRsp * rsp, BP_UI
   * @Param size the buffer size
   * @return the number of bytes which the function handled, 0 means parsing failed/none
  */
-EXPORT_API BP_UINT16 BPSParseNetstateQueryReq(BPSCmdNetstateQueryReq * req, BP_UINT8 * buf, BP_WORD size);
+EXPORT_API BPS_UINT16 BPSParseNetstateQueryReq(BPSCmdNetstateQueryReq * req, BPS_UINT8 * buf, BPS_WORD size);
 
 /** 
   * @Brief BPSParseNetstateQueryRsp parse packet of 'query net state' response
@@ -73,9 +73,9 @@ EXPORT_API BP_UINT16 BPSParseNetstateQueryReq(BPSCmdNetstateQueryReq * req, BP_U
   * @Param size the buffer size
   * @return the number of bytes which the function handled, 0 means parsing failed/none
  */
-EXPORT_API BP_UINT16 BPSParseNetstateQueryRsp(BPSCmdNetstateQueryRsp * rsp, BP_UINT8 * buf, BP_WORD size);
+EXPORT_API BPS_UINT16 BPSParseNetstateQueryRsp(BPSCmdNetstateQueryRsp * rsp, BPS_UINT8 * buf, BPS_WORD size);
 
-#ifdef BP_MEM_DYN
+#ifdef BPS_MEM_DYN
     #define ParseNetstateQueryReqDyn     ParseNetstateQueryReq
     #define ParseNetstateQueryRspDyn     ParseNetstateQueryRsp
     #define BPSFreeMemNetstateQueryReq(x)     

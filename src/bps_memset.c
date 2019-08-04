@@ -27,11 +27,11 @@
 #include <bps_memset.h>
 
 #ifndef BPS_USE_STD
-void * memset_bps(void *s, BP_UINT8 c, BP_WORD n)  
+void * memset_bps(void *s, BPS_UINT8 c, BPS_WORD n)  
 {  
-	if (BP_NULL == s)
-		return BP_NULL;  
-	BP_UINT8 * tmpS = (BP_UINT8 *)s;  
+	if (BPS_NULL == s)
+		return BPS_NULL;  
+	BPS_UINT8 * tmpS = (BPS_UINT8 *)s;  
 	while(n-- > 0)  
 		*tmpS++ = c;  
 	return s;   

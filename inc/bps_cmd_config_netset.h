@@ -37,14 +37,14 @@ typedef enum ReqTypeConfigNet {
 } ReqTypeConfigNet;
 
 typedef struct BPSCmdConfigNetsetReq {
-    BP_UINT8 type;
-    BP_UINT8 mode;
+    BPS_UINT8 type;
+    BPS_UINT8 mode;
 } BPSCmdConfigNetsetReq;
 
 typedef struct BPSCmdConfigNetsetRsp {
-    BP_UINT8 retCode;
-    BP_UINT8 signalType;
-    BP_UINT8 mode;
+    BPS_UINT8 retCode;
+    BPS_UINT8 signalType;
+    BPS_UINT8 mode;
 } BPSCmdConfigNetsetRsp;
 
 /** 
@@ -54,7 +54,7 @@ typedef struct BPSCmdConfigNetsetRsp {
   * @Param size the buffer size
   * @return the number of bytes which the function handled
  */
-EXPORT_API BP_UINT16 BPSPackConfigNetsetReq(BPSCmdConfigNetsetReq * req, BP_UINT8 * buf, BP_WORD size);
+EXPORT_API BPS_UINT16 BPSPackConfigNetsetReq(BPSCmdConfigNetsetReq * req, BPS_UINT8 * buf, BPS_WORD size);
 
 /** 
   * @Brief BPSPackConfigNetsetRsp construct packet of 'configure net setting' response
@@ -63,7 +63,7 @@ EXPORT_API BP_UINT16 BPSPackConfigNetsetReq(BPSCmdConfigNetsetReq * req, BP_UINT
   * @Param size the buffer size
   * @return the number of bytes which the function handled
  */
-EXPORT_API BP_UINT16 BPSPackConfigNetsetRsp(BPSCmdConfigNetsetRsp * rsp, BP_UINT8 * buf, BP_WORD size);
+EXPORT_API BPS_UINT16 BPSPackConfigNetsetRsp(BPSCmdConfigNetsetRsp * rsp, BPS_UINT8 * buf, BPS_WORD size);
 
 /** 
   * @Brief BPSParseConfigNetsetReq parse packet of 'configure net setting' request
@@ -72,7 +72,7 @@ EXPORT_API BP_UINT16 BPSPackConfigNetsetRsp(BPSCmdConfigNetsetRsp * rsp, BP_UINT
   * @Param size the buffer size
   * @return the number of bytes which the function handled, 0 means parsing failed/none
  */
-EXPORT_API BP_UINT16 BPSParseConfigNetsetReq(BPSCmdConfigNetsetReq * req, BP_UINT8 * buf, BP_WORD size);
+EXPORT_API BPS_UINT16 BPSParseConfigNetsetReq(BPSCmdConfigNetsetReq * req, BPS_UINT8 * buf, BPS_WORD size);
 
 /** 
   * @Brief BPSParseConfigNetsetRsp parse packet of 'configure net setting' response
@@ -81,9 +81,9 @@ EXPORT_API BP_UINT16 BPSParseConfigNetsetReq(BPSCmdConfigNetsetReq * req, BP_UIN
   * @Param size the buffer size
   * @return the number of bytes which the function handled, 0 means parsing failed/none
  */
-EXPORT_API BP_UINT16 BPSParseConfigNetsetRsp(BPSCmdConfigNetsetRsp * rsp, BP_UINT8 * buf, BP_WORD size);
+EXPORT_API BPS_UINT16 BPSParseConfigNetsetRsp(BPSCmdConfigNetsetRsp * rsp, BPS_UINT8 * buf, BPS_WORD size);
 
-#ifdef BP_MEM_DYN
+#ifdef BPS_MEM_DYN
     #define ParseConfigNetsetReqDyn     ParseConfigNetsetReq
     #define ParseConfigNetsetRspDyn     ParseConfigNetsetRsp
     #define BPSFreeMemConfigNetsetReq(x)     

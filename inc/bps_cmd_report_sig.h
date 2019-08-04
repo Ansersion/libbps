@@ -32,18 +32,18 @@
 #define CMD_REPORT_SIG_WORD_RSP  0x83
 
 typedef struct BPSCmdReportSigField {
-    BP_UINT16 signalId;
-    BP_UINT8 signalType;
+    BPS_UINT16 signalId;
+    BPS_UINT8 signalType;
     BPSSigTypeU value;
 } BPSCmdReportSigField;
 
 typedef struct BPSCmdReportSigReq {
-    BP_WORD fieldNum;
+    BPS_WORD fieldNum;
     BPSCmdReportSigField * fieldArray;
 } BPSCmdReportSigReq;
 
 typedef struct BPSCmdReportSigRsp {
-    BP_UINT8 retCode;
+    BPS_UINT8 retCode;
     void * extension;
 } BPSCmdReportSigRsp;
 
@@ -54,7 +54,7 @@ typedef struct BPSCmdReportSigRsp {
   * @Param size the buffer size
   * @return the number of bytes which the function handled
  */
-EXPORT_API BP_UINT16 BPSPackReportSigReq(BPSCmdReportSigReq * req, BP_UINT8 * buf, BP_WORD size);
+EXPORT_API BPS_UINT16 BPSPackReportSigReq(BPSCmdReportSigReq * req, BPS_UINT8 * buf, BPS_WORD size);
 
 /** 
   * @Brief BPSPackReportSigRsp construct packet of 'report signal values' response
@@ -63,7 +63,7 @@ EXPORT_API BP_UINT16 BPSPackReportSigReq(BPSCmdReportSigReq * req, BP_UINT8 * bu
   * @Param size the buffer size
   * @return the number of bytes which the function handled
  */
-EXPORT_API BP_UINT16 BPSPackReportSigRsp(BPSCmdReportSigRsp * rsp, BP_UINT8 * buf, BP_WORD size);
+EXPORT_API BPS_UINT16 BPSPackReportSigRsp(BPSCmdReportSigRsp * rsp, BPS_UINT8 * buf, BPS_WORD size);
 
 /** 
   * @Brief BPSParseReportSigReq parse packet of 'report signal values' request
@@ -72,7 +72,7 @@ EXPORT_API BP_UINT16 BPSPackReportSigRsp(BPSCmdReportSigRsp * rsp, BP_UINT8 * bu
   * @Param size the buffer size
   * @return the number of bytes which the function handled, 0 means parsing failed/none
  */
-EXPORT_API BP_UINT16 BPSParseReportSigReq(BPSCmdReportSigReq * req, BP_UINT8 * buf, BP_WORD size);
+EXPORT_API BPS_UINT16 BPSParseReportSigReq(BPSCmdReportSigReq * req, BPS_UINT8 * buf, BPS_WORD size);
 
 /** 
   * @Brief BPSParseReportSigRsp parse packet of 'report signal values' response
@@ -83,9 +83,9 @@ EXPORT_API BP_UINT16 BPSParseReportSigReq(BPSCmdReportSigReq * req, BP_UINT8 * b
   * @Param size the buffer size
   * @return the number of bytes which the function handled, 0 means parsing failed/none
  */
-EXPORT_API BP_UINT16 BPSParseReportSigRsp(BPSCmdReportSigRsp * rsp, BP_UINT8 * buf, BP_WORD size);
+EXPORT_API BPS_UINT16 BPSParseReportSigRsp(BPSCmdReportSigRsp * rsp, BPS_UINT8 * buf, BPS_WORD size);
 
-#ifdef BP_MEM_DYN
+#ifdef BPS_MEM_DYN
 /** 
   * @Brief BPSParseReportSigReqDyn parse packet of 'report signal values' request
   * @Param req the request data struct to store the message.
@@ -96,7 +96,7 @@ EXPORT_API BP_UINT16 BPSParseReportSigRsp(BPSCmdReportSigRsp * rsp, BP_UINT8 * b
   * @return the number of bytes which the function handled, 0 means parsing failed/none
  */
 
-BP_UINT16 BPSParseReportSigReqDyn(BPSCmdReportSigReq * req, BP_UINT8 * buf, BP_WORD size);
+BPS_UINT16 BPSParseReportSigReqDyn(BPSCmdReportSigReq * req, BPS_UINT8 * buf, BPS_WORD size);
 /** 
   * @Brief BPSParseReportSigRsp parse packet of 'report signal values' response
   * @Param rsp the response data struct to store the message.
@@ -107,7 +107,7 @@ BP_UINT16 BPSParseReportSigReqDyn(BPSCmdReportSigReq * req, BP_UINT8 * buf, BP_W
   * @return the number of bytes which the function handled, 0 means parsing failed/none
   *         rsp 
  */
-EXPORT_API BP_UINT16 BPSParseReportSigRspDyn(BPSCmdReportSigRsp * rsp, BP_UINT8 * buf, BP_WORD size);
+EXPORT_API BPS_UINT16 BPSParseReportSigRspDyn(BPSCmdReportSigRsp * rsp, BPS_UINT8 * buf, BPS_WORD size);
 
 /** 
   * @Brief BPSParseReportSigRsp parse packet of 'report signal values' response

@@ -34,11 +34,11 @@
  * 	@param dst destination address
  * 	@param src source address  
  * 	@param count size copied
- * 	@return  BP_NULL/dst BP_NULL: dst/src equals BP_NULL; dst: copy OK
+ * 	@return  BPS_NULL/dst BPS_NULL: dst/src equals BPS_NULL; dst: copy OK
  * 	@note  there will be something when the memories of dst and src are overlapped
  * 	
  */ 
-void * memcpy_bps(void * dst, const void * src, BP_WORD count);
+void * memcpy_bps(void * dst, const void * src, BPS_WORD count);
 #else
     #include <string.h>
     #define memcpy_bps memcpy

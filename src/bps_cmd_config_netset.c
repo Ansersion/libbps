@@ -13,7 +13,7 @@
 /// See the License for the specific language governing permissions and
 /// limitations under the License.
 ///
-/// @file 	bps_cmd_netstate_query.c
+/// @file 	bps_cmd_config_netset.c
 /// @brief 	APIs for command 'query net state'
 /// 
 /// @version 	0.1
@@ -22,62 +22,106 @@
 /// 
 ///////////////////////////////////////////////////////////////////////////////
 
-#include <bps_cmd_netstate_query.h>
+#include <bps_cmd_config_netset.h>
 
-BP_UINT16 BPSPackNetstateQueryReq(BPSCmdNetstateQueryReq * req, BP_UINT8 * buf, BP_WORD size)
+BPS_UINT16 BPSPackConfigNetsetReq(BPSCmdConfigNetsetReq * req, BPS_UINT8 * buf, BPS_WORD size)
 {
-    BP_UINT16 i = 0;
-    if(BP_NULL == req || BP_NULL == buf) {
+    BPS_UINT16 i = 0;
+    if(BPS_NULL == req || BPS_NULL == buf) {
         return 0;
     }
     if(0 == size--) {
         return 0;
     }
-    buf[i++] = CMD_NETSTATE_QUERY_WORD_REQ;
-
-    return i;
-}
-
-BP_UINT16 BPSPackNetstateQueryRsp(BPSCmdNetstateQueryRsp * rsp, BP_UINT8 * buf, BP_WORD size)
-{
-    BP_UINT16 i = 0;
-    if(BP_NULL == rsp || BP_NULL == buf) {
-        return 0;
-    }
-    if(0 == size--) {
-        return 0;
-    }
-    buf[i++] = CMD_NETSTATE_QUERY_WORD_RSP;
+    buf[i++] = CMD_CONFIG_NETSET_WORD_REQ;
 
     if(0 == size--) {
         return 0;
     }
-    buf[i++] = rsp->state;
+    buf[i++] = req->type;
 
-    return i;
-}
-
-BP_UINT16 BPSParseNetstateQueryReq(BPSCmdNetstateQueryReq * req, BP_UINT8 * buf, BP_WORD size)
-{
-    BP_UINT16 i = 0;
-    if(BP_NULL == req || BP_NULL == buf) {
-        return 0;
+    if(SET_RT_CONFIG_NET == req->type) {
+        if(0 == size--) {
+            return 0;
+        }
+        buf[i++] = req->mode;
     }
 
     return i;
 }
 
-BP_UINT16 BPSParseNetstateQueryRsp(BPSCmdNetstateQueryRsp * rsp, BP_UINT8 * buf, BP_WORD size)
+BPS_UINT16 BPSPackConfigNetsetRsp(BPSCmdConfigNetsetRsp * rsp, BPS_UINT8 * buf, BPS_WORD size)
 {
-    BP_UINT16 i = 0;
-    if(BP_NULL == rsp || BP_NULL == buf) {
+    BPS_UINT16 i = 0;
+    if(BPS_NULL == rsp || BPS_NULL == buf) {
+        return 0;
+    }
+    if(0 == size--) {
+        return 0;
+    }
+    buf[i++] = CMD_CONFIG_NETSET_WORD_RSP;
+
+    if(0 == size--) {
+        return 0;
+    }
+    buf[i++] = rsp->retCode;
+
+    if(0 == size--) {
+        return 0;
+    }
+    buf[i++] = rsp->signalType;
+
+    if(0 == size--) {
+        return 0;
+    }
+    buf[i++] = rsp->mode;
+
+    return i;
+}
+
+BPS_UINT16 BPSParseConfigNetsetReq(BPSCmdConfigNetsetReq * req, BPS_UINT8 * buf, BPS_WORD size)
+{
+    BPS_UINT16 i = 0;
+    if(BPS_NULL == req || BPS_NULL == buf) {
         return 0;
     }
 
     if(0 == size--) {
         return 0;
     }
-    rsp->state = buf[i++];
+    req->type = buf[i++];
+
+    if(SET_RT_CONFIG_NET == req->type) {
+        if(0 == size--) {
+            return 0;
+        }
+        req->mode = buf[i++];
+    }
+
+    return i;
+}
+
+BPS_UINT16 BPSParseConfigNetsetRsp(BPSCmdConfigNetsetRsp * rsp, BPS_UINT8 * buf, BPS_WORD size)
+{
+    BPS_UINT16 i = 0;
+    if(BPS_NULL == rsp || BPS_NULL == buf) {
+        return 0;
+    }
+
+    if(0 == size--) {
+        return 0;
+    }
+    rsp->retCode = buf[i++];
+
+    if(0 == size--) {
+        return 0;
+    }
+    rsp->signalType = buf[i++];
+
+    if(0 == size--) {
+        return 0;
+    }
+    rsp->mode = buf[i++];
 
     return i;
 }

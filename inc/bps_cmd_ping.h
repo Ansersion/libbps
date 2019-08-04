@@ -32,12 +32,12 @@
 #define CMD_PING_WORD_RSP  0x05
 
 typedef struct BPSCmdPingReq {
-    BP_UINT8 type;
-    BP_UINT16 interval;
+    BPS_UINT8 type;
+    BPS_UINT16 interval;
 } BPSCmdPingReq;
 
 typedef struct BPSCmdPingRsp {
-    BP_UINT16 interval;
+    BPS_UINT16 interval;
 } BPSCmdPingRsp;
 
 /** 
@@ -47,7 +47,7 @@ typedef struct BPSCmdPingRsp {
   * @Param size the buffer size
   * @return the number of bytes which the function handled
  */
-EXPORT_API BP_UINT16 BPSPackPingReq(BPSCmdPingReq * req, BP_UINT8 * buf, BP_WORD size);
+EXPORT_API BPS_UINT16 BPSPackPingReq(BPSCmdPingReq * req, BPS_UINT8 * buf, BPS_WORD size);
 
 /** 
   * @Brief BPSPackPingRsp construct packet of 'ping' response
@@ -56,7 +56,7 @@ EXPORT_API BP_UINT16 BPSPackPingReq(BPSCmdPingReq * req, BP_UINT8 * buf, BP_WORD
   * @Param size the buffer size
   * @return the number of bytes which the function handled
  */
-EXPORT_API BP_UINT16 BPSPackPingRsp(BPSCmdPingRsp * rsp, BP_UINT8 * buf, BP_WORD size);
+EXPORT_API BPS_UINT16 BPSPackPingRsp(BPSCmdPingRsp * rsp, BPS_UINT8 * buf, BPS_WORD size);
 
 /** 
   * @Brief BPSParsePingReq parse packet of 'ping' request
@@ -65,7 +65,7 @@ EXPORT_API BP_UINT16 BPSPackPingRsp(BPSCmdPingRsp * rsp, BP_UINT8 * buf, BP_WORD
   * @Param size the buffer size
   * @return the number of bytes which the function handled, 0 means parsing failed/none
  */
-EXPORT_API BP_UINT16 BPSParsePingReq(BPSCmdPingReq * req, BP_UINT8 * buf, BP_WORD size);
+EXPORT_API BPS_UINT16 BPSParsePingReq(BPSCmdPingReq * req, BPS_UINT8 * buf, BPS_WORD size);
 
 /** 
   * @Brief BPSParsePingRsp parse packet of 'ping' response
@@ -74,9 +74,9 @@ EXPORT_API BP_UINT16 BPSParsePingReq(BPSCmdPingReq * req, BP_UINT8 * buf, BP_WOR
   * @Param size the buffer size
   * @return the number of bytes which the function handled, 0 means parsing failed/none
  */
-EXPORT_API BP_UINT16 BPSParsePingRsp(BPSCmdPingRsp * rsp, BP_UINT8 * buf, BP_WORD size);
+EXPORT_API BPS_UINT16 BPSParsePingRsp(BPSCmdPingRsp * rsp, BPS_UINT8 * buf, BPS_WORD size);
 
-#ifdef BP_MEM_DYN
+#ifdef BPS_MEM_DYN
     #define ParsePingReqDyn     ParsePingReq
     #define ParsePingRspDyn     ParsePingRsp
     #define BPSFreeMemPingReq(x)     

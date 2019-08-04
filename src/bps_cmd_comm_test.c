@@ -24,10 +24,10 @@
 
 #include <bps_cmd_comm_test.h>
 
-BP_UINT16 BPSPackCommTestReq(BPSCmdCommTestReq * req, BP_UINT8 * buf, BP_WORD size)
+BPS_UINT16 BPSPackCommTestReq(BPSCmdCommTestReq * req, BPS_UINT8 * buf, BPS_WORD size)
 {
-    BP_UINT16 i = 0;
-    if(BP_NULL == req || BP_NULL == buf) {
+    BPS_UINT16 i = 0;
+    if(BPS_NULL == req || BPS_NULL == buf) {
         return 0;
     }
     if(0 == size--) {
@@ -38,10 +38,10 @@ BP_UINT16 BPSPackCommTestReq(BPSCmdCommTestReq * req, BP_UINT8 * buf, BP_WORD si
     return i;
 }
 
-BP_UINT16 BPSPackCommTestRsp(BPSCmdCommTestRsp * rsp, BP_UINT8 * buf, BP_WORD size)
+BPS_UINT16 BPSPackCommTestRsp(BPSCmdCommTestRsp * rsp, BPS_UINT8 * buf, BPS_WORD size)
 {
-    BP_UINT16 i = 0;
-    if(BP_NULL == rsp || BP_NULL == buf) {
+    BPS_UINT16 i = 0;
+    if(BPS_NULL == rsp || BPS_NULL == buf) {
         return 0;
     }
     if(0 == size--) {
@@ -52,19 +52,19 @@ BP_UINT16 BPSPackCommTestRsp(BPSCmdCommTestRsp * rsp, BP_UINT8 * buf, BP_WORD si
     return i;
 }
 
-BP_UINT16 BPSParseCommTestReq(BPSCmdCommTestReq * req, BP_UINT8 * buf, BP_WORD size)
+BPS_UINT16 BPSParseCommTestReq(BPSCmdCommTestReq * req, BPS_UINT8 * buf, BPS_WORD size)
 {
-    BP_UINT16 i = 0;
-    if(BP_NULL == req || BP_NULL == buf) {
+    BPS_UINT16 i = 0;
+    if(BPS_NULL == req || BPS_NULL == buf) {
         return 0;
     }
     return i;
 }
 
-BP_UINT16 BPSParseCommTestRsp(BPSCmdCommTestRsp * rsp, BP_UINT8 * buf, BP_WORD size)
+BPS_UINT16 BPSParseCommTestRsp(BPSCmdCommTestRsp * rsp, BPS_UINT8 * buf, BPS_WORD size)
 {
-    BP_UINT16 i = 0;
-    if(BP_NULL == rsp || BP_NULL == buf) {
+    BPS_UINT16 i = 0;
+    if(BPS_NULL == rsp || BPS_NULL == buf) {
         return 0;
     }
     return i;

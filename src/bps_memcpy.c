@@ -26,14 +26,14 @@
 // #include <stdio.h>
 
 #ifndef BPS_USE_STD
-void * memcpy_bps(void * dst, const void * src, BP_WORD count)
+void * memcpy_bps(void * dst, const void * src, BPS_WORD count)
 {
-	BP_WORD nword, npad;
-	BP_WORD *s, *d;
-	BP_UINT8 *s8, *d8;
+	BPS_WORD nword, npad;
+	BPS_WORD *s, *d;
+	BPS_UINT8 *s8, *d8;
 
-	if (dst == BP_NULL || src == BP_NULL)  {
-		return BP_NULL;  
+	if (dst == BPS_NULL || src == BPS_NULL)  {
+		return BPS_NULL;  
 	}
 
 	if(dst == src) {
@@ -46,8 +46,8 @@ void * memcpy_bps(void * dst, const void * src, BP_WORD count)
 	nword = count/sizeof(dst);
 	npad = count%sizeof(dst);
 
-	s = (BP_WORD *)src;  
-	d = (BP_WORD *)dst;  
+	s = (BPS_WORD *)src;  
+	d = (BPS_WORD *)dst;  
 
 	while(nword--)  
 	{
@@ -56,8 +56,8 @@ void * memcpy_bps(void * dst, const void * src, BP_WORD count)
 	}
 	// printf("\n");
 
-	s8 = (BP_UINT8 *)s;
-	d8 = (BP_UINT8 *)d;
+	s8 = (BPS_UINT8 *)s;
+	d8 = (BPS_UINT8 *)d;
 	while(npad--)  
 	{
 		*d8++ = *s8++;  

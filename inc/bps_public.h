@@ -69,34 +69,34 @@ typedef enum BPSSigType {
 } BPSSigType;
 
 typedef union BPSSigTypeU {
-	BP_UINT32 	t_u32;
-	BP_UINT16 	t_u16;
-	BP_INT32 	t_i32;
-	BP_INT16 	t_i16;
-	BP_UINT16 	t_enm;
-	BP_FLOAT 	t_flt;
-	BP_UINT8* 	t_str;
-	BP_UINT8 	t_bool;
-	BP_UINT32 	t_time;
-	BP_UINT32 	t_date;
+	BPS_UINT32 	t_u32;
+	BPS_UINT16 	t_u16;
+	BPS_INT32 	t_i32;
+	BPS_INT16 	t_i16;
+	BPS_UINT16 	t_enm;
+	BPS_FLOAT 	t_flt;
+	BPS_UINT8* 	t_str;
+	BPS_UINT8 	t_bool;
+	BPS_UINT32 	t_time;
+	BPS_UINT32 	t_date;
 } BPSSigTypeU;
 
-EXPORT_API BP_UINT8 * BPS_SetNet16(BP_UINT8 * dst, BP_UINT16 val);
-EXPORT_API BP_UINT8 * BPS_SetNet32(BP_UINT8 * dst, BP_UINT32 val);
-EXPORT_API BP_UINT8 * BPS_SetNBytes(BP_UINT8 * dst, BP_UINT8 * src, BP_WORD num);
+EXPORT_API BPS_UINT8 * BPS_SetNet16(BPS_UINT8 * dst, BPS_UINT16 val);
+EXPORT_API BPS_UINT8 * BPS_SetNet32(BPS_UINT8 * dst, BPS_UINT32 val);
+EXPORT_API BPS_UINT8 * BPS_SetNBytes(BPS_UINT8 * dst, BPS_UINT8 * src, BPS_WORD num);
 
-EXPORT_API BP_UINT8 * BPS_Set2ByteField(BP_UINT8 * pack, BP_UINT8 * field, BP_UINT16 field_len);
-EXPORT_API BP_UINT8 * BPS_Set1ByteField(BP_UINT8 * pack, const BP_UINT8 * field, BP_UINT8 field_len);
+EXPORT_API BPS_UINT8 * BPS_Set2ByteField(BPS_UINT8 * pack, BPS_UINT8 * field, BPS_UINT16 field_len);
+EXPORT_API BPS_UINT8 * BPS_Set1ByteField(BPS_UINT8 * pack, const BPS_UINT8 * field, BPS_UINT8 field_len);
 
-EXPORT_API BP_UINT8 * BPS_GetNet16(BP_UINT8 * src, BP_UINT16 * val);
-EXPORT_API BP_UINT8 * BPS_GetNet32(BP_UINT8 * src, BP_UINT32 * val);
+EXPORT_API BPS_UINT8 * BPS_GetNet16(BPS_UINT8 * src, BPS_UINT16 * val);
+EXPORT_API BPS_UINT8 * BPS_GetNet32(BPS_UINT8 * src, BPS_UINT32 * val);
 
-EXPORT_API BP_UINT8 * BPS_Get2ByteField(BP_UINT8 * pack, BP_UINT8 * field_buf, BP_UINT16 * field_len);
-EXPORT_API BP_WORD BPS_GetSigValueLen(BPSSigType type, BPSSigTypeU value);
+EXPORT_API BPS_UINT8 * BPS_Get2ByteField(BPS_UINT8 * pack, BPS_UINT8 * field_buf, BPS_UINT16 * field_len);
+EXPORT_API BPS_WORD BPS_GetSigValueLen(BPSSigType type, BPSSigTypeU value);
 /* except BPS_SIG_TYPE_STR */
-EXPORT_API BP_WORD BPS_GetSigValueLen2(BPSSigType type);
-EXPORT_API BP_UINT8 * BPS_SetSigValue(BP_UINT8 * pack, BPSSigType type, BPSSigTypeU value);
-EXPORT_API BP_UINT8 * BPS_GetSigValue(BP_UINT8 * pack, BPSSigType type, BPSSigTypeU * value, BP_WORD len);
+EXPORT_API BPS_WORD BPS_GetSigValueLen2(BPSSigType type);
+EXPORT_API BPS_UINT8 * BPS_SetSigValue(BPS_UINT8 * pack, BPSSigType type, BPSSigTypeU value);
+EXPORT_API BPS_UINT8 * BPS_GetSigValue(BPS_UINT8 * pack, BPSSigType type, BPSSigTypeU * value, BPS_WORD len);
 
 /** 
   * @Brief IsBPSHeader2 check b1==0xBB and b2==0xCC
@@ -105,7 +105,7 @@ EXPORT_API BP_UINT8 * BPS_GetSigValue(BP_UINT8 * pack, BPSSigType type, BPSSigTy
   * @return Success     somegthing not 0
   *         Failed      0
  */
-EXPORT_API BP_UINT8 IsBPSHeader2(BP_UINT8 b1, BP_UINT8 b2);
+EXPORT_API BPS_UINT8 IsBPSHeader2(BPS_UINT8 b1, BPS_UINT8 b2);
 
 /** 
   * @Brief IsBPSHeader check buf[0]==0xBB and buf[1]==0xCC
@@ -113,7 +113,7 @@ EXPORT_API BP_UINT8 IsBPSHeader2(BP_UINT8 b1, BP_UINT8 b2);
   * @return Success     somegthing not 0
   *         Failed      0
  */
-EXPORT_API BP_UINT8 IsBPSHeader(BP_UINT8 * buf);
+EXPORT_API BPS_UINT8 IsBPSHeader(BPS_UINT8 * buf);
 
 /** 
   * @Brief IsBPSVersionCompat check the BP-S version compatible
@@ -121,28 +121,28 @@ EXPORT_API BP_UINT8 IsBPSHeader(BP_UINT8 * buf);
   * @return Success     somegthing not 0 when the 'version' is smaller than BPS_VERSION
   *         Failed      0
  */
-EXPORT_API BP_UINT8 IsBPSVersionCompat(BP_UINT8 version);
+EXPORT_API BPS_UINT8 IsBPSVersionCompat(BPS_UINT8 version);
 
 /** 
   * @Brief GetBPSSenderAddr get the sender address
   * @Param buf   the address
   * @return the address of sender(from 0-15)
  */
-EXPORT_API BP_UINT8 GetBPSSenderAddr(BP_UINT8 addr);
+EXPORT_API BPS_UINT8 GetBPSSenderAddr(BPS_UINT8 addr);
 
 /** 
   * @Brief GetBPSRecverAddr get the receiver address
   * @Param buf   the address
   * @return the address of receiver(from 0-15)
  */
-EXPORT_API BP_UINT8 GetBPSRecverAddr(BP_UINT8 addr);
+EXPORT_API BPS_UINT8 GetBPSRecverAddr(BPS_UINT8 addr);
 
 /** 
   * @Brief GetBPSRemainLen get the remain length
   * @Param buf   the message buffer
   * @return the length, or '0' when something wrong
  */
-EXPORT_API BP_UINT16 GetBPSRemainLen(BP_UINT8 * buf);
+EXPORT_API BPS_UINT16 GetBPSRemainLen(BPS_UINT8 * buf);
 
 /** 
   * @Brief GetBPSRemainLen2 get the remain length(safely)
@@ -150,7 +150,7 @@ EXPORT_API BP_UINT16 GetBPSRemainLen(BP_UINT8 * buf);
   * @Param size  the buffer size
   * @return the length, or '0' when something wrong
  */
-EXPORT_API BP_UINT16 GetBPSRemainLen2(BP_UINT8 * buf, BP_WORD size);
+EXPORT_API BPS_UINT16 GetBPSRemainLen2(BPS_UINT8 * buf, BPS_WORD size);
 
 /** 
   * @Brief IsCmdWordValid check whether the command is valid
@@ -158,7 +158,7 @@ EXPORT_API BP_UINT16 GetBPSRemainLen2(BP_UINT8 * buf, BP_WORD size);
   * @return Success     somegthing not 0
   *         Failed      0
  */
-EXPORT_API BP_UINT8 IsCmdWordValid(BP_UINT8 cmd_word);
+EXPORT_API BPS_UINT8 IsCmdWordValid(BPS_UINT8 cmd_word);
 
 /** 
   * @Brief IsBPSChksumOK check the checksum of the message
@@ -166,7 +166,7 @@ EXPORT_API BP_UINT8 IsCmdWordValid(BP_UINT8 cmd_word);
   * @return Success     somegthing not 0 when
   *         Failed      0
  */
-EXPORT_API BP_UINT8 IsBPSChksumOK(BP_UINT8 * buf);
+EXPORT_API BPS_UINT8 IsBPSChksumOK(BPS_UINT8 * buf);
 
 /** 
   * @Brief IsBPSChksumOK check the checksum of the message(safely)
@@ -175,49 +175,71 @@ EXPORT_API BP_UINT8 IsBPSChksumOK(BP_UINT8 * buf);
   * @return Success     somegthing not 0 when
   *         Failed      0
  */
-EXPORT_API BP_UINT8 IsBPSChksumOK2(BP_UINT8 * buf, BP_WORD size);
+EXPORT_API BPS_UINT8 IsBPSChksumOK2(BPS_UINT8 * buf, BPS_WORD size);
 
 /** 
   * @Brief PackBPSHeader to pack the BPS_HEADER into message buffer
   * @Param buf   the message buffer
+  * @return Success     the buffer with the offset that the function made
+  *         Failed      BPS_NULL
  */
-EXPORT_API void PackBPSHeader(BP_UINT8 * buf);
+EXPORT_API BPS_UINT8 * PackBPSHeader(BPS_UINT8 * buf);
 
 /** 
   * @Brief PackBPSHeader2 to pack the BPS_HEADER into message buffer(safely)
   * @Param buf   the message buffer
   * @Param size  the buffer size
+  * @return Success     the buffer with the offset that the function made
+  *         Failed      BPS_NULL
  */
-EXPORT_API void PackBPSHeader2(BP_UINT8 * buf, BP_WORD size);
+EXPORT_API BPS_UINT8 * PackBPSHeader2(BPS_UINT8 * buf, BPS_WORD size);
 
 /** 
   * @Brief PackBPSVersion to pack the BPS_VERSION into message buffer
   * @Param buf   the message buffer
+  * @return Success     the buffer with the offset that the function made
+  *         Failed      BPS_NULL
  */
-EXPORT_API void PackBPSVersion(BP_UINT8 * buf);
+EXPORT_API BPS_UINT8 * PackBPSVersion(BPS_UINT8 * buf);
 
 /** 
   * @Brief PackBPSAddr to pack BP-S address
   * @Param buf   the message buffer
   * @Param sender   the sender address(from 0-15)
   * @Param recver  the receiver address(from 0-15)
+  * @return Success     the buffer with the offset that the function made
+  *         Failed      BPS_NULL
  */
-EXPORT_API void PackBPSAddr(BP_UINT8 * buf, BP_UINT8 sender, BP_UINT8 recver);
+EXPORT_API BPS_UINT8 * PackBPSAddr(BPS_UINT8 * buf, BPS_UINT8 sender, BPS_UINT8 recver);
 
 /** 
   * @Brief PackBPSRemainLen to pack remaining length into message buffer
   * @Param buf   the message buffer
   * @Param len   the remaining length
+  * @return Success     the buffer with the offset that the function made
+  *         Failed      BPS_NULL
  */
-EXPORT_API void PackBPSRemainLen(BP_UINT8 * buf, BP_UINT16 len);
+EXPORT_API BPS_UINT8 * PackBPSRemainLen(BPS_UINT8 * buf, BPS_UINT16 len);
 
 /** 
   * @Brief PackBPSRemainLen to pack remaining length into message buffer(safely)
   * @Param buf   the message buffer
   * @Param len   the remaining length
   * @Param size  the buffer size
+  * @return Success     the buffer with the offset that the function made
+  *         Failed      BPS_NULL
  */
-EXPORT_API void PackBPSRemainLen2(BP_UINT8 * buf, BP_UINT16 len, BP_WORD size);
+EXPORT_API BPS_UINT8 * PackBPSRemainLen2(BPS_UINT8 * buf, BPS_UINT16 len, BPS_WORD size);
+
+/** 
+  * @Brief PackBPSChecksum to pack checksum into message buffer
+  * @Param buf   the message buffer with offset from the start
+  * @Param len   the buffer size
+  * @Param size  the buffer size
+  * @return Success     the message buffer from start
+  *         Failed      BPS_NULL
+ */
+EXPORT_API BPS_UINT8 * PackBPSChecksum(BPS_UINT8 * buf, BPS_WORD size);
 
 #endif
 

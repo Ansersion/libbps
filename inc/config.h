@@ -26,8 +26,8 @@
 #define __CONFIG_H
 
 
-#define BP_NULL 	0
-#define BP_INLINE 	extern inline
+#define BPS_NULL 	0
+#define BPS_INLINE 	extern inline
 
 #ifdef WIN32
 #define EXPORT_API __declspec(dllexport) 
@@ -36,68 +36,68 @@
 #endif
 
 /***************************************************************************************************************
-*** #define BP_CPU64/BP_CPU32/BP_CPU16/BP_CPU8, MUST BE DEFINED BY YOUR OWN
-*** #define BP_MEM_DYN, for system that can malloc dynamically
+*** #define BPS_CPU64/BPS_CPU32/BPS_CPU16/BPS_CPU8, MUST BE DEFINED BY YOUR OWN
+*** #define BPS_MEM_DYN, for system that can malloc dynamically
 ***************************************************************************************************************/
 
 
 /** 
   * @Brief: BPCPUXX define determine the cpu type
-  * @Note: Must define one of "BP_CPU64/BP_CPU32/BP_CPU16/BP_CPU8" to match your cpu, NO DEFAULT VALUE
+  * @Note: Must define one of "BPS_CPU64/BPS_CPU32/BPS_CPU16/BPS_CPU8" to match your cpu, NO DEFAULT VALUE
  */
 
-#ifdef BP_CPU64
-	#define BP_UINT8 	unsigned char
-	#define BP_INT8 	char
-	#define BP_UINT16 	unsigned short
-	#define BP_INT16 	short
-	#define BP_UINT32 	unsigned int
-	#define BP_INT32 	int
-	#define BP_UINT64 	unsigned long long
-	#define BP_INT64 	long long
-	#define BP_FLOAT 	float
-	#define BP_WORD 	BP_UINT64
-#elif defined BP_CPU32
-	#define BP_UINT8 	unsigned char
-	#define BP_INT8 	char
-	#define BP_UINT16 	unsigned short
-	#define BP_INT16 	short
-	#define BP_UINT32 	unsigned int
-	#define BP_INT32 	int
-	#define BP_FLOAT 	float
-	#define BP_WORD 	BP_UINT32
+#ifdef BPS_CPU64
+	#define BPS_UINT8 	unsigned char
+	#define BPS_INT8 	char
+	#define BPS_UINT16 	unsigned short
+	#define BPS_INT16 	short
+	#define BPS_UINT32 	unsigned int
+	#define BPS_INT32 	int
+	#define BPS_UINT64 	unsigned long long
+	#define BPS_INT64 	long long
+	#define BPS_FLOAT 	float
+	#define BPS_WORD 	BPS_UINT64
+#elif defined BPS_CPU32
+	#define BPS_UINT8 	unsigned char
+	#define BPS_INT8 	char
+	#define BPS_UINT16 	unsigned short
+	#define BPS_INT16 	short
+	#define BPS_UINT32 	unsigned int
+	#define BPS_INT32 	int
+	#define BPS_FLOAT 	float
+	#define BPS_WORD 	BPS_UINT32
 
-#elif defined BP_CPU16
-	#define BP_UINT8 	unsigned char
-	#define BP_INT8 	char
-	#define BP_UINT16 	unsigned short
-	#define BP_INT16 	short
-	#define BP_UINT32 	unsigned long
-	#define BP_INT32 	long
-	#define BP_FLOAT 	float
-	#define BP_WORD 	BP_UINT16
+#elif defined BPS_CPU16
+	#define BPS_UINT8 	unsigned char
+	#define BPS_INT8 	char
+	#define BPS_UINT16 	unsigned short
+	#define BPS_INT16 	short
+	#define BPS_UINT32 	unsigned long
+	#define BPS_INT32 	long
+	#define BPS_FLOAT 	float
+	#define BPS_WORD 	BPS_UINT16
 
-#elif defined BP_CPU8
-	#define BP_UINT8 	unsigned char
-	#define BP_INT8 	char
-	#define BP_UINT16 	unsigned short
-	#define BP_INT16 	short
-	#define BP_UINT32 	unsigned long
-	#define BP_INT32 	long
-	#define BP_FLOAT 	float
-	#define BP_WORD 	BP_UINT8
+#elif defined BPS_CPU8
+	#define BPS_UINT8 	unsigned char
+	#define BPS_INT8 	char
+	#define BPS_UINT16 	unsigned short
+	#define BPS_INT16 	short
+	#define BPS_UINT32 	unsigned long
+	#define BPS_INT32 	long
+	#define BPS_FLOAT 	float
+	#define BPS_WORD 	BPS_UINT8
 
 #else
-#error Please define your cpu macro first: BP_CPU64/BP_CPU32/BP_CPU16/BP_CPU8
+#error Please define your cpu macro first: BPS_CPU64/BPS_CPU32/BPS_CPU16/BPS_CPU8
 
 #endif
 
 /** 
-  * @Brief: BP_MEM_DYN for system that can alloc memory dynamically(malloc/free)
+  * @Brief: BPS_MEM_DYN for system that can alloc memory dynamically(malloc/free)
   * it will enable to compile functions 'ParseXXXReqDyn/ParseXXXRspDyn', 
   * which are more efficient for memory usage.
  */
-// #define BP_MEM_DYN
+// #define BPS_MEM_DYN
 
 #endif
 

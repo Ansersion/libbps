@@ -37,47 +37,47 @@
 #include <bps_cmd_post.h>
 #include <bps_cmd_get_sig.h>
 
-BP_UINT8 * BPS_SetNet16(BP_UINT8 * dst, BP_UINT16 val)
+BPS_UINT8 * BPS_SetNet16(BPS_UINT8 * dst, BPS_UINT16 val)
 {
-	if(BP_NULL == dst) {
-		return BP_NULL;
+	if(BPS_NULL == dst) {
+		return BPS_NULL;
 	}
 
-	*dst++ = (BP_UINT8)((val >> 8) & (0x00FF));
-	*dst++ = (BP_UINT8)(val & 0x00FF);
+	*dst++ = (BPS_UINT8)((val >> 8) & (0x00FF));
+	*dst++ = (BPS_UINT8)(val & 0x00FF);
 
 	return dst;
 }
 
-BP_UINT8 * BPS_SetNet32(BP_UINT8 * dst, BP_UINT32 val)
+BPS_UINT8 * BPS_SetNet32(BPS_UINT8 * dst, BPS_UINT32 val)
 {
-	if(BP_NULL == dst) {
-		return BP_NULL;
+	if(BPS_NULL == dst) {
+		return BPS_NULL;
 	}
 
-	*dst++ = (BP_UINT8)((val >> 24) & (0x000000FF));
-	*dst++ = (BP_UINT8)((val >> 16) & (0x000000FF));
-	*dst++ = (BP_UINT8)((val >> 8) & (0x000000FF));
-	*dst++ = (BP_UINT8)(val & 0x000000FF);
+	*dst++ = (BPS_UINT8)((val >> 24) & (0x000000FF));
+	*dst++ = (BPS_UINT8)((val >> 16) & (0x000000FF));
+	*dst++ = (BPS_UINT8)((val >> 8) & (0x000000FF));
+	*dst++ = (BPS_UINT8)(val & 0x000000FF);
 
 	return dst;
 }
 
-BP_UINT8 * BPS_SetNBytes(BP_UINT8 * dst, BP_UINT8 * src, BP_WORD num)
+BPS_UINT8 * BPS_SetNBytes(BPS_UINT8 * dst, BPS_UINT8 * src, BPS_WORD num)
 {
 	memcpy_bps(dst, src, num);
 	dst += num;
 	return dst;
 }
 
-BP_UINT8 * BPS_Set2ByteField(BP_UINT8 * pack, BP_UINT8 * field, BP_UINT16 field_len)
+BPS_UINT8 * BPS_Set2ByteField(BPS_UINT8 * pack, BPS_UINT8 * field, BPS_UINT16 field_len)
 {
-	BP_UINT8 * p_pack = pack;
-	if(BP_NULL == pack) {
-		return BP_NULL;
+	BPS_UINT8 * p_pack = pack;
+	if(BPS_NULL == pack) {
+		return BPS_NULL;
 	}
 	// if(0 == field_len) {
-	// 	return BP_NULL;
+	// 	return BPS_NULL;
 	// }
 	p_pack = BPS_SetBig16(p_pack, field_len);
 	memcpy_bps(p_pack, field, field_len);
@@ -85,11 +85,11 @@ BP_UINT8 * BPS_Set2ByteField(BP_UINT8 * pack, BP_UINT8 * field, BP_UINT16 field_
 	return p_pack+field_len;
 }
 
-BP_UINT8 * BPS_Set1ByteField(BP_UINT8 * pack, const BP_UINT8 * field, BP_UINT8 field_len)
+BPS_UINT8 * BPS_Set1ByteField(BPS_UINT8 * pack, const BPS_UINT8 * field, BPS_UINT8 field_len)
 {
-	BP_UINT8 * p_pack = pack;
-	if(BP_NULL == pack) {
-		return BP_NULL;
+	BPS_UINT8 * p_pack = pack;
+	if(BPS_NULL == pack) {
+		return BPS_NULL;
 	}
 	*p_pack++ = field_len;
 	memcpy_bps(p_pack, field, field_len);
@@ -97,13 +97,13 @@ BP_UINT8 * BPS_Set1ByteField(BP_UINT8 * pack, const BP_UINT8 * field, BP_UINT8 f
 	return p_pack+field_len;
 }
 
-BP_UINT8 * BPS_GetNet16(BP_UINT8 * src, BP_UINT16 * val)
+BPS_UINT8 * BPS_GetNet16(BPS_UINT8 * src, BPS_UINT16 * val)
 {
-	if(BP_NULL == src) {
-		return BP_NULL;
+	if(BPS_NULL == src) {
+		return BPS_NULL;
 	}
-	if(BP_NULL == val) {
-		return BP_NULL;
+	if(BPS_NULL == val) {
+		return BPS_NULL;
 	}
 	*val = *src++;
 	*val = ((*val & 0x00FF) << 8) | (0xFF & (*src++));
@@ -111,13 +111,13 @@ BP_UINT8 * BPS_GetNet16(BP_UINT8 * src, BP_UINT16 * val)
 	return src;
 }
 
-BP_UINT8 * BPS_GetNet32(BP_UINT8 * src, BP_UINT32 * val)
+BPS_UINT8 * BPS_GetNet32(BPS_UINT8 * src, BPS_UINT32 * val)
 {
-	if(BP_NULL == src) {
-		return BP_NULL;
+	if(BPS_NULL == src) {
+		return BPS_NULL;
 	}
-	if(BP_NULL == val) {
-		return BP_NULL;
+	if(BPS_NULL == val) {
+		return BPS_NULL;
 	}
 	*val = *src++;
 	*val = ((*val & 0x000000FF) << 8) | (0x000000FF & (*src++));
@@ -128,17 +128,17 @@ BP_UINT8 * BPS_GetNet32(BP_UINT8 * src, BP_UINT32 * val)
 
 }
 
-BP_UINT8 * BPS_Get2ByteField(BP_UINT8 * pack, BP_UINT8 * field_buf, BP_UINT16 * field_len)
+BPS_UINT8 * BPS_Get2ByteField(BPS_UINT8 * pack, BPS_UINT8 * field_buf, BPS_UINT16 * field_len)
 {
-	BP_UINT8 * p_pack = pack;
-	if(BP_NULL == pack) {
-		return BP_NULL;
+	BPS_UINT8 * p_pack = pack;
+	if(BPS_NULL == pack) {
+		return BPS_NULL;
 	}
-	if(BP_NULL == field_buf) {
-		return BP_NULL;
+	if(BPS_NULL == field_buf) {
+		return BPS_NULL;
 	}
-	if(BP_NULL == field_len) {
-		return BP_NULL;
+	if(BPS_NULL == field_len) {
+		return BPS_NULL;
 	}
 	p_pack = BPS_GetBig16(p_pack, field_len);
 	memcpy_bps(field_buf, p_pack, *field_len);
@@ -146,9 +146,9 @@ BP_UINT8 * BPS_Get2ByteField(BP_UINT8 * pack, BP_UINT8 * field_buf, BP_UINT16 * 
 	return p_pack+(*field_len);
 }
 
-BP_WORD BPS_GetSigValueLen(BPSSigType type, BPSSigTypeU value)
+BPS_WORD BPS_GetSigValueLen(BPSSigType type, BPSSigTypeU value)
 {
-    BP_WORD len;
+    BPS_WORD len;
     switch(type) {
         case BPS_SIG_TYPE_U32:
             len = 4;
@@ -188,9 +188,9 @@ BP_WORD BPS_GetSigValueLen(BPSSigType type, BPSSigTypeU value)
     return len;
 }
 
-BP_WORD BPS_GetSigValueLen2(BPSSigType type)
+BPS_WORD BPS_GetSigValueLen2(BPSSigType type)
 {
-    BP_WORD len;
+    BPS_WORD len;
     switch(type) {
         case BPS_SIG_TYPE_U32:
             len = 4;
@@ -231,12 +231,12 @@ BP_WORD BPS_GetSigValueLen2(BPSSigType type)
     return len;
 }
 
-BP_UINT8 * BPS_SetSigValue(BP_UINT8 * pack, BPSSigType type, BPSSigTypeU value)
+BPS_UINT8 * BPS_SetSigValue(BPS_UINT8 * pack, BPSSigType type, BPSSigTypeU value)
 {
-	BP_UINT8 * p_pack = pack;
-    BP_UINT8 str_len;
-	if(BP_NULL == pack) {
-		return BP_NULL;
+	BPS_UINT8 * p_pack = pack;
+    BPS_UINT8 str_len;
+	if(BPS_NULL == pack) {
+		return BPS_NULL;
 	}
     switch(type) {
         case BPS_SIG_TYPE_U32:
@@ -273,17 +273,17 @@ BP_UINT8 * BPS_SetSigValue(BP_UINT8 * pack, BPSSigType type, BPSSigTypeU value)
             p_pack = BPS_SetBig32(p_pack, value.t_date);
             break;
         default:
-            return BP_NULL;
+            return BPS_NULL;
     }
 
 	return p_pack;
 }
 
-BP_UINT8 * BPS_GetSigValue(BP_UINT8 * pack, BPSSigType type, BPSSigTypeU * value, BP_WORD len)
+BPS_UINT8 * BPS_GetSigValue(BPS_UINT8 * pack, BPSSigType type, BPSSigTypeU * value, BPS_WORD len)
 {
-	BP_UINT8 * p_pack = pack;
-	if(BP_NULL == pack || BP_NULL == value) {
-		return BP_NULL;
+	BPS_UINT8 * p_pack = pack;
+	if(BPS_NULL == pack || BPS_NULL == value) {
+		return BPS_NULL;
 	}
     switch(type) {
         case BPS_SIG_TYPE_U32:
@@ -293,20 +293,20 @@ BP_UINT8 * BPS_GetSigValue(BP_UINT8 * pack, BPSSigType type, BPSSigTypeU * value
             p_pack = BPS_GetBig16(p_pack, &value->t_u16);
             break;
         case BPS_SIG_TYPE_I32:
-            p_pack = BPS_GetBig32(p_pack, (BP_UINT32 *)&value->t_i32);
+            p_pack = BPS_GetBig32(p_pack, (BPS_UINT32 *)&value->t_i32);
             break;
         case BPS_SIG_TYPE_I16:
-            p_pack = BPS_GetBig16(p_pack, (BP_UINT16 *)&value->t_i16);
+            p_pack = BPS_GetBig16(p_pack, (BPS_UINT16 *)&value->t_i16);
             break;
         case BPS_SIG_TYPE_ENM:
             p_pack = BPS_GetBig16(p_pack, &value->t_enm);
             break;
         case BPS_SIG_TYPE_FLT:
-            p_pack = BPS_GetBig32(p_pack, (BP_UINT32 *)&value->t_flt);
+            p_pack = BPS_GetBig32(p_pack, (BPS_UINT32 *)&value->t_flt);
             break;
         case BPS_SIG_TYPE_STR: 
             if(len > MAX_STRING_LEN) {
-                return BP_NULL;
+                return BPS_NULL;
             }
             memcpy_bps(value->t_str, p_pack, len);
             value->t_str[len] = '\0';
@@ -322,52 +322,52 @@ BP_UINT8 * BPS_GetSigValue(BP_UINT8 * pack, BPSSigType type, BPSSigTypeU * value
             p_pack = BPS_GetBig32(p_pack, &value->t_date);
             break;
         default:
-            return BP_NULL;
+            return BPS_NULL;
     }
 
 	return p_pack;
 }
 
-BP_INLINE BP_UINT8 IsBPSHeader2(BP_UINT8 b1, BP_UINT8 b2)
+BPS_UINT8 IsBPSHeader2(BPS_UINT8 b1, BPS_UINT8 b2)
 {
 	return 0xBB == b1 && 0xCC == b2;
 }
 
-BP_UINT8 IsBPSHeader(BP_UINT8 * buf)
+BPS_UINT8 IsBPSHeader(BPS_UINT8 * buf)
 {
-	if(BP_NULL == buf) {
+	if(BPS_NULL == buf) {
 		return 0;
 	}
 	return IsBPSHeader2(buf[0], buf[1]);
 }
 
-BP_INLINE BP_UINT8 IsBPSVersionCompat(BP_UINT8 version)
+BPS_UINT8 IsBPSVersionCompat(BPS_UINT8 version)
 {
 	return version <= BPS_VERSION;
 }
 
-BP_INLINE BP_UINT8 GetBPSSenderAddr(BP_UINT8 addr)
+BPS_UINT8 GetBPSSenderAddr(BPS_UINT8 addr)
 {
 	return (addr >> 4) & 0xF;
 }
 
-BP_INLINE BP_UINT8 GetBPSRecverAddr(BP_UINT8 addr)
+BPS_UINT8 GetBPSRecverAddr(BPS_UINT8 addr)
 {
 	return addr & 0xF;
 }
 
-BP_UINT16 GetBPSRemainLen(BP_UINT8 * buf)
+BPS_UINT16 GetBPSRemainLen(BPS_UINT8 * buf)
 {
-	BP_UINT16 ret = 0;
-	if(BP_NULL == buf) {
+	BPS_UINT16 ret = 0;
+	if(BPS_NULL == buf) {
 		return ret;
 	}
-    BPS_GetNet16(buf, &ret);
+    BPS_GetBig16(buf, &ret);
 
 	return ret;
 }
 
-BP_UINT16 GetBPSRemainLen2(BP_UINT8 * buf, BP_WORD size)
+BPS_UINT16 GetBPSRemainLen2(BPS_UINT8 * buf, BPS_WORD size)
 {
 	if(size < BPS_REMAIN_LEN_SIZE) {
 		return 0;
@@ -375,7 +375,7 @@ BP_UINT16 GetBPSRemainLen2(BP_UINT8 * buf, BP_WORD size)
 	return GetBPSRemainLen(buf);
 }
 
-BP_UINT8 IsCmdWordValid(BP_UINT8 cmd_word)
+BPS_UINT8 IsCmdWordValid(BPS_UINT8 cmd_word)
 {
     switch(cmd_word) {
         case CMD_COMM_TEST_WORD_REQ:
@@ -404,13 +404,13 @@ BP_UINT8 IsCmdWordValid(BP_UINT8 cmd_word)
     return 0;
 }
 
-BP_UINT8 IsBPSChksumOK(BP_UINT8 * buf)
+BPS_UINT8 IsBPSChksumOK(BPS_UINT8 * buf)
 {
-	BP_UINT16 len;
-	BP_UINT8 * tmp;
-	BP_UINT8 checksum;
+	BPS_UINT16 len;
+	BPS_UINT8 * tmp;
+	BPS_UINT8 checksum;
 
-	if(BP_NULL == buf) {
+	if(BPS_NULL == buf) {
 		return 0;
 	}
 
@@ -428,13 +428,13 @@ BP_UINT8 IsBPSChksumOK(BP_UINT8 * buf)
 	return checksum == *tmp;
 }
 
-BP_UINT8 IsBPSChksumOK2(BP_UINT8 * buf, BP_WORD size)
+BPS_UINT8 IsBPSChksumOK2(BPS_UINT8 * buf, BPS_WORD size)
 {
-	BP_UINT16 len;
-	BP_UINT8 * tmp;
-	BP_UINT8 checksum;
+	BPS_UINT16 len;
+	BPS_UINT8 * tmp;
+	BPS_UINT8 checksum;
 
-	if(BP_NULL == buf) {
+	if(BPS_NULL == buf) {
 		return 0;
 	}
 
@@ -458,47 +458,79 @@ BP_UINT8 IsBPSChksumOK2(BP_UINT8 * buf, BP_WORD size)
 	return checksum == *tmp;
 }
 
-void PackBPSHeader(BP_UINT8 * buf)
+BPS_UINT8 * PackBPSHeader(BPS_UINT8 * buf)
 {
-	if(BP_NULL == buf) {
-		return;
+	if(BPS_NULL == buf) {
+		return BPS_NULL;
 	}
-    BPS_SetNet32(buf, BPS_HEADER);
+    return BPS_SetBig16(buf, BPS_HEADER);
 }
 
-void PackBPSHeader2(BP_UINT8 * buf, BP_WORD size)
+BPS_UINT8 * PackBPSHeader2(BPS_UINT8 * buf, BPS_WORD size)
 {
 	if(size < BPS_HEADER_SIZE) {
-		return;
+		return BPS_NULL;
 	}
-	PackBPSHeader(buf);
+	return PackBPSHeader(buf);
 }
 
-BP_INLINE void PackBPSVersion(BP_UINT8 * buf)
+BPS_UINT8 * PackBPSVersion(BPS_UINT8 * buf)
 {
-	*buf = BPS_VERSION;
+	*buf++ = BPS_VERSION;
+    return buf;
 }
 
-void PackBPSAddr(BP_UINT8 * buf, BP_UINT8 sender, BP_UINT8 recver)
+BPS_UINT8 * PackBPSAddr(BPS_UINT8 * buf, BPS_UINT8 sender, BPS_UINT8 recver)
 {
-	if(BP_NULL == buf) {
-		return;
+	if(BPS_NULL == buf) {
+		return BPS_NULL;
 	}
-	*buf = ((sender << 4) & 0xF0) | (recver & 0x0F);
+	*buf++ = ((sender << 4) & 0xF0) | (recver & 0x0F);
+    return buf;
 }
 
-void PackBPSRemainLen(BP_UINT8 * buf, BP_UINT16 len)
+BPS_UINT8 * PackBPSRemainLen(BPS_UINT8 * buf, BPS_UINT16 len)
 {
-	if(BP_NULL == buf) {
-		return;
+	if(BPS_NULL == buf) {
+		return BPS_NULL;
 	}
-    BPS_SetNet16(buf, len);
+    return BPS_SetBig16(buf, len);
 }
 
-void PackBPSRemainLen2(BP_UINT8 * buf, BP_UINT16 len, BP_WORD size)
+BPS_UINT8 * PackBPSRemainLen2(BPS_UINT8 * buf, BPS_UINT16 len, BPS_WORD size)
 {
 	if(size < BPS_REMAIN_LEN_SIZE) {
-		return;
+		return BPS_NULL;
 	}
-	PackBPSRemainLen(buf, len);
+	return PackBPSRemainLen(buf, len);
 }
+
+BPS_UINT8 * PackBPSChecksum(BPS_UINT8 * buf, BPS_WORD size)
+{
+	BPS_UINT16 len;
+	BPS_UINT8 * tmp;
+	BPS_UINT8 checksum;
+
+	if(BPS_NULL == buf) {
+		return BPS_NULL;
+	}
+
+	len = GetBPSRemainLen(buf + BPS_REMAIN_LEN_POSITION);
+	len += BPS_VERSION_SIZE;
+	len += BPS_ADDR_SIZE;
+	len += BPS_REMAIN_LEN_SIZE;
+
+    if(len > size) {
+        return BPS_NULL;
+    }
+
+	tmp = buf + BPS_VERSION_POSITION;
+	checksum = 0;
+	while(len--) {
+		checksum += *tmp++;
+	}
+    *tmp = checksum;
+
+	return buf;
+}
+

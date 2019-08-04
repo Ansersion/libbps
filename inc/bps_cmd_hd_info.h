@@ -33,18 +33,18 @@
 #define CMD_HD_INFO_FIELD_END  0xFF
 
 typedef struct BPSCmdHDInfoReq {
-    BP_UINT8 recv;
+    BPS_UINT8 recv;
 } BPSCmdHDInfoReq;
 
 typedef struct BPSCmdHDInfoField {
-    BP_UINT8 type;
-    BP_UINT8 len;
-    BP_UINT8 * data;
+    BPS_UINT8 type;
+    BPS_UINT8 len;
+    BPS_UINT8 * data;
 } BPSCmdHDInfoField;
 
 typedef struct BPSCmdHDInfoRsp {
     BPSCmdHDInfoField * fieldArray;
-    BP_WORD fieldNum;
+    BPS_WORD fieldNum;
 } BPSCmdHDInfoRsp;
 
 /** 
@@ -54,7 +54,7 @@ typedef struct BPSCmdHDInfoRsp {
   * @Param size the buffer size
   * @return the number of bytes which the function handled
  */
-EXPORT_API BP_UINT16 BPSPackHDInfoReq(BPSCmdHDInfoReq * req, BP_UINT8 * buf, BP_WORD size);
+EXPORT_API BPS_UINT16 BPSPackHDInfoReq(BPSCmdHDInfoReq * req, BPS_UINT8 * buf, BPS_WORD size);
 
 /** 
   * @Brief BPSPackHDInfoRsp construct packet of 'query hardware info' response
@@ -63,7 +63,7 @@ EXPORT_API BP_UINT16 BPSPackHDInfoReq(BPSCmdHDInfoReq * req, BP_UINT8 * buf, BP_
   * @Param size the buffer size
   * @return the number of bytes which the function handled
  */
-EXPORT_API BP_UINT16 BPSPackHDInfoRsp(BPSCmdHDInfoRsp * rsp, BP_UINT8 * buf, BP_WORD size);
+EXPORT_API BPS_UINT16 BPSPackHDInfoRsp(BPSCmdHDInfoRsp * rsp, BPS_UINT8 * buf, BPS_WORD size);
 
 /** 
   * @Brief BPSParseHDInfoReq parse packet of 'query hardware info' request
@@ -72,7 +72,7 @@ EXPORT_API BP_UINT16 BPSPackHDInfoRsp(BPSCmdHDInfoRsp * rsp, BP_UINT8 * buf, BP_
   * @Param size the buffer size
   * @return the number of bytes which the function handled, 0 means parsing failed/none
  */
-EXPORT_API BP_UINT16 BPSParseHDInfoReq(BPSCmdHDInfoReq * req, BP_UINT8 * buf, BP_WORD size);
+EXPORT_API BPS_UINT16 BPSParseHDInfoReq(BPSCmdHDInfoReq * req, BPS_UINT8 * buf, BPS_WORD size);
 
 /** 
   * @Brief BPSParseHDInfoRsp parse packet of 'query hardware info' response
@@ -83,9 +83,9 @@ EXPORT_API BP_UINT16 BPSParseHDInfoReq(BPSCmdHDInfoReq * req, BP_UINT8 * buf, BP
   * @Param size the buffer size
   * @return the number of bytes which the function handled, 0 means parsing failed/none
  */
-EXPORT_API BP_UINT16 BPSParseHDInfoRsp(BPSCmdHDInfoRsp * rsp, BP_UINT8 * buf, BP_WORD size);
+EXPORT_API BPS_UINT16 BPSParseHDInfoRsp(BPSCmdHDInfoRsp * rsp, BPS_UINT8 * buf, BPS_WORD size);
 
-#ifdef BP_MEM_DYN
+#ifdef BPS_MEM_DYN
     #define ParseHDInfoReqDyn     ParseHDInfoReq
 /** 
   * @Brief BPSParseHDInfoRsp parse packet of 'query hardware info' response
@@ -97,7 +97,7 @@ EXPORT_API BP_UINT16 BPSParseHDInfoRsp(BPSCmdHDInfoRsp * rsp, BP_UINT8 * buf, BP
   * @return the number of bytes which the function handled, 0 means parsing failed/none
   *         rsp 
  */
-EXPORT_API BP_UINT16 BPSParseHDInfoRspDyn(BPSCmdHDInfoRsp * rsp, BP_UINT8 * buf, BP_WORD size);
+EXPORT_API BPS_UINT16 BPSParseHDInfoRspDyn(BPSCmdHDInfoRsp * rsp, BPS_UINT8 * buf, BPS_WORD size);
 
     #define BPSFreeMemHDInfoReq(x)  
 /** 
