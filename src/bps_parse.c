@@ -35,16 +35,17 @@
 #include <bps_cmd_post.h>
 #include <bps_cmd_get_sig.h>
 
-ParseData * BPSParseNoCheck(BPS_UINT8 * buf, ParseData * pd)
+BPSPacketData * BPSParseNoCheck(BPS_UINT8 * buf, BPSPacketData * pd)
 {
-    BPS_UINT8 * buf_tmp = buf + BPS_REMAIN_LEN_POSITION;
+    BPS_UINT8 * buf_tmp;
     BPS_UINT16 rmn_len = 0;
     BPS_UINT16 parse_ret = 0;
 
     /* check the input parameters */
     if(BPS_NULL == buf || BPS_NULL == pd) {
         return BPS_NULL;
-    }
+    } 
+    buf_tmp = buf + BPS_REMAIN_LEN_POSITION;
 
     /* check remaining length at least is 2 bytes for "command word" and "checksum" */
     buf_tmp = BPS_GetNet16(buf_tmp, &rmn_len);
@@ -55,7 +56,7 @@ ParseData * BPSParseNoCheck(BPS_UINT8 * buf, ParseData * pd)
     /* get the command word and switch to the parsing routine */
     pd->cmdWord = *buf_tmp++;
     /* the following parsing routing will not parse command and the checksum*/
-    rmn_len -= (BPS_CMD_WORD_SIZE + BPS_CHECKSUM_SIZE);
+    rmn_len -= BPS_CMD_WORD_SIZE;
     switch(pd->cmdWord) {
         case CMD_COMM_TEST_WORD_REQ:
             /* parse the command commnication test request. */

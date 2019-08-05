@@ -43,7 +43,7 @@ typedef struct BPSCmdConfigNetsetReq {
 
 typedef struct BPSCmdConfigNetsetRsp {
     BPS_UINT8 retCode;
-    BPS_UINT8 signalType;
+    BPS_UINT8 commType;
     BPS_UINT8 mode;
 } BPSCmdConfigNetsetRsp;
 

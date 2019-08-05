@@ -37,7 +37,7 @@
 #include <bps_cmd_post.h>
 #include <bps_cmd_get_sig.h>
 
-typedef union CmdParseUnion {
+typedef union BPSCmdPacketUnion {
     BPSCmdCommTestReq           commTestReq;
     BPSCmdCommTestRsp           commTestRsp;
     BPSCmdHDInfoReq             hdInfoReq;
@@ -58,12 +58,12 @@ typedef union CmdParseUnion {
     BPSCmdPostRsp               postRsp;
     BPSCmdGetSigReq             getSigReq;
     BPSCmdGetSigRsp             getSigRsp;
-} CmdParseUnion;
+} BPSCmdPacketUnion;
 
-typedef union ParseData {
+typedef struct BPSPacketData {
     BPS_UINT8 cmdWord;
-    CmdParseUnion pu;
-} ParseData;
+    BPSCmdPacketUnion pu;
+} BPSPacketData;
 
 
 /** 
@@ -73,7 +73,7 @@ typedef union ParseData {
   * @return Success     the pointer to data passed
   *         Failed      BPS_NULL
  */
-EXPORT_API ParseData * BPSParseNoCheck(BPS_UINT8 * buf, ParseData * pd);
+EXPORT_API BPSPacketData * BPSParseNoCheck(BPS_UINT8 * buf, BPSPacketData * pd);
 
 
 #endif

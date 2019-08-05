@@ -31,6 +31,11 @@
 #define CMD_PING_WORD_REQ  0x04
 #define CMD_PING_WORD_RSP  0x05
 
+typedef enum ReqTypePing {
+    QUERY_RT_PING = 0,
+    SET_RT_PING,
+} ReqTypePing;
+
 typedef struct BPSCmdPingReq {
     BPS_UINT8 type;
     BPS_UINT16 interval;

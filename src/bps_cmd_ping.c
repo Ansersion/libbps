@@ -83,12 +83,14 @@ BPS_UINT16 BPSParsePingReq(BPSCmdPingReq * req, BPS_UINT8 * buf, BPS_WORD size)
     }
     req->type = buf[i++];
 
-    if(size < sizeof(BPS_UINT16)) {
-        return 0;
+    if(SET_RT_PING == req->type) {
+        if(size < sizeof(BPS_UINT16)) {
+            return 0;
+        }
+        size -= sizeof(BPS_UINT16);
+        buf = BPS_GetBig16(&(buf[i]), &(req->interval));
+        i += sizeof(BPS_UINT16);
     }
-    size -= sizeof(BPS_UINT16);
-    buf = BPS_GetBig16(&(buf[i]), &(req->interval));
-    i += sizeof(BPS_UINT16);
 
     return i;
 }

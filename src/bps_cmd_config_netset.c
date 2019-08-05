@@ -69,7 +69,7 @@ BPS_UINT16 BPSPackConfigNetsetRsp(BPSCmdConfigNetsetRsp * rsp, BPS_UINT8 * buf, 
     if(0 == size--) {
         return 0;
     }
-    buf[i++] = rsp->signalType;
+    buf[i++] = rsp->commType;
 
     if(0 == size--) {
         return 0;
@@ -116,7 +116,7 @@ BPS_UINT16 BPSParseConfigNetsetRsp(BPSCmdConfigNetsetRsp * rsp, BPS_UINT8 * buf,
     if(0 == size--) {
         return 0;
     }
-    rsp->signalType = buf[i++];
+    rsp->commType = buf[i++];
 
     if(0 == size--) {
         return 0;
