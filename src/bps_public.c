@@ -305,7 +305,7 @@ BPS_UINT8 * BPS_GetSigValue(BPS_UINT8 * pack, BPSSigType type, BPSSigTypeU * val
             p_pack = BPS_GetBig32(p_pack, (BPS_UINT32 *)&value->t_flt);
             break;
         case BPS_SIG_TYPE_STR: 
-            if(len > MAX_STRING_LEN) {
+            if(len > BPS_MAX_STRING_LEN) {
                 return BPS_NULL;
             }
             memcpy_bps(value->t_str, p_pack, len);

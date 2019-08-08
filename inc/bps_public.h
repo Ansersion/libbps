@@ -52,7 +52,7 @@
 #define BPS_GetBig16 	BPS_GetNet16
 #define BPS_GetBig32 	BPS_GetNet32
 
-#define MAX_STRING_LEN  255
+#define BPS_MAX_STRING_LEN  255
 
 typedef enum BPSSigType {
 	BPS_SIG_TYPE_U32 = 0, 

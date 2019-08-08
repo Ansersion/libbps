@@ -38,8 +38,10 @@ typedef struct BPSCmdReportSigField {
 } BPSCmdReportSigField;
 
 typedef struct BPSCmdReportSigReq {
-    BPS_WORD fieldNum;
     BPSCmdReportSigField * fieldArray;
+    BPS_WORD fieldNum;
+    /** maxNum is set to be safe only for parsing that without dynamical memory allocation */
+    BPS_WORD maxFieldNum;
 } BPSCmdReportSigReq;
 
 typedef struct BPSCmdReportSigRsp {

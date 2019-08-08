@@ -32,6 +32,12 @@
 #define CMD_HD_INFO_WORD_RSP  0x03
 #define CMD_HD_INFO_FIELD_END  0xFF
 
+typedef enum RspTypeHdInfo {
+    SN_RST_HD_INFO,
+    HARD_V_RST_HD_INFO,
+    SOFT_V_RST_HD_INFO,
+} HdInfoType;
+
 typedef struct BPSCmdHDInfoReq {
     BPS_UINT8 recv;
 } BPSCmdHDInfoReq;
@@ -45,6 +51,8 @@ typedef struct BPSCmdHDInfoField {
 typedef struct BPSCmdHDInfoRsp {
     BPSCmdHDInfoField * fieldArray;
     BPS_WORD fieldNum;
+    /** maxNum is set to be safe only for parsing that without dynamical memory allocation */
+    BPS_WORD maxFieldNum;
 } BPSCmdHDInfoRsp;
 
 /** 

@@ -92,6 +92,9 @@
 
 #endif
 
+#define BPS_TRUE        1
+#define BPS_FALSE       0
+
 /** 
   * @Brief: BPS_MEM_DYN for system that can alloc memory dynamically(malloc/free)
   * it will enable to compile functions 'ParseXXXReqDyn/ParseXXXRspDyn', 

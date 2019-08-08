@@ -124,6 +124,9 @@ BPS_UINT16 BPSParseReportSigReq(BPSCmdReportSigReq * req, BPS_UINT8 * buf, BPS_W
     }
     field_num = buf[i++];
     req->fieldNum = field_num;
+    if(field_num > req->maxFieldNum) {
+        return 0;
+    }
 
     for(j = 0; j < field_num; j++) {
         if(sizeof(BPS_UINT16) > size) {

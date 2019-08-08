@@ -107,6 +107,9 @@ BPS_UINT16 BPSParseHDInfoRsp(BPSCmdHDInfoRsp * rsp, BPS_UINT8 * buf, BPS_WORD si
         if(CMD_HD_INFO_FIELD_END == type) {
             return i;
         }
+        if(rsp->fieldNum >= rsp->maxFieldNum) {
+            return i;
+        }
         field_tmp = &(rsp->fieldArray[rsp->fieldNum]);
         field_tmp->type = type;
 
