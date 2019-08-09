@@ -118,21 +118,21 @@ BPSPacketData * BPSParseNoCheck(BPS_UINT8 * buf, BPSPacketData * pd)
             break;
         case CMD_GET_SIGTAB_WORD_REQ:
             /* parse the command get signal table request, */
-            parse_ret = BPSParseGetSigtabReq(&(pd->pu.getSigtabQueryReq), buf_tmp, rmn_len);
+            parse_ret = BPSParseGetSigtabReq(&(pd->pu.getSigtabReq), buf_tmp, rmn_len);
             /* because the function will never fail and return 0, so set 'parse_ret = 1' to make the error check to pass through*/
             parse_ret = 1;
             break;
         case CMD_GET_SIGTAB_WORD_RSP:
             /* parse the command get signal table response, */
-            parse_ret = BPSParseGetSigtabRsp(&(pd->pu.getSigtabQueryRsp), buf_tmp, rmn_len);
+            parse_ret = BPSParseGetSigtabRsp(&(pd->pu.getSigtabRsp), buf_tmp, rmn_len);
             break;
         case CMD_REPORT_SIG_WORD_REQ:
             /* parse the command report signal values request, */
-            parse_ret = BPSParseReportSigReq(&(pd->pu.reportSigQueryReq), buf_tmp, rmn_len);
+            parse_ret = BPSParseReportSigReq(&(pd->pu.reportSigReq), buf_tmp, rmn_len);
             break;
         case CMD_REPORT_SIG_WORD_RSP:
             /* parse the command report signal values response, */
-            parse_ret = BPSParseReportSigRsp(&(pd->pu.reportSigQueryRsp), buf_tmp, rmn_len);
+            parse_ret = BPSParseReportSigRsp(&(pd->pu.reportSigRsp), buf_tmp, rmn_len);
             break;
         case CMD_POST_WORD_REQ:
             /* parse the command post signal request, */

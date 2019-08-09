@@ -116,6 +116,10 @@ BPS_UINT16 BPSParseGetSigtabRsp(BPSCmdGetSigtabRsp * rsp, BPS_UINT8 * buf, BPS_W
     rsp->fieldNum = tmpU16;
     i += sizeof(BPS_UINT16);
 
+    if(tmpU16 > rsp->maxFieldNum) {
+        return 0;
+    }
+
     for(j = 0; j < tmpU16; j++) {
         field_tmp = rsp->fieldArray + j;
 

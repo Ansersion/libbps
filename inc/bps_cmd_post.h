@@ -38,8 +38,10 @@ typedef struct BPSCmdPostField {
 } BPSCmdPostField;
 
 typedef struct BPSCmdPostReq {
-    BPS_WORD fieldNum;
     BPSCmdPostField * fieldArray;
+    BPS_WORD fieldNum;
+    /** maxFiledNum is set to be safe only for parsing that without dynamical memory allocation */
+    BPS_WORD maxFieldNum;
 } BPSCmdPostReq;
 
 typedef struct BPSCmdPostRsp {

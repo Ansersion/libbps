@@ -125,6 +125,10 @@ BPS_UINT16 BPSParsePostReq(BPSCmdPostReq * req, BPS_UINT8 * buf, BPS_WORD size)
     field_num = buf[i++];
     req->fieldNum = field_num;
 
+    if(field_num > req->maxFieldNum) {
+        return 0;
+    }
+
     for(j = 0; j < field_num; j++) {
         if(sizeof(BPS_UINT16) > size) {
             return 0;

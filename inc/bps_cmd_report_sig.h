@@ -40,7 +40,7 @@ typedef struct BPSCmdReportSigField {
 typedef struct BPSCmdReportSigReq {
     BPSCmdReportSigField * fieldArray;
     BPS_WORD fieldNum;
-    /** maxNum is set to be safe only for parsing that without dynamical memory allocation */
+    /** maxFieldNum is set to be safe only for parsing that without dynamical memory allocation */
     BPS_WORD maxFieldNum;
 } BPSCmdReportSigReq;
 

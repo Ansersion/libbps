@@ -42,8 +42,10 @@ typedef struct BPSCmdGetSigtabField {
 } BPSCmdGetSigtabField;
 
 typedef struct BPSCmdGetSigtabRsp {
-    BPS_WORD fieldNum;
     BPSCmdGetSigtabField * fieldArray;
+    BPS_WORD fieldNum;
+    /** maxFieldNum is set to be safe only for parsing that without dynamical memory allocation */
+    BPS_WORD maxFieldNum;
 } BPSCmdGetSigtabRsp;
 
 /** 

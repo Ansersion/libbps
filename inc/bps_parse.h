@@ -50,10 +50,10 @@ typedef union BPSCmdPacketUnion {
     BPSCmdConfigNetsetRsp       configNetsetRsp;
     BPSCmdNetstateQueryReq      netstateQueryReq;
     BPSCmdNetstateQueryRsp      netstateQueryRsp;
-    BPSCmdGetSigtabReq          getSigtabQueryReq;
-    BPSCmdGetSigtabRsp          getSigtabQueryRsp;
-    BPSCmdReportSigReq          reportSigQueryReq;
-    BPSCmdReportSigRsp          reportSigQueryRsp;
+    BPSCmdGetSigtabReq          getSigtabReq;
+    BPSCmdGetSigtabRsp          getSigtabRsp;
+    BPSCmdReportSigReq          reportSigReq;
+    BPSCmdReportSigRsp          reportSigRsp;
     BPSCmdPostReq               postReq;
     BPSCmdPostRsp               postRsp;
     BPSCmdGetSigReq             getSigReq;
