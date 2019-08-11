@@ -74,7 +74,7 @@ EXPORT_API BPS_UINT16 BPSPackGetSigRsp(BPSCmdGetSigRsp * rsp, BPS_UINT8 * buf, B
   * @Param size the buffer size
   * @return the number of bytes which the function handled, 0 means parsing failed/none
  */
-EXPORT_API BPS_UINT16 BPSParseGetSigReq(BPSCmdGetSigReq * req, BPS_UINT8 * buf, BPS_WORD size);
+EXPORT_API BPS_UINT16 BPSParseGetSigReq(BPSCmdGetSigReq * req, const BPS_UINT8 * buf, BPS_WORD size);
 
 /** 
   * @Brief BPSParseGetSigRsp parse packet of 'get signal values' response
@@ -85,7 +85,7 @@ EXPORT_API BPS_UINT16 BPSParseGetSigReq(BPSCmdGetSigReq * req, BPS_UINT8 * buf, 
   * @Param size the buffer size
   * @return the number of bytes which the function handled, 0 means parsing failed/none
  */
-EXPORT_API BPS_UINT16 BPSParseGetSigRsp(BPSCmdGetSigRsp * rsp, BPS_UINT8 * buf, BPS_WORD size);
+EXPORT_API BPS_UINT16 BPSParseGetSigRsp(BPSCmdGetSigRsp * rsp, const BPS_UINT8 * buf, BPS_WORD size);
 
 #ifdef BPS_MEM_DYN
 /** 
@@ -98,7 +98,7 @@ EXPORT_API BPS_UINT16 BPSParseGetSigRsp(BPSCmdGetSigRsp * rsp, BPS_UINT8 * buf, 
   * @return the number of bytes which the function handled, 0 means parsing failed/none
  */
 
-BPS_UINT16 BPSParseGetSigReqDyn(BPSCmdGetSigReq * req, BPS_UINT8 * buf, BPS_WORD size);
+BPS_UINT16 BPSParseGetSigReqDyn(BPSCmdGetSigReq * req, const BPS_UINT8 * buf, BPS_WORD size);
 /** 
   * @Brief BPSParseGetSigRsp parse packet of 'get signal values' response
   * @Param rsp the response data struct to store the message.
@@ -109,7 +109,7 @@ BPS_UINT16 BPSParseGetSigReqDyn(BPSCmdGetSigReq * req, BPS_UINT8 * buf, BPS_WORD
   * @return the number of bytes which the function handled, 0 means parsing failed/none
   *         rsp 
  */
-EXPORT_API BPS_UINT16 BPSParseGetSigRspDyn(BPSCmdGetSigRsp * rsp, BPS_UINT8 * buf, BPS_WORD size);
+EXPORT_API BPS_UINT16 BPSParseGetSigRspDyn(BPSCmdGetSigRsp * rsp, const BPS_UINT8 * buf, BPS_WORD size);
 
 /** 
   * @Brief BPSParseGetSigRsp parse packet of 'get signal values' response

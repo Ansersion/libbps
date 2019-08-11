@@ -64,7 +64,7 @@ EXPORT_API BPS_UINT16 BPSPackCommTestRsp(BPSCmdCommTestRsp * rsp, BPS_UINT8 * bu
   * @Param size the buffer size
   * @return the number of bytes which the function handled, 0 means parsing failed/none
  */
-EXPORT_API BPS_UINT16 BPSParseCommTestReq(BPSCmdCommTestReq * req, BPS_UINT8 * buf, BPS_WORD size);
+EXPORT_API BPS_UINT16 BPSParseCommTestReq(BPSCmdCommTestReq * req, const BPS_UINT8 * buf, BPS_WORD size);
 
 /** 
   * @Brief BPSParseCommTestRsp parse packet of 'communication test' response
@@ -73,7 +73,7 @@ EXPORT_API BPS_UINT16 BPSParseCommTestReq(BPSCmdCommTestReq * req, BPS_UINT8 * b
   * @Param size the buffer size
   * @return the number of bytes which the function handled, 0 means parsing failed/none
  */
-EXPORT_API BPS_UINT16 BPSParseCommTestRsp(BPSCmdCommTestRsp * rsp, BPS_UINT8 * buf, BPS_WORD size);
+EXPORT_API BPS_UINT16 BPSParseCommTestRsp(BPSCmdCommTestRsp * rsp, const BPS_UINT8 * buf, BPS_WORD size);
 
 #ifdef BPS_MEM_DYN
     #define ParseCommTestReqDyn     ParseCommTestReq

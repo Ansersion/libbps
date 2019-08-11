@@ -55,7 +55,7 @@ static BPS_UINT8 REQ_MSG[] =
 
 static BPS_UINT8 RSP_MSG[] = 
 {
-    0xBB, 0xCC, 0x00, 0x10, 0x00, 0x26, 0x03, 0x00, 0x10, 0x41, 0x42, 0x43, 0x44, 0x45, 0x46, 0x47, 0x48, 0x49, 0x4A, 0x4B, 0x4C, 0x4D, 0x4E, 0x4F, 0x50, 0x01, 0x07, 0x31, 0x2E, 0x30, 0x2E, 0x30, 0x2E, 0x30, 0x02, 0x07, 0x32, 0x2E, 0x30, 0x2E, 0x30, 0x2E, 0x30, 0xFF, 0x78
+    0xBB, 0xCC, 0x00, 0x10, 0x00, 0x26, 0x03, 0x03, 0x00, 0x10, 0x41, 0x42, 0x43, 0x44, 0x45, 0x46, 0x47, 0x48, 0x49, 0x4A, 0x4B, 0x4C, 0x4D, 0x4E, 0x4F, 0x50, 0x01, 0x07, 0x31, 0x2E, 0x30, 0x2E, 0x30, 0x2E, 0x30, 0x02, 0x07, 0x32, 0x2E, 0x30, 0x2E, 0x30, 0x2E, 0x30, 0x7C 
 };
 
 /** pack the hardware info command request
@@ -135,23 +135,22 @@ TEST(COMMAND_HD_INFO, ParseResponse)
     data.fieldArray = fields;
     data.maxFieldNum = MAX_FIELD_NUM;
 
-    EXPECT_GT(BPSParseHDInfoRsp(&data, REQ_MSG+BPS_CMD_WORD_POSITION+1, size), 0);
+    EXPECT_GT(BPSParseHDInfoRsp(&data, RSP_MSG+BPS_CMD_WORD_POSITION+1, size), 0);
     EXPECT_EQ(data.fieldNum, sizeof(FIELD_ARRAY)/sizeof(BPSCmdHDInfoField));
 
     for(size_t i = 0; i < data.fieldNum; i++) {
         BPSCmdHDInfoField * field = &(data.fieldArray[i]);
-        printf("%d, %d, %s\n", field->type, field->len, field->data);
-        // if(SN_RST_HD_INFO == field->type) {
-        //     EXPECT_EQ(field->len, FIELD_ARRAY[0].len);
-        //     EXPECT_EQ(strncmp((const char *)field->data, (const char *)FIELD_ARRAY[0].data, field->len), 0);
-        // } else if(HARD_V_RST_HD_INFO == field->type) {
-        //     EXPECT_EQ(field->len, FIELD_ARRAY[1].len);
-        //     EXPECT_EQ(strncmp((const char *)field->data, (const char *)FIELD_ARRAY[1].data, field->len), 0);
-        // } else if(SOFT_V_RST_HD_INFO == field->type) {
-        //     EXPECT_EQ(field->len, FIELD_ARRAY[2].len);
-        //     EXPECT_EQ(strncmp((const char *)field->data, (const char *)FIELD_ARRAY[2].data, field->len), 0);
-        // } else {
-        //     ASSERT_FALSE("Unknown Hardware info type");
-        // }
+        if(SN_RST_HD_INFO == field->type) {
+            EXPECT_EQ(field->len, FIELD_ARRAY[0].len);
+            EXPECT_EQ(strncmp((const char *)field->data, (const char *)FIELD_ARRAY[0].data, field->len), 0);
+        } else if(HARD_V_RST_HD_INFO == field->type) {
+            EXPECT_EQ(field->len, FIELD_ARRAY[1].len);
+            EXPECT_EQ(strncmp((const char *)field->data, (const char *)FIELD_ARRAY[1].data, field->len), 0);
+        } else if(SOFT_V_RST_HD_INFO == field->type) {
+            EXPECT_EQ(field->len, FIELD_ARRAY[2].len);
+            EXPECT_EQ(strncmp((const char *)field->data, (const char *)FIELD_ARRAY[2].data, field->len), 0);
+        } else {
+            ASSERT_FALSE("Unknown Hardware info type");
+        }
     }
 }

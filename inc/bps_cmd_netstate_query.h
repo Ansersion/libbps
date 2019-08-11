@@ -64,7 +64,7 @@ EXPORT_API BPS_UINT16 BPSPackNetstateQueryRsp(BPSCmdNetstateQueryRsp * rsp, BPS_
   * @Param size the buffer size
   * @return the number of bytes which the function handled, 0 means parsing failed/none
  */
-EXPORT_API BPS_UINT16 BPSParseNetstateQueryReq(BPSCmdNetstateQueryReq * req, BPS_UINT8 * buf, BPS_WORD size);
+EXPORT_API BPS_UINT16 BPSParseNetstateQueryReq(BPSCmdNetstateQueryReq * req, const BPS_UINT8 * buf, BPS_WORD size);
 
 /** 
   * @Brief BPSParseNetstateQueryRsp parse packet of 'query net state' response
@@ -73,7 +73,7 @@ EXPORT_API BPS_UINT16 BPSParseNetstateQueryReq(BPSCmdNetstateQueryReq * req, BPS
   * @Param size the buffer size
   * @return the number of bytes which the function handled, 0 means parsing failed/none
  */
-EXPORT_API BPS_UINT16 BPSParseNetstateQueryRsp(BPSCmdNetstateQueryRsp * rsp, BPS_UINT8 * buf, BPS_WORD size);
+EXPORT_API BPS_UINT16 BPSParseNetstateQueryRsp(BPSCmdNetstateQueryRsp * rsp, const BPS_UINT8 * buf, BPS_WORD size);
 
 #ifdef BPS_MEM_DYN
     #define ParseNetstateQueryReqDyn     ParseNetstateQueryReq

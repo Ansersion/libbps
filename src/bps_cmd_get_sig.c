@@ -127,7 +127,7 @@ BPS_UINT16 BPSPackGetSigRsp(BPSCmdGetSigRsp * rsp, BPS_UINT8 * buf, BPS_WORD siz
     return i;
 }
 
-BPS_UINT16 BPSParseGetSigReq(BPSCmdGetSigReq * req, BPS_UINT8 * buf, BPS_WORD size)
+BPS_UINT16 BPSParseGetSigReq(BPSCmdGetSigReq * req, const BPS_UINT8 * buf, BPS_WORD size)
 {
     BPS_UINT16 i = 0;
     BPS_UINT8 j;
@@ -152,7 +152,7 @@ BPS_UINT16 BPSParseGetSigReq(BPSCmdGetSigReq * req, BPS_UINT8 * buf, BPS_WORD si
     return i;
 }
 
-BPS_UINT16 BPSParseGetSigRsp(BPSCmdGetSigRsp * rsp, BPS_UINT8 * buf, BPS_WORD size)
+BPS_UINT16 BPSParseGetSigRsp(BPSCmdGetSigRsp * rsp, const BPS_UINT8 * buf, BPS_WORD size)
 {
     BPS_UINT16 i = 0;
     BPS_UINT8 field_num, j;
@@ -221,7 +221,7 @@ BPS_UINT16 BPSParseGetSigRsp(BPSCmdGetSigRsp * rsp, BPS_UINT8 * buf, BPS_WORD si
 }
 
 #ifdef BPS_MEM_DYN
-BPS_UINT16 BPSParseGetSigReqDyn(BPSCmdGetSigReq * req, BPS_UINT8 * buf, BPS_WORD size)
+BPS_UINT16 BPSParseGetSigReqDyn(BPSCmdGetSigReq * req, const BPS_UINT8 * buf, BPS_WORD size)
 {
     BPS_UINT16 i = 0;
     BPS_UINT8 j;
@@ -250,7 +250,7 @@ BPS_UINT16 BPSParseGetSigReqDyn(BPSCmdGetSigReq * req, BPS_UINT8 * buf, BPS_WORD
     return i;
 }
 
-BPS_UINT16 BPSParseGetSigRspDyn(BPSCmdGetSigRsp * rsp, BPS_UINT8 * buf, BPS_WORD size)
+BPS_UINT16 BPSParseGetSigRspDyn(BPSCmdGetSigRsp * rsp, const BPS_UINT8 * buf, BPS_WORD size)
 {
     BPS_UINT16 i = 0;
     BPS_UINT8 field_num, j;

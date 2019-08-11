@@ -47,7 +47,7 @@ BPS_UINT16 BPSPackHDInfoReq(BPSCmdHDInfoReq * req, BPS_UINT8 * buf, BPS_WORD siz
 BPS_UINT16 BPSPackHDInfoRsp(BPSCmdHDInfoRsp * rsp, BPS_UINT8 * buf, BPS_WORD size)
 {
     BPS_UINT16 i = 0;
-    BPS_WORD j;
+    BPS_UINT8 field_num, j;
     BPS_WORD tmp;
     BPSCmdHDInfoField * field_tmp;
     if(BPS_NULL == rsp || BPS_NULL == buf) {
@@ -58,29 +58,30 @@ BPS_UINT16 BPSPackHDInfoRsp(BPSCmdHDInfoRsp * rsp, BPS_UINT8 * buf, BPS_WORD siz
     }
     buf[i++] = CMD_HD_INFO_WORD_RSP;
 
-    for(j = 0; j < rsp->fieldNum; j++) {
-        field_tmp = &(rsp->fieldArray[j]);
+    if(0 == size--) {
+        return 0;
+    }
+    field_num = (BPS_UINT8)(rsp->fieldNum & 0xFF);
+    buf[i++] = field_num;
+
+    for(j = 0; j < field_num; j++) {
+        field_tmp = rsp->fieldArray + j;
         tmp = sizeof(BPS_UINT8) + sizeof(BPS_UINT8) + field_tmp->len;
         if(tmp > size) {
             return 0;
         }
         size -= tmp;
         buf[i++] = field_tmp->type;
-        if(BPS_NULL == BPS_Set1ByteField(&(buf[i]), field_tmp->data, field_tmp->len)) {
+        if(BPS_NULL == BPS_Set1ByteField(buf+i, field_tmp->data, field_tmp->len)) {
             return 0;
         }
         i += sizeof(BPS_UINT8) + field_tmp->len;
     }
 
-    if(0 == size--) {
-        return 0;
-    }
-    buf[i++] = CMD_HD_INFO_FIELD_END;
-
     return i;
 }
 
-BPS_UINT16 BPSParseHDInfoReq(BPSCmdHDInfoReq * req, BPS_UINT8 * buf, BPS_WORD size)
+BPS_UINT16 BPSParseHDInfoReq(BPSCmdHDInfoReq * req, const BPS_UINT8 * buf, BPS_WORD size)
 {
     BPS_UINT16 i = 0;
     if(BPS_NULL == req || BPS_NULL == buf) {
@@ -90,28 +91,31 @@ BPS_UINT16 BPSParseHDInfoReq(BPSCmdHDInfoReq * req, BPS_UINT8 * buf, BPS_WORD si
     return i;
 }
 
-BPS_UINT16 BPSParseHDInfoRsp(BPSCmdHDInfoRsp * rsp, BPS_UINT8 * buf, BPS_WORD size)
+BPS_UINT16 BPSParseHDInfoRsp(BPSCmdHDInfoRsp * rsp, const BPS_UINT8 * buf, BPS_WORD size)
 {
     BPS_UINT16 i = 0;
-    BPS_UINT8 type;
+    BPS_UINT8 field_num, j;
     BPSCmdHDInfoField * field_tmp;
+
     if(BPS_NULL == rsp || BPS_NULL == buf) {
         return 0;
     }
-    rsp->fieldNum = 0;
-    while(1) {
+
+    if(0 == size--) {
+        return 0;
+    }
+    field_num = buf[i++];
+    rsp->fieldNum = field_num;
+    if(field_num > rsp->maxFieldNum) {
+        return 0;
+    }
+
+    for(j = 0; j < field_num; j++) {
         if(0 == size--) {
             return 0;
         }
-        type = buf[i++];
-        if(CMD_HD_INFO_FIELD_END == type) {
-            return i;
-        }
-        if(rsp->fieldNum >= rsp->maxFieldNum) {
-            return i;
-        }
-        field_tmp = &(rsp->fieldArray[rsp->fieldNum]);
-        field_tmp->type = type;
+        field_tmp = rsp->fieldArray + j;
+        field_tmp->type = buf[i++];
 
         if(0 == size--) {
             return 0;
@@ -122,52 +126,40 @@ BPS_UINT16 BPSParseHDInfoRsp(BPSCmdHDInfoRsp * rsp, BPS_UINT8 * buf, BPS_WORD si
             return 0;
         }
         size -= field_tmp->len;
-        memcpy_bps(field_tmp->data, &(buf[i]), field_tmp->len);
+        memcpy_bps(field_tmp->data, buf+i, field_tmp->len);
         i += field_tmp->len;
-
-        rsp->fieldNum++;
     }
 
     return i;
 }
 
 #ifdef BPS_MEM_DYN
-BPS_UINT16 BPSParseHDInfoRspDyn(BPSCmdHDInfoRsp * rsp, BPS_UINT8 * buf, BPS_WORD size)
+BPS_UINT16 BPSParseHDInfoRspDyn(BPSCmdHDInfoRsp * rsp, const BPS_UINT8 * buf, BPS_WORD size)
 {
     BPS_UINT16 i = 0;
-    BPS_UINT8 type;
+    BPS_UINT8 field_num, j;
     BPSCmdHDInfoField * field_tmp;
-    const BPS_WORD field_num_step = 4;
-    BPS_WORD field_num_left;
-    BPS_WORD field_mem_step_num = 1;
+
     if(BPS_NULL == rsp || BPS_NULL == buf) {
         return 0;
     }
-    rsp->fieldArray = (BPSCmdHDInfoField *)malloc(field_mem_step_num * sizeof(BPSCmdHDInfoField) * field_num_step);
-    memset_bps(rsp->fieldArray, 0, field_mem_step_num * sizeof(BPSCmdHDInfoField) * field_num_step);
-    field_num_left = field_num_step;
-    rsp->fieldNum = 0;
-    while(1) {
+
+    rsp->fieldArray = BPS_NULL;
+    if(0 == size--) {
+        return 0;
+    }
+    field_num = buf[i++];
+    rsp->fieldNum = field_num;
+    rsp->fieldArray = (BPSCmdHDInfoField *)malloc(field_num * sizeof(BPSCmdHDInfoField));
+    memset_bps(rsp->fieldArray, 0, field_num * sizeof(BPSCmdHDInfoField));
+
+    for(j = 0; j < field_num; j++) {
         if(0 == size--) {
             BPSFreeMemHDInfoRsp(rsp);
             return 0;
         }
-        type = buf[i++];
-        if(CMD_HD_INFO_FIELD_END == type) {
-            return i;
-        }
-        if(0 == field_num_left--) {
-            field_mem_step_num++;
-            field_tmp = (BPSCmdHDInfoField *)malloc(field_mem_step_num * sizeof(BPSCmdHDInfoField) * field_num_step);
-            memset_bps(field_tmp, 0, field_mem_step_num * sizeof(BPSCmdHDInfoField) * field_num_step);
-            memcpy_bps(field_tmp, rsp->fieldArray, (field_mem_step_num - 1) * sizeof(BPSCmdHDInfoField) * field_num_step);
-            free(rsp->fieldArray);
-            rsp->fieldArray = field_tmp;
-            field_num_left = field_num_step - 1;
-        }
-
-        field_tmp = &(rsp->fieldArray[rsp->fieldNum]);
-        field_tmp->type = type;
+        field_tmp = rsp->fieldArray + j;
+        field_tmp->type = buf[i++];
 
         if(0 == size--) {
             BPSFreeMemHDInfoRsp(rsp);
@@ -180,11 +172,10 @@ BPS_UINT16 BPSParseHDInfoRspDyn(BPSCmdHDInfoRsp * rsp, BPS_UINT8 * buf, BPS_WORD
             return 0;
         }
         size -= field_tmp->len;
-        field_tmp->data = (BPS_UINT8 *)malloc(field_tmp->len);
-        memcpy_bps(field_tmp->data, &(buf[i]), field_tmp->len);
+        field_tmp->data = (BPS_UINT8 *)malloc(field_tmp->len + 1);
+        memcpy_bps(field_tmp->data, buf+i, field_tmp->len);
+        field_tmp->data[field_tmp->len] = '\0';
         i += field_tmp->len;
-
-        rsp->fieldNum++;
     }
 
     return i;
@@ -202,7 +193,9 @@ void BPSFreeMemHDInfoRsp(BPSCmdHDInfoRsp * rsp)
     }
     for(i = 0; i < rsp->fieldNum; i++) {
        field_tmp = rsp->fieldArray + i;
-       free(field_tmp->data);
+       if(BPS_NULL != field_tmp->data) {
+           free(field_tmp->data);
+       }
     }
     free(rsp->fieldArray);
     rsp->fieldArray = BPS_NULL;

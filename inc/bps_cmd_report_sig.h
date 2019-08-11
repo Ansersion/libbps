@@ -74,7 +74,7 @@ EXPORT_API BPS_UINT16 BPSPackReportSigRsp(BPSCmdReportSigRsp * rsp, BPS_UINT8 * 
   * @Param size the buffer size
   * @return the number of bytes which the function handled, 0 means parsing failed/none
  */
-EXPORT_API BPS_UINT16 BPSParseReportSigReq(BPSCmdReportSigReq * req, BPS_UINT8 * buf, BPS_WORD size);
+EXPORT_API BPS_UINT16 BPSParseReportSigReq(BPSCmdReportSigReq * req, const BPS_UINT8 * buf, BPS_WORD size);
 
 /** 
   * @Brief BPSParseReportSigRsp parse packet of 'report signal values' response
@@ -85,7 +85,7 @@ EXPORT_API BPS_UINT16 BPSParseReportSigReq(BPSCmdReportSigReq * req, BPS_UINT8 *
   * @Param size the buffer size
   * @return the number of bytes which the function handled, 0 means parsing failed/none
  */
-EXPORT_API BPS_UINT16 BPSParseReportSigRsp(BPSCmdReportSigRsp * rsp, BPS_UINT8 * buf, BPS_WORD size);
+EXPORT_API BPS_UINT16 BPSParseReportSigRsp(BPSCmdReportSigRsp * rsp, const BPS_UINT8 * buf, BPS_WORD size);
 
 #ifdef BPS_MEM_DYN
 /** 
@@ -98,7 +98,7 @@ EXPORT_API BPS_UINT16 BPSParseReportSigRsp(BPSCmdReportSigRsp * rsp, BPS_UINT8 *
   * @return the number of bytes which the function handled, 0 means parsing failed/none
  */
 
-BPS_UINT16 BPSParseReportSigReqDyn(BPSCmdReportSigReq * req, BPS_UINT8 * buf, BPS_WORD size);
+BPS_UINT16 BPSParseReportSigReqDyn(BPSCmdReportSigReq * req, const BPS_UINT8 * buf, BPS_WORD size);
 /** 
   * @Brief BPSParseReportSigRsp parse packet of 'report signal values' response
   * @Param rsp the response data struct to store the message.
@@ -109,7 +109,7 @@ BPS_UINT16 BPSParseReportSigReqDyn(BPSCmdReportSigReq * req, BPS_UINT8 * buf, BP
   * @return the number of bytes which the function handled, 0 means parsing failed/none
   *         rsp 
  */
-EXPORT_API BPS_UINT16 BPSParseReportSigRspDyn(BPSCmdReportSigRsp * rsp, BPS_UINT8 * buf, BPS_WORD size);
+EXPORT_API BPS_UINT16 BPSParseReportSigRspDyn(BPSCmdReportSigRsp * rsp, const BPS_UINT8 * buf, BPS_WORD size);
 
 /** 
   * @Brief BPSParseReportSigRsp parse packet of 'report signal values' response

@@ -62,7 +62,7 @@ BPS_UINT16 BPSPackOpenNetsetRsp(BPSCmdOpenNetsetRsp * rsp, BPS_UINT8 * buf, BPS_
     return i;
 }
 
-BPS_UINT16 BPSParseOpenNetsetReq(BPSCmdOpenNetsetReq * req, BPS_UINT8 * buf, BPS_WORD size)
+BPS_UINT16 BPSParseOpenNetsetReq(BPSCmdOpenNetsetReq * req, const BPS_UINT8 * buf, BPS_WORD size)
 {
     BPS_UINT16 i = 0;
     if(BPS_NULL == req || BPS_NULL == buf) {
@@ -77,7 +77,7 @@ BPS_UINT16 BPSParseOpenNetsetReq(BPSCmdOpenNetsetReq * req, BPS_UINT8 * buf, BPS
     return i;
 }
 
-BPS_UINT16 BPSParseOpenNetsetRsp(BPSCmdOpenNetsetRsp * rsp, BPS_UINT8 * buf, BPS_WORD size)
+BPS_UINT16 BPSParseOpenNetsetRsp(BPSCmdOpenNetsetRsp * rsp, const BPS_UINT8 * buf, BPS_WORD size)
 {
     BPS_UINT16 i = 0;
     if(BPS_NULL == rsp || BPS_NULL == buf) {

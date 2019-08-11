@@ -110,7 +110,7 @@ BPS_UINT16 BPSPackReportSigRsp(BPSCmdReportSigRsp * rsp, BPS_UINT8 * buf, BPS_WO
     return i;
 }
 
-BPS_UINT16 BPSParseReportSigReq(BPSCmdReportSigReq * req, BPS_UINT8 * buf, BPS_WORD size)
+BPS_UINT16 BPSParseReportSigReq(BPSCmdReportSigReq * req, const BPS_UINT8 * buf, BPS_WORD size)
 {
     BPS_UINT16 i = 0;
     BPS_UINT8 field_num, j;
@@ -162,7 +162,7 @@ BPS_UINT16 BPSParseReportSigReq(BPSCmdReportSigReq * req, BPS_UINT8 * buf, BPS_W
     return i;
 }
 
-BPS_UINT16 BPSParseReportSigRsp(BPSCmdReportSigRsp * rsp, BPS_UINT8 * buf, BPS_WORD size)
+BPS_UINT16 BPSParseReportSigRsp(BPSCmdReportSigRsp * rsp, const BPS_UINT8 * buf, BPS_WORD size)
 {
     BPS_UINT16 i = 0;
     if(BPS_NULL == rsp || BPS_NULL == buf) {
@@ -190,7 +190,7 @@ BPS_UINT16 BPSParseReportSigRsp(BPSCmdReportSigRsp * rsp, BPS_UINT8 * buf, BPS_W
 }
 
 #ifdef BPS_MEM_DYN
-BPS_UINT16 BPSParseReportSigReqDyn(BPSCmdReportSigReq * req, BPS_UINT8 * buf, BPS_WORD size)
+BPS_UINT16 BPSParseReportSigReqDyn(BPSCmdReportSigReq * req, const BPS_UINT8 * buf, BPS_WORD size)
 {
     BPS_UINT16 i = 0;
     BPS_UINT8 field_num, j;
@@ -248,7 +248,7 @@ BPS_UINT16 BPSParseReportSigReqDyn(BPSCmdReportSigReq * req, BPS_UINT8 * buf, BP
     return i;
 }
 
-BPS_UINT16 BPSParseReportSigRspDyn(BPSCmdReportSigRsp * rsp, BPS_UINT8 * buf, BPS_WORD size)
+BPS_UINT16 BPSParseReportSigRspDyn(BPSCmdReportSigRsp * rsp, const BPS_UINT8 * buf, BPS_WORD size)
 {
     BPS_UINT16 i = 0;
     if(BPS_NULL == rsp || BPS_NULL == buf) {

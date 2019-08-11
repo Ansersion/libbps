@@ -90,7 +90,7 @@ BPS_UINT16 BPSPackGetSigtabRsp(BPSCmdGetSigtabRsp * rsp, BPS_UINT8 * buf, BPS_WO
     return i;
 }
 
-BPS_UINT16 BPSParseGetSigtabReq(BPSCmdGetSigtabReq * req, BPS_UINT8 * buf, BPS_WORD size)
+BPS_UINT16 BPSParseGetSigtabReq(BPSCmdGetSigtabReq * req, const BPS_UINT8 * buf, BPS_WORD size)
 {
     BPS_UINT16 i = 0;
     if(BPS_NULL == req || BPS_NULL == buf) {
@@ -100,7 +100,7 @@ BPS_UINT16 BPSParseGetSigtabReq(BPSCmdGetSigtabReq * req, BPS_UINT8 * buf, BPS_W
     return i;
 }
 
-BPS_UINT16 BPSParseGetSigtabRsp(BPSCmdGetSigtabRsp * rsp, BPS_UINT8 * buf, BPS_WORD size)
+BPS_UINT16 BPSParseGetSigtabRsp(BPSCmdGetSigtabRsp * rsp, const BPS_UINT8 * buf, BPS_WORD size)
 {
     BPS_UINT16 i = 0, j;
     BPS_UINT16 tmpU16;
@@ -146,7 +146,7 @@ BPS_UINT16 BPSParseGetSigtabRsp(BPSCmdGetSigtabRsp * rsp, BPS_UINT8 * buf, BPS_W
 }
 
 #ifdef BPS_MEM_DYN
-BPS_UINT16 BPSParseGetSigtabRspDyn(BPSCmdGetSigtabRsp * rsp, BPS_UINT8 * buf, BPS_WORD size)
+BPS_UINT16 BPSParseGetSigtabRspDyn(BPSCmdGetSigtabRsp * rsp, const BPS_UINT8 * buf, BPS_WORD size)
 {
     BPS_UINT16 i = 0, j;
     BPS_UINT16 tmpU16;

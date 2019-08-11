@@ -52,7 +52,7 @@ BPS_UINT16 BPSPackCommTestRsp(BPSCmdCommTestRsp * rsp, BPS_UINT8 * buf, BPS_WORD
     return i;
 }
 
-BPS_UINT16 BPSParseCommTestReq(BPSCmdCommTestReq * req, BPS_UINT8 * buf, BPS_WORD size)
+BPS_UINT16 BPSParseCommTestReq(BPSCmdCommTestReq * req, const BPS_UINT8 * buf, BPS_WORD size)
 {
     BPS_UINT16 i = 0;
     if(BPS_NULL == req || BPS_NULL == buf) {
@@ -61,7 +61,7 @@ BPS_UINT16 BPSParseCommTestReq(BPSCmdCommTestReq * req, BPS_UINT8 * buf, BPS_WOR
     return i;
 }
 
-BPS_UINT16 BPSParseCommTestRsp(BPSCmdCommTestRsp * rsp, BPS_UINT8 * buf, BPS_WORD size)
+BPS_UINT16 BPSParseCommTestRsp(BPSCmdCommTestRsp * rsp, const BPS_UINT8 * buf, BPS_WORD size)
 {
     BPS_UINT16 i = 0;
     if(BPS_NULL == rsp || BPS_NULL == buf) {

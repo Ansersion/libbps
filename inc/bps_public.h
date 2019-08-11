@@ -98,7 +98,7 @@ EXPORT_API BPS_WORD BPS_GetSigValueLen(BPSSigType type, BPSSigTypeU value);
 /* except BPS_SIG_TYPE_STR */
 EXPORT_API BPS_WORD BPS_GetSigValueLen2(BPSSigType type);
 EXPORT_API BPS_UINT8 * BPS_SetSigValue(BPS_UINT8 * pack, BPSSigType type, BPSSigTypeU value);
-EXPORT_API const BPS_UINT8 * BPS_GetSigValue(BPS_UINT8 * pack, BPSSigType type, BPSSigTypeU * value, BPS_WORD len);
+EXPORT_API const BPS_UINT8 * BPS_GetSigValue(const BPS_UINT8 * pack, BPSSigType type, BPSSigTypeU * value, BPS_WORD len);
 
 /** 
   * @Brief IsBPSHeader2 check b1==0xBB and b2==0xCC

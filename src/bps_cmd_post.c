@@ -110,7 +110,7 @@ BPS_UINT16 BPSPackPostRsp(BPSCmdPostRsp * rsp, BPS_UINT8 * buf, BPS_WORD size)
     return i;
 }
 
-BPS_UINT16 BPSParsePostReq(BPSCmdPostReq * req, BPS_UINT8 * buf, BPS_WORD size)
+BPS_UINT16 BPSParsePostReq(BPSCmdPostReq * req, const BPS_UINT8 * buf, BPS_WORD size)
 {
     BPS_UINT16 i = 0;
     BPS_UINT8 field_num, j;
@@ -163,7 +163,7 @@ BPS_UINT16 BPSParsePostReq(BPSCmdPostReq * req, BPS_UINT8 * buf, BPS_WORD size)
     return i;
 }
 
-BPS_UINT16 BPSParsePostRsp(BPSCmdPostRsp * rsp, BPS_UINT8 * buf, BPS_WORD size)
+BPS_UINT16 BPSParsePostRsp(BPSCmdPostRsp * rsp, const BPS_UINT8 * buf, BPS_WORD size)
 {
     BPS_UINT16 i = 0;
     if(BPS_NULL == rsp || BPS_NULL == buf) {
@@ -191,7 +191,7 @@ BPS_UINT16 BPSParsePostRsp(BPSCmdPostRsp * rsp, BPS_UINT8 * buf, BPS_WORD size)
 }
 
 #ifdef BPS_MEM_DYN
-BPS_UINT16 BPSParsePostReqDyn(BPSCmdPostReq * req, BPS_UINT8 * buf, BPS_WORD size)
+BPS_UINT16 BPSParsePostReqDyn(BPSCmdPostReq * req, const BPS_UINT8 * buf, BPS_WORD size)
 {
     BPS_UINT16 i = 0;
     BPS_UINT8 field_num, j;
@@ -249,7 +249,7 @@ BPS_UINT16 BPSParsePostReqDyn(BPSCmdPostReq * req, BPS_UINT8 * buf, BPS_WORD siz
     return i;
 }
 
-BPS_UINT16 BPSParsePostRspDyn(BPSCmdPostRsp * rsp, BPS_UINT8 * buf, BPS_WORD size)
+BPS_UINT16 BPSParsePostRspDyn(BPSCmdPostRsp * rsp, const BPS_UINT8 * buf, BPS_WORD size)
 {
     BPS_UINT16 i = 0;
     if(BPS_NULL == rsp || BPS_NULL == buf) {

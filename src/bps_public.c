@@ -279,7 +279,7 @@ BPS_UINT8 * BPS_SetSigValue(BPS_UINT8 * pack, BPSSigType type, BPSSigTypeU value
 	return p_pack;
 }
 
-const BPS_UINT8 * BPS_GetSigValue(BPS_UINT8 * pack, BPSSigType type, BPSSigTypeU * value, BPS_WORD len)
+const BPS_UINT8 * BPS_GetSigValue(const BPS_UINT8 * pack, BPSSigType type, BPSSigTypeU * value, BPS_WORD len)
 {
 	const BPS_UINT8 * p_pack = pack;
 	if(BPS_NULL == pack || BPS_NULL == value) {
