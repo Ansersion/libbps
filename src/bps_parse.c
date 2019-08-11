@@ -37,7 +37,7 @@
 
 BPSPacketData * BPSParseNoCheck(BPS_UINT8 * buf, BPSPacketData * pd)
 {
-    BPS_UINT8 * buf_tmp;
+    const BPS_UINT8 * buf_tmp;
     BPS_UINT16 rmn_len = 0;
     BPS_UINT16 parse_ret = 0;
 

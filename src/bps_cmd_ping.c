@@ -40,12 +40,14 @@ BPS_UINT16 BPSPackPingReq(BPSCmdPingReq * req, BPS_UINT8 * buf, BPS_WORD size)
     }
     buf[i++] = req->type;
 
-    if(size < sizeof(BPS_UINT16)) {
-        return 0;
+    if(SET_RT_PING == req->type) {
+        if(size < sizeof(BPS_UINT16)) {
+            return 0;
+        }
+        size -= sizeof(BPS_UINT16);
+        buf = BPS_SetBig16(&(buf[i]), req->interval);
+        i += sizeof(BPS_UINT16);
     }
-    size -= sizeof(BPS_UINT16);
-    buf = BPS_SetBig16(&(buf[i]), req->interval);
-    i += sizeof(BPS_UINT16);
 
     return i;
 }
@@ -71,7 +73,7 @@ BPS_UINT16 BPSPackPingRsp(BPSCmdPingRsp * rsp, BPS_UINT8 * buf, BPS_WORD size)
     return i;
 }
 
-BPS_UINT16 BPSParsePingReq(BPSCmdPingReq * req, BPS_UINT8 * buf, BPS_WORD size)
+BPS_UINT16 BPSParsePingReq(BPSCmdPingReq * req, const BPS_UINT8 * buf, BPS_WORD size)
 {
     BPS_UINT16 i = 0;
     if(BPS_NULL == req || BPS_NULL == buf) {
@@ -95,7 +97,7 @@ BPS_UINT16 BPSParsePingReq(BPSCmdPingReq * req, BPS_UINT8 * buf, BPS_WORD size)
     return i;
 }
 
-BPS_UINT16 BPSParsePingRsp(BPSCmdPingRsp * rsp, BPS_UINT8 * buf, BPS_WORD size)
+BPS_UINT16 BPSParsePingRsp(BPSCmdPingRsp * rsp, const BPS_UINT8 * buf, BPS_WORD size)
 {
     BPS_UINT16 i = 0;
     if(BPS_NULL == rsp || BPS_NULL == buf) {

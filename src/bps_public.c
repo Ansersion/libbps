@@ -97,7 +97,7 @@ BPS_UINT8 * BPS_Set1ByteField(BPS_UINT8 * pack, const BPS_UINT8 * field, BPS_UIN
 	return p_pack+field_len;
 }
 
-BPS_UINT8 * BPS_GetNet16(BPS_UINT8 * src, BPS_UINT16 * val)
+const BPS_UINT8 * BPS_GetNet16(const BPS_UINT8 * src, BPS_UINT16 * val)
 {
 	if(BPS_NULL == src) {
 		return BPS_NULL;
@@ -111,7 +111,7 @@ BPS_UINT8 * BPS_GetNet16(BPS_UINT8 * src, BPS_UINT16 * val)
 	return src;
 }
 
-BPS_UINT8 * BPS_GetNet32(BPS_UINT8 * src, BPS_UINT32 * val)
+const BPS_UINT8 * BPS_GetNet32(const BPS_UINT8 * src, BPS_UINT32 * val)
 {
 	if(BPS_NULL == src) {
 		return BPS_NULL;
@@ -128,9 +128,9 @@ BPS_UINT8 * BPS_GetNet32(BPS_UINT8 * src, BPS_UINT32 * val)
 
 }
 
-BPS_UINT8 * BPS_Get2ByteField(BPS_UINT8 * pack, BPS_UINT8 * field_buf, BPS_UINT16 * field_len)
+const BPS_UINT8 * BPS_Get2ByteField(BPS_UINT8 * pack, BPS_UINT8 * field_buf, BPS_UINT16 * field_len)
 {
-	BPS_UINT8 * p_pack = pack;
+	const BPS_UINT8 * p_pack = pack;
 	if(BPS_NULL == pack) {
 		return BPS_NULL;
 	}
@@ -279,9 +279,9 @@ BPS_UINT8 * BPS_SetSigValue(BPS_UINT8 * pack, BPSSigType type, BPSSigTypeU value
 	return p_pack;
 }
 
-BPS_UINT8 * BPS_GetSigValue(BPS_UINT8 * pack, BPSSigType type, BPSSigTypeU * value, BPS_WORD len)
+const BPS_UINT8 * BPS_GetSigValue(BPS_UINT8 * pack, BPSSigType type, BPSSigTypeU * value, BPS_WORD len)
 {
-	BPS_UINT8 * p_pack = pack;
+	const BPS_UINT8 * p_pack = pack;
 	if(BPS_NULL == pack || BPS_NULL == value) {
 		return BPS_NULL;
 	}

@@ -120,7 +120,7 @@ BPS_UINT16 BPSParseGetSigtabRsp(BPSCmdGetSigtabRsp * rsp, BPS_UINT8 * buf, BPS_W
         return 0;
     }
 
-    for(j = 0; j < tmpU16; j++) {
+    for(j = 0; j < rsp->fieldNum; j++) {
         field_tmp = rsp->fieldArray + j;
 
         if(sizeof(BPS_UINT16) > size) {

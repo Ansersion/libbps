@@ -25,7 +25,7 @@ USER_DIR = ..
 CPPFLAGS += -isystem $(GTEST_DIR)/include
 
 # Flags passed to the C++ compiler.
-CXXFLAGS += -g -Wall -Wextra -pthread
+CXXFLAGS += -g -Wall -Wextra -pthread -I$(GTEST_DIR)/include
 
 # All tests produced by this Makefile.  Remember to add new tests you
 # created to the list.
@@ -44,7 +44,7 @@ LIBS :=
 INCLUDE_DIR :=
 
 MACRO   :=
-MACRO   := -DBP_CPU64
+MACRO   := -DBPS_CPU64
 
 CXXFLAGS += $(MACRO)
 
@@ -58,7 +58,7 @@ LIBS += -lpthread
 LIBS += gtest_main.a
 LIBS += $(USER_DIR)/libbps.a
 
-INCLUDE_DIR += -I$(USER_DIR)/inc
+INCLUDE_DIR += -I$(USER_DIR)/inc 
 
 CXXFLAGS += $(INCLUDE_DIR)
 

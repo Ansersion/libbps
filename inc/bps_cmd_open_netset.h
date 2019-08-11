@@ -31,6 +31,11 @@
 #define CMD_OPEN_NETSET_WORD_REQ  0x06
 #define CMD_OPEN_NETSET_WORD_RSP  0x07
 
+typedef enum ReqTypeOpenNetset {
+    TURN_OFF_OPEN_NETSET = 0,
+    TURN_ON_OPEN_NETSET,
+} ReqTypeOpenNetset;
+
 typedef struct BPSCmdOpenNetsetReq {
     BPS_UINT8 type;
 } BPSCmdOpenNetsetReq;

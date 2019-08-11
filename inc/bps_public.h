@@ -42,7 +42,9 @@
 #define BPS_REMAIN_LEN_SIZE 	2
 #define BPS_REMAIN_LEN_POSITION 	(BPS_ADDR_POSITION + BPS_ADDR_SIZE)
 
+
 #define BPS_CMD_WORD_SIZE 	1
+#define BPS_CMD_WORD_POSITION 	    (BPS_REMAIN_LEN_POSITION + BPS_REMAIN_LEN_SIZE)
 
 #define BPS_CHECKSUM_SIZE 	1
 
@@ -88,15 +90,15 @@ EXPORT_API BPS_UINT8 * BPS_SetNBytes(BPS_UINT8 * dst, BPS_UINT8 * src, BPS_WORD 
 EXPORT_API BPS_UINT8 * BPS_Set2ByteField(BPS_UINT8 * pack, BPS_UINT8 * field, BPS_UINT16 field_len);
 EXPORT_API BPS_UINT8 * BPS_Set1ByteField(BPS_UINT8 * pack, const BPS_UINT8 * field, BPS_UINT8 field_len);
 
-EXPORT_API BPS_UINT8 * BPS_GetNet16(BPS_UINT8 * src, BPS_UINT16 * val);
-EXPORT_API BPS_UINT8 * BPS_GetNet32(BPS_UINT8 * src, BPS_UINT32 * val);
+EXPORT_API const BPS_UINT8 * BPS_GetNet16(const BPS_UINT8 * src, BPS_UINT16 * val);
+EXPORT_API const BPS_UINT8 * BPS_GetNet32(const BPS_UINT8 * src, BPS_UINT32 * val);
 
-EXPORT_API BPS_UINT8 * BPS_Get2ByteField(BPS_UINT8 * pack, BPS_UINT8 * field_buf, BPS_UINT16 * field_len);
+EXPORT_API const BPS_UINT8 * BPS_Get2ByteField(BPS_UINT8 * pack, BPS_UINT8 * field_buf, BPS_UINT16 * field_len);
 EXPORT_API BPS_WORD BPS_GetSigValueLen(BPSSigType type, BPSSigTypeU value);
 /* except BPS_SIG_TYPE_STR */
 EXPORT_API BPS_WORD BPS_GetSigValueLen2(BPSSigType type);
 EXPORT_API BPS_UINT8 * BPS_SetSigValue(BPS_UINT8 * pack, BPSSigType type, BPSSigTypeU value);
-EXPORT_API BPS_UINT8 * BPS_GetSigValue(BPS_UINT8 * pack, BPSSigType type, BPSSigTypeU * value, BPS_WORD len);
+EXPORT_API const BPS_UINT8 * BPS_GetSigValue(BPS_UINT8 * pack, BPSSigType type, BPSSigTypeU * value, BPS_WORD len);
 
 /** 
   * @Brief IsBPSHeader2 check b1==0xBB and b2==0xCC
