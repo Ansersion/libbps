@@ -13,8 +13,8 @@
 /// See the License for the specific language governing permissions and
 /// limitations under the License.
 ///
-/// @file   bps_sig_ret_code.h
-/// @brief  macros of signal return codes
+/// @file   bps_ret_code.h
+/// @brief  macros of return codes
 /// 
 /// @version    0.1
 /// @author     Ansersion
@@ -22,10 +22,12 @@
 /// 
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef __BPS_SIG_RET_CODE_H
-#define __BPS_SIG_RET_CODE_H
+#ifndef __BPS_RET_CODE_H
+#define __BPS_RET_CODE_H
 
 #define BPS_RET_CODE_OK                         0x00
+#define BPS_RET_CODE_CMD_TYPE_INVALID           0x01
+#define BPS_RET_CODE_CMD_PARA_INVALID           0x02
 #define BPS_RET_CODE_SIG_ID_INVALID             0x03
 #define	BPS_RET_CODE_SIG_VAL_INVALID            0x04
 

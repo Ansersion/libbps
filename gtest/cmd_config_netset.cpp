@@ -25,7 +25,7 @@
 extern "C" 
 {
 #include <config.h>
-#include <bps_sig_ret_code.h>
+#include <bps_ret_code.h>
 #include <bps_public.h>
 #include <bps_cmd_config_netset.h>
 #include <bps_comm_type.h>

@@ -23,7 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include <bps_public.h>
-#include <bps_sig_ret_code.h>
+#include <bps_ret_code.h>
 #include <bps_cmd_get_sig.h>
 #include <bps_memcpy.h>
 #include <bps_memset.h>
