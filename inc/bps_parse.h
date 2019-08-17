@@ -36,6 +36,7 @@
 #include <bps_cmd_report_sig.h>
 #include <bps_cmd_post.h>
 #include <bps_cmd_get_sig.h>
+#include <bps_cmd_system_para.h>
 
 typedef union BPSCmdPacketUnion {
     BPSCmdCommTestReq           commTestReq;
@@ -58,6 +59,8 @@ typedef union BPSCmdPacketUnion {
     BPSCmdPostRsp               postRsp;
     BPSCmdGetSigReq             getSigReq;
     BPSCmdGetSigRsp             getSigRsp;
+    BPSCmdSystemParaReq         sysParaReq;
+    BPSCmdSystemParaRsp         sysParaRsp;
 } BPSCmdPacketUnion;
 
 typedef struct BPSPacketData {

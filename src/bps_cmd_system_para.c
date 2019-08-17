@@ -137,7 +137,7 @@ BPS_UINT16 BPSParseSystemParaReq(BPSCmdSystemParaReq * req, const BPS_UINT8 * bu
     }
     req->paraType = buf[i++];
 
-    if(WRITE_SYS_PARA == req->paraType) {
+    if(WRITE_SYS_PARA == req->configType) {
         if(0 == size--) {
             return 0;
         }

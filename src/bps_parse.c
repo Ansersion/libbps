@@ -150,6 +150,14 @@ BPSPacketData * BPSParseNoCheck(BPS_UINT8 * buf, BPSPacketData * pd)
             /* parse the command get signal values response, */
             parse_ret = BPSParseGetSigRsp(&(pd->pu.getSigRsp), buf_tmp, rmn_len);
             break;
+        case CMD_SYSTEM_PARA_WORD_REQ:
+            /* parse the command configure system parameter request, */
+            parse_ret = BPSParseSystemParaReq(&(pd->pu.sysParaReq), buf_tmp, rmn_len);
+            break;
+        case CMD_SYSTEM_PARA_WORD_RSP:
+            /* parse the command configure system parameter response, */
+            parse_ret = BPSParseSystemParaRsp(&(pd->pu.sysParaRsp), buf_tmp, rmn_len);
+            break;
         default:
             /* unknown command word */
             parse_ret = 0;

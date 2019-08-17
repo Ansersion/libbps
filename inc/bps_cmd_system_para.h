@@ -34,6 +34,7 @@
 typedef enum ConfigTypeSystemPara {
     READ_SYS_PARA=0,
     WRITE_SYS_PARA,
+    NUM_SYS_PARA,
 } ConfigTypeSystemPara;
 
 typedef enum ParaTypeSystemPara {
