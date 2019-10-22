@@ -25,7 +25,7 @@
 #ifndef __BPS_MEMCPY_H
 #define __BPS_MEMCPY_H
 
-#include <config.h>
+#include <bps_config.h>
 
 #ifndef BPS_USE_STD
 /** memory copy function

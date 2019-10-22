@@ -22,8 +22,8 @@
 /// 
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef __CONFIG_H
-#define __CONFIG_H
+#ifndef __BPS_CONFIG_H
+#define __BPS_CONFIG_H
 
 
 #define BPS_NULL 	0
@@ -47,45 +47,45 @@
  */
 
 #ifdef BPS_CPU64
-	#define BPS_UINT8 	unsigned char
-	#define BPS_INT8 	char
-	#define BPS_UINT16 	unsigned short
-	#define BPS_INT16 	short
-	#define BPS_UINT32 	unsigned int
-	#define BPS_INT32 	int
-	#define BPS_UINT64 	unsigned long long
-	#define BPS_INT64 	long long
-	#define BPS_FLOAT 	float
-	#define BPS_WORD 	BPS_UINT64
+	typedef unsigned char BPS_UINT8;
+	typedef char BPS_INT8;
+	typedef unsigned short BPS_UINT16;
+	typedef short BPS_INT16;
+	typedef unsigned int BPS_UINT32;
+	typedef int BPS_INT32;
+	typedef unsigned long long BPS_UINT64;
+	typedef long long BPS_INT64;
+	typedef float BPS_FLOAT;
+	typedef BPS_UINT64 BPS_WORD;
 #elif defined BPS_CPU32
-	#define BPS_UINT8 	unsigned char
-	#define BPS_INT8 	char
-	#define BPS_UINT16 	unsigned short
-	#define BPS_INT16 	short
-	#define BPS_UINT32 	unsigned int
-	#define BPS_INT32 	int
-	#define BPS_FLOAT 	float
-	#define BPS_WORD 	BPS_UINT32
+	typedef unsigned char BPS_UINT8;
+	typedef char BPS_INT8;
+	typedef unsigned short BPS_UINT16;
+	typedef short BPS_INT16;
+	typedef unsigned int BPS_UINT32;
+	typedef int BPS_INT32;
+	typedef float BPS_FLOAT;
+	typedef BPS_UINT32 BPS_WORD;
 
 #elif defined BPS_CPU16
-	#define BPS_UINT8 	unsigned char
-	#define BPS_INT8 	char
-	#define BPS_UINT16 	unsigned short
-	#define BPS_INT16 	short
-	#define BPS_UINT32 	unsigned long
-	#define BPS_INT32 	long
-	#define BPS_FLOAT 	float
-	#define BPS_WORD 	BPS_UINT16
+	typedef unsigned char BPS_UINT8;
+	typedef char BPS_INT8;
+	typedef unsigned short BPS_UINT16;
+	typedef short BPS_INT16;
+	typedef unsigned long BPS_UINT32;
+	typedef long BPS_INT32;
+	typedef float BPS_FLOAT;
+	typedef BPS_UINT16 BPS_WORD;
 
 #elif defined BPS_CPU8
-	#define BPS_UINT8 	unsigned char
-	#define BPS_INT8 	char
-	#define BPS_UINT16 	unsigned short
-	#define BPS_INT16 	short
-	#define BPS_UINT32 	unsigned long
-	#define BPS_INT32 	long
-	#define BPS_FLOAT 	float
-	#define BPS_WORD 	BPS_UINT8
+	typedef unsigned char BPS_UINT8;
+	typedef char BPS_INT8;
+	typedef unsigned short BPS_UINT16;
+	typedef short BPS_INT16;
+	typedef unsigned long BPS_UINT32;
+	typedef long BPS_INT32;
+	typedef float BPS_FLOAT;
+	typedef BPS_UINT8 BPS_WORD;
 
 #else
 #error Please define your cpu macro first: BPS_CPU64/BPS_CPU32/BPS_CPU16/BPS_CPU8

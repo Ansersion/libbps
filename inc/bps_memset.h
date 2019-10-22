@@ -25,7 +25,7 @@
 #ifndef __BPS_MEMSET_H
 #define __BPS_MEMSET_H
 
-#include <config.h>
+#include <bps_config.h>
 
 #ifndef BPS_USE_STD
 void * memset_bps(void * s, BPS_UINT8 c, BPS_WORD n);

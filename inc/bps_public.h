@@ -25,7 +25,7 @@
 #ifndef __BPS_PUBLIC_H
 #define __BPS_PUBLIC_H
 
-#include <config.h>
+#include <bps_config.h>
 
 #define BPS_HEADER 		0xBBCC
 #define BPS_HEADER_SIZE 		2

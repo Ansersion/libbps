@@ -25,7 +25,7 @@
 #ifndef __BPS_STRLEN_H
 #define __BPS_STRLEN_H
 
-#include <config.h>
+#include <bps_config.h>
 
 #ifndef BPS_USE_STD
 /** string length function
