@@ -56,6 +56,44 @@
 
 #define BPS_MAX_STRING_LEN  255
 
+/**
+  * @Brief BPS_ASSERT_SIZE check whether the message size is OK, only used in 
+           'bps_cmd_xxx.c' to check message size
+  * @Param SIZE the buffer size left
+  * @Param MSG_LEN the message length which needs to be equal/lower than parameter 'SIZE'
+  */
+#define BPS_ASSERT_SIZE(SIZE, MSG_LEN) { \
+    if(SIZE < MSG_LEN) {   \
+        return 0;   \
+    }   \
+    SIZE -= MSG_LEN; \
+}
+
+/**
+  * @Brief BPS_ASSERT_SIZE_TYPE check whether the message size is OK, only used in 
+           'bps_cmd_xxx.c' to check message size
+  * @Param SIZE the buffer size left
+  * @Param TYPE the variable type whose size needs to be equal/lower than parameter 'SIZE'
+  */
+#define BPS_ASSERT_SIZE_TYPE(SIZE, TYPE) { \
+    if(SIZE < sizeof(TYPE)) {   \
+        return 0;   \
+    }   \
+    SIZE -= sizeof(TYPE); \
+}
+
+/**
+  * @Brief BPS_ASSERT_SIZE_UINT8 is same as BPS_ASSERT_SIZE_TYPE(SIZE, BPS_UINT8), but it's
+  *        more effective, only used in 'bps_cmd_xxx.c' to check message size
+  * @Param SIZE the buffer size left
+  */
+#define BPS_ASSERT_SIZE_UINT8(SIZE) { \
+    if(0 == SIZE--) { \
+        return 0; \
+    } \
+}
+
+
 typedef enum BPSSigType {
 	BPS_SIG_TYPE_U32 = 0, 
 	BPS_SIG_TYPE_U16,

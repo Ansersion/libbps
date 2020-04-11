@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////////
-/// Copyright 2019 Ansersion
+/// Copyright 2019-2020 Ansersion
 /// 
 /// Licensed under the Apache License, Version 2.0 (the "License");
 /// you may not use this file except in compliance with the License.
@@ -122,6 +122,9 @@ BPS_UINT16 BPSParseHDInfoRsp(BPSCmdHDInfoRsp * rsp, const BPS_UINT8 * buf, BPS_W
         }
         field_tmp->len = buf[i++];
 
+        if(field_tmp->maxLen < field_tmp->len) {
+            return 0;
+        }
         if(field_tmp->len > size) {
             return 0;
         }
@@ -150,7 +153,7 @@ BPS_UINT16 BPSParseHDInfoRspDyn(BPSCmdHDInfoRsp * rsp, const BPS_UINT8 * buf, BP
     }
     field_num = buf[i++];
     rsp->fieldNum = field_num;
-    rsp->fieldArray = (BPSCmdHDInfoField *)malloc(field_num * sizeof(BPSCmdHDInfoField));
+    rsp->fieldArray = (BPSCmdHDInfoField *)malloc_bps(field_num * sizeof(BPSCmdHDInfoField));
     memset_bps(rsp->fieldArray, 0, field_num * sizeof(BPSCmdHDInfoField));
 
     for(j = 0; j < field_num; j++) {
@@ -172,7 +175,7 @@ BPS_UINT16 BPSParseHDInfoRspDyn(BPSCmdHDInfoRsp * rsp, const BPS_UINT8 * buf, BP
             return 0;
         }
         size -= field_tmp->len;
-        field_tmp->data = (BPS_UINT8 *)malloc(field_tmp->len + 1);
+        field_tmp->data = (BPS_UINT8 *)malloc_bps(field_tmp->len + 1);
         memcpy_bps(field_tmp->data, buf+i, field_tmp->len);
         field_tmp->data[field_tmp->len] = '\0';
         i += field_tmp->len;
@@ -194,10 +197,10 @@ void BPSFreeMemHDInfoRsp(BPSCmdHDInfoRsp * rsp)
     for(i = 0; i < rsp->fieldNum; i++) {
        field_tmp = rsp->fieldArray + i;
        if(BPS_NULL != field_tmp->data) {
-           free(field_tmp->data);
+           free_bps(field_tmp->data);
        }
     }
-    free(rsp->fieldArray);
+    free_bps(rsp->fieldArray);
     rsp->fieldArray = BPS_NULL;
 }
 #endif

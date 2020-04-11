@@ -13,8 +13,8 @@
 /// See the License for the specific language governing permissions and
 /// limitations under the License.
 ///
-/// @file   bps_cmd_system_para.h
-/// @brief  definations of functions and variable types for command 'configure system parameters'
+/// @file   bps_cmd_trans_bytes.h
+/// @brief  definations of functions and variable types for command 'transmit bytes'
 /// 
 /// @version    0.1
 /// @author     Ansersion
@@ -22,84 +22,85 @@
 /// 
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef __BPS_CMD_SYSTEM_PARA_H
-#define __BPS_CMD_SYSTEM_PARA_H
+#ifndef __BPS_CMD_TRANS_BYTES_H
+#define __BPS_CMD_TRANS_BYTES_H
 
 #include <bps_public.h>
 #include <bps_cwords.h>
 
-#define CMD_SYSTEM_PARA_WORD_REQ  0xEE
-#define CMD_SYSTEM_PARA_WORD_RSP  0xEF
+#define CMD_TRANS_BYTES_WORD_REQ  0xF8
+#define CMD_TRANS_BYTES_WORD_RSP  (CMD_TRANS_BYTES_WORD_REQ+1)
 
-typedef enum ConfigTypeSystemPara {
+typedef enum ConfigTypeTransBytes {
     READ_SYS_PARA=0,
     WRITE_SYS_PARA,
     NUM_SYS_PARA,
-} ConfigTypeSystemPara;
+} ConfigTypeTransBytes;
 
-typedef enum ParaTypeSystemPara {
+typedef enum ParaTypeTransBytes {
     RESERVED_SYS_PARA_TYPE=0,
     SN_SYS_PARA_TYPE,
     KEY_SYS_PARA_TYPE,
     NUM_SYS_PARA_TYPE,
-} ParaTypeSystemPara;
+} ParaTypeTransBytes;
 
-typedef struct BPSCmdSystemParaReq {
-    BPS_UINT8 configType;
-    BPS_UINT8 paraType;
+typedef struct BPSCmdTransBytesReq {
     BPS_UINT8 len;
     BPS_UINT8 * data;
-} BPSCmdSystemParaReq;
+    /** maxLen the size of 'data', 
+      is set to be safe only for parsing that without dynamical memory allocation */
+    BPS_WORD maxLen;
+} BPSCmdTransBytesReq;
 
-typedef struct BPSCmdSystemParaRsp {
-    BPS_UINT8 configType;
-    BPS_UINT8 paraType;
-    BPS_UINT8 retCode;
+typedef struct BPSCmdTransBytesRsp {
     BPS_UINT8 len;
     BPS_UINT8 * data;
-} BPSCmdSystemParaRsp;
+    /** maxLen the size of 'data', 
+      is set to be safe only for parsing that without dynamical memory allocation */
+    BPS_WORD maxLen;
+} BPSCmdTransBytesRsp;
 
 /** 
-  * @Brief BPSPackSystemParaReq construct packet of 'configure system parameters' request
+  * @Brief BPSPackTransBytesReq construct packet of 'transmit bytes' request
   * @Param req the request parameter
   * @Param buf the buffer to store the message(point at the commond word position)
   * @Param size the buffer size
   * @return the number of bytes which the function handled
  */
-EXPORT_API BPS_UINT16 BPSPackSystemParaReq(BPSCmdSystemParaReq * req, BPS_UINT8 * buf, BPS_WORD size);
+EXPORT_API BPS_UINT16 BPSPackTransBytesReq(BPSCmdTransBytesReq * req, BPS_UINT8 * buf, BPS_WORD size);
 
 /** 
-  * @Brief BPSPackSystemParaRsp construct packet of 'configure system parameters' response
+  * @Brief BPSPackTransBytesRsp construct packet of 'transmit bytes' response
   * @Param rsp the response parameter
   * @Param buf the buffer to store the message(point at the commond word position)
   * @Param size the buffer size
   * @return the number of bytes which the function handled
  */
-EXPORT_API BPS_UINT16 BPSPackSystemParaRsp(BPSCmdSystemParaRsp * rsp, BPS_UINT8 * buf, BPS_WORD size);
+EXPORT_API BPS_UINT16 BPSPackTransBytesRsp(BPSCmdTransBytesRsp * rsp, BPS_UINT8 * buf, BPS_WORD size);
 
 /** 
-  * @Brief BPSParseSystemParaReq parse packet of 'configure system parameters' request
+  * @Brief BPSParseTransBytesReq parse packet of 'transmit bytes' request
   * @Param req the request data struct to store the message
   * @Param buf the buffer stored the message(point at the commond word position+1)
   * @Param size the buffer size
   * @return the number of bytes which the function handled, 0 means parsing failed/none
  */
-EXPORT_API BPS_UINT16 BPSParseSystemParaReq(BPSCmdSystemParaReq * req, const BPS_UINT8 * buf, BPS_WORD size);
+EXPORT_API BPS_UINT16 BPSParseTransBytesReq(BPSCmdTransBytesReq * req, const BPS_UINT8 * buf, BPS_WORD size);
 
 /** 
-  * @Brief BPSParseSystemParaRsp parse packet of 'configure system parameters' response
+  * @Brief BPSParseTransBytesRsp parse packet of 'transmit bytes' response
   * @Param rsp the response data struct to store the message. 
-  *     Make sure that there are enough memory to store the message, or to use BPSParseSystemParaRspDyn
+  *     Make sure that there are enough memory to store the message, or to use BPSParseTransBytesRspDyn
   *     which is more efficient for memory usage.
   * @Param buf the buffer to store the message(point at the commond word position+1)
   * @Param size the buffer size
   * @return the number of bytes which the function handled, 0 means parsing failed/none
  */
-EXPORT_API BPS_UINT16 BPSParseSystemParaRsp(BPSCmdSystemParaRsp * rsp, const BPS_UINT8 * buf, BPS_WORD size);
+EXPORT_API BPS_UINT16 BPSParseTransBytesRsp(BPSCmdTransBytesRsp * rsp, const BPS_UINT8 * buf, BPS_WORD size);
 
 #ifdef BPS_MEM_DYN
 /** 
-  * @Brief BPSParseSystemParaRspDyn parse packet of 'configure system parameters' request
+  * @Brief BPSParseTransBytesRspDyn parse packet of 'transmit bytes' request
   * @Param req the request data struct to store the message.
   *         YOU HAVE TO CLEAR THE MEMORY OF ALL THE POINTERS RECURSIVELY IN 'req' 
   *         when the address of 'req' is unreachable(if the function return 0, you need do nothing about clearing memory)
@@ -108,16 +109,16 @@ EXPORT_API BPS_UINT16 BPSParseSystemParaRsp(BPSCmdSystemParaRsp * rsp, const BPS
   * @return the number of bytes which the function handled, 0 means parsing failed/none
   *         rsp 
  */
-EXPORT_API BPS_UINT16 BPSParseSystemParaReqDyn(BPSCmdSystemParaReq * req, const BPS_UINT8 * buf, BPS_WORD size);
+EXPORT_API BPS_UINT16 BPSParseTransBytesReqDyn(BPSCmdTransBytesReq * req, const BPS_UINT8 * buf, BPS_WORD size);
 
 /** 
-  * @Brief BPSFreeMemSystemParaReq free the memory of the request struct
+  * @Brief BPSFreeMemTransBytesReq free the memory of the request struct
   * @Param req the request data struct.
  */
-EXPORT_API void BPSFreeMemSystemParaReq(BPSCmdSystemParaReq * req);
+EXPORT_API void BPSFreeMemTransBytesReq(BPSCmdTransBytesReq * req);
 
 /** 
-  * @Brief BPSParseSystemParaRspDyn parse packet of 'configure system parameters' response
+  * @Brief BPSParseTransBytesRspDyn parse packet of 'transmit bytes' response
   * @Param rsp the response data struct to store the message.
   *         YOU HAVE TO CLEAR THE MEMORY OF ALL THE POINTERS RECURSIVELY IN 'rsp' 
   *         when the address of 'rsp' is unreachable(if the function return 0, you need do nothing about clearing memory)
@@ -126,13 +127,13 @@ EXPORT_API void BPSFreeMemSystemParaReq(BPSCmdSystemParaReq * req);
   * @return the number of bytes which the function handled, 0 means parsing failed/none
   *         rsp 
  */
-EXPORT_API BPS_UINT16 BPSParseSystemParaRspDyn(BPSCmdSystemParaRsp * rsp, const BPS_UINT8 * buf, BPS_WORD size);
+EXPORT_API BPS_UINT16 BPSParseTransBytesRspDyn(BPSCmdTransBytesRsp * rsp, const BPS_UINT8 * buf, BPS_WORD size);
 
 /** 
-  * @Brief BPSFreeMemSystemParaRsp free the memory of the response struct
+  * @Brief BPSFreeMemTransBytesRsp free the memory of the response struct
   * @Param rsp the response data struct.
  */
-EXPORT_API void BPSFreeMemSystemParaRsp(BPSCmdSystemParaRsp * rsp);
+EXPORT_API void BPSFreeMemTransBytesRsp(BPSCmdTransBytesRsp * rsp);
 #endif
 
 #endif

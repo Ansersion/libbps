@@ -92,6 +92,8 @@
 
 #endif
 
+#define BPS_BOOL        BPS_UINT8;
+
 #define BPS_TRUE        1
 #define BPS_FALSE       0
 

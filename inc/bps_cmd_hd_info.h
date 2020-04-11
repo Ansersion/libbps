@@ -45,6 +45,9 @@ typedef struct BPSCmdHDInfoField {
     BPS_UINT8 type;
     BPS_UINT8 len;
     BPS_UINT8 * data;
+    /** maxLen the size of 'data', 
+      is set to be safe only for parsing that without dynamical memory allocation */
+    BPS_WORD maxLen;
 } BPSCmdHDInfoField;
 
 typedef struct BPSCmdHDInfoRsp {

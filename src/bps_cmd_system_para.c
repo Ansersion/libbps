@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////////
-/// Copyright 2019 Ansersion
+/// Copyright 2019-2020 Ansersion
 /// 
 /// Licensed under the Apache License, Version 2.0 (the "License");
 /// you may not use this file except in compliance with the License.
@@ -13,7 +13,7 @@
 /// See the License for the specific language governing permissions and
 /// limitations under the License.
 ///
-/// @file 	bps_cmd_hd_info.c
+/// @file 	bps_cmd_system_para.c
 /// @brief 	APIs for command 'configure system parameters'
 /// 
 /// @version 	0.1
@@ -196,73 +196,92 @@ BPS_UINT16 BPSParseSystemParaRsp(BPSCmdSystemParaRsp * rsp, const BPS_UINT8 * bu
 
     return i;
 }
-// TODO
-// #ifdef BPS_MEM_DYN
-// BPS_UINT16 BPSParseSystemParaRspDyn(BPSCmdSystemParaRsp * rsp, const BPS_UINT8 * buf, BPS_WORD size)
-// {
-//     BPS_UINT16 i = 0;
-//     BPS_UINT8 field_num, j;
-//     BPSCmdSystemParaField * field_tmp;
-// 
-//     if(BPS_NULL == rsp || BPS_NULL == buf) {
-//         return 0;
-//     }
-// 
-//     rsp->fieldArray = BPS_NULL;
-//     if(0 == size--) {
-//         return 0;
-//     }
-//     field_num = buf[i++];
-//     rsp->fieldNum = field_num;
-//     rsp->fieldArray = (BPSCmdSystemParaField *)malloc(field_num * sizeof(BPSCmdSystemParaField));
-//     memset_bps(rsp->fieldArray, 0, field_num * sizeof(BPSCmdSystemParaField));
-// 
-//     for(j = 0; j < field_num; j++) {
-//         if(0 == size--) {
-//             BPSFreeMemSystemParaRsp(rsp);
-//             return 0;
-//         }
-//         field_tmp = rsp->fieldArray + j;
-//         field_tmp->type = buf[i++];
-// 
-//         if(0 == size--) {
-//             BPSFreeMemSystemParaRsp(rsp);
-//             return 0;
-//         }
-//         field_tmp->len = buf[i++];
-// 
-//         if(field_tmp->len > size) {
-//             BPSFreeMemSystemParaRsp(rsp);
-//             return 0;
-//         }
-//         size -= field_tmp->len;
-//         field_tmp->data = (BPS_UINT8 *)malloc(field_tmp->len + 1);
-//         memcpy_bps(field_tmp->data, buf+i, field_tmp->len);
-//         field_tmp->data[field_tmp->len] = '\0';
-//         i += field_tmp->len;
-//     }
-// 
-//     return i;
-// }
-// 
-// void BPSFreeMemSystemParaRsp(BPSCmdSystemParaRsp * rsp)
-// {
-//     BPS_WORD i;
-//     BPSCmdSystemParaField * field_tmp;
-//     if(BPS_NULL == rsp) {
-//         return;
-//     }
-//     if(BPS_NULL == rsp->fieldArray) {
-//         return;
-//     }
-//     for(i = 0; i < rsp->fieldNum; i++) {
-//        field_tmp = rsp->fieldArray + i;
-//        if(BPS_NULL != field_tmp->data) {
-//            free(field_tmp->data);
-//        }
-//     }
-//     free(rsp->fieldArray);
-//     rsp->fieldArray = BPS_NULL;
-// }
-// #endif
+#ifdef BPS_MEM_DYN
+BPS_UINT16 BPSParseSystemParaReqDyn(BPSCmdSystemParaReq * req, const BPS_UINT8 * buf, BPS_WORD size)
+{
+    BPS_UINT16 i = 0;
+    BPS_UINT8 len;
+
+    if(BPS_NULL == req || BPS_NULL == buf) {
+        return 0;
+    }
+
+    BPS_ASSERT_SIZE_UINT8(size);
+    req->configType = buf[i++];
+
+    BPS_ASSERT_SIZE_UINT8(size);
+    req->paraType = buf[i++];
+
+    BPS_ASSERT_SIZE_UINT8(size);
+    len = buf[i++];
+    req->len = len;
+
+    BPS_ASSERT_SIZE(size, len);
+    req->data = (BPS_UINT8 *)malloc_bps(len);
+    if(BPS_NULL == req->data) {
+        return 0;
+    }
+    memcpy_bps(req->data, buf+i, len);
+    i += len;
+
+    return i;
+}
+
+void BPSFreeMemSystemParaReq(BPSCmdSystemParaReq * req)
+{
+    if(BPS_NULL == req) {
+        return;
+    }
+    if(BPS_NULL == req->data) {
+        return;
+    }
+    free_bps(req->data);
+    req->data = BPS_NULL;
+}
+
+BPS_UINT16 BPSParseSystemParaRspDyn(BPSCmdSystemParaRsp * rsp, const BPS_UINT8 * buf, BPS_WORD size)
+{
+    BPS_UINT16 i = 0;
+    BPS_UINT8 len;
+
+    if(BPS_NULL == rsp || BPS_NULL == buf) {
+        return 0;
+    }
+
+    BPS_ASSERT_SIZE_UINT8(size);
+    rsp->configType = buf[i++];
+
+    BPS_ASSERT_SIZE_UINT8(size);
+    rsp->paraType = buf[i++];
+
+    BPS_ASSERT_SIZE_UINT8(size);
+    rsp->retCode = buf[i++];
+
+    BPS_ASSERT_SIZE_UINT8(size);
+    len = buf[i++];
+    rsp->len = len;
+
+    BPS_ASSERT_SIZE(size, len);
+    rsp->data = (BPS_UINT8 *)malloc_bps(len);
+    if(BPS_NULL == rsp->data) {
+        return 0;
+    }
+    memcpy_bps(rsp->data, buf+i, len);
+    i += len;
+
+    return i;
+}
+
+void BPSFreeMemSystemParaRsp(BPSCmdSystemParaRsp * rsp)
+{
+    if(BPS_NULL == rsp) {
+        return;
+    }
+    if(BPS_NULL == rsp->data) {
+        return;
+    }
+    free_bps(rsp->data);
+    rsp->data = BPS_NULL;
+}
+#endif
 
