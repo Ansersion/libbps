@@ -267,7 +267,7 @@ BPS_UINT16 BPSParseReportSigRspDyn(BPSCmdReportSigRsp * rsp, const BPS_UINT8 * b
                 return 0;
             }
             size -= sizeof(BPS_UINT16);
-            rsp->extension = malloc_bps(sizeof(BPS_UINT16));
+            rsp->extension = (void *)malloc_bps(sizeof(BPS_UINT16));
             BPS_GetBig16(buf, (BPS_UINT16 *)(rsp->extension));
             i += sizeof(BPS_UINT16);
             break;

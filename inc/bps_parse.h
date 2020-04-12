@@ -37,6 +37,8 @@
 #include <bps_cmd_post.h>
 #include <bps_cmd_get_sig.h>
 #include <bps_cmd_system_para.h>
+#include <bps_cmd_baudrate_set.h>
+#include <bps_cmd_trans_bytes.h>
 
 typedef union BPSCmdPacketUnion {
     BPSCmdCommTestReq           commTestReq;
@@ -51,6 +53,8 @@ typedef union BPSCmdPacketUnion {
     BPSCmdConfigNetsetRsp       configNetsetRsp;
     BPSCmdNetstateQueryReq      netstateQueryReq;
     BPSCmdNetstateQueryRsp      netstateQueryRsp;
+    BPSCmdBaudrateSetReq      	baudrateSetReq;
+    BPSCmdBaudrateSetRsp      	baudrateSetRsp;
     BPSCmdGetSigtabReq          getSigtabReq;
     BPSCmdGetSigtabRsp          getSigtabRsp;
     BPSCmdReportSigReq          reportSigReq;
@@ -61,6 +65,8 @@ typedef union BPSCmdPacketUnion {
     BPSCmdGetSigRsp             getSigRsp;
     BPSCmdSystemParaReq         sysParaReq;
     BPSCmdSystemParaRsp         sysParaRsp;
+    BPSCmdTransBytesReq         transBytesReq;
+    BPSCmdTransBytesRsp         transBytesRsp;
 } BPSCmdPacketUnion;
 
 typedef struct BPSPacketData {

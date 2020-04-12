@@ -24,17 +24,6 @@
 
 #include <bps_parse.h>
 
-#include <bps_cmd_comm_test.h>
-#include <bps_cmd_hd_info.h>
-#include <bps_cmd_ping.h>
-#include <bps_cmd_open_netset.h>
-#include <bps_cmd_config_netset.h>
-#include <bps_cmd_netstate_query.h>
-#include <bps_cmd_get_sigtab.h>
-#include <bps_cmd_report_sig.h>
-#include <bps_cmd_post.h>
-#include <bps_cmd_get_sig.h>
-
 BPSPacketData * BPSParseNoCheck(BPS_UINT8 * buf, BPSPacketData * pd)
 {
     const BPS_UINT8 * buf_tmp;
@@ -116,6 +105,16 @@ BPSPacketData * BPSParseNoCheck(BPS_UINT8 * buf, BPSPacketData * pd)
             /* parse the command query net state response, */
             parse_ret = BPSParseNetstateQueryRsp(&(pd->pu.netstateQueryRsp), buf_tmp, rmn_len);
             break;
+        case CMD_BAUDRATE_SET_WORD_REQ:
+            /* parse the command 'set/query serial baudrate' request, */
+            parse_ret = BPSParseBaudrateSetReq(&(pd->pu.baudrateSetReq), buf_tmp, rmn_len);
+            /* because the function will never fail and return 0, so set 'parse_ret = 1' to make the error check to pass through*/
+            parse_ret = 1;
+            break;
+        case CMD_BAUDRATE_SET_WORD_RSP:
+            /* parse the command 'set/query serial baudrate' response, */
+            parse_ret = BPSParseBaudrateSetRsp(&(pd->pu.baudrateSetRsp), buf_tmp, rmn_len);
+            break;
         case CMD_GET_SIGTAB_WORD_REQ:
             /* parse the command get signal table request, */
             parse_ret = BPSParseGetSigtabReq(&(pd->pu.getSigtabReq), buf_tmp, rmn_len);
@@ -150,13 +149,21 @@ BPSPacketData * BPSParseNoCheck(BPS_UINT8 * buf, BPSPacketData * pd)
             /* parse the command get signal values response, */
             parse_ret = BPSParseGetSigRsp(&(pd->pu.getSigRsp), buf_tmp, rmn_len);
             break;
-        case CMD_SYSTEM_PARA_WORD_REQ:
+        case CMD_SYSTEM_PARA_WORD_REQ: // 0xEE
             /* parse the command configure system parameter request, */
             parse_ret = BPSParseSystemParaReq(&(pd->pu.sysParaReq), buf_tmp, rmn_len);
             break;
-        case CMD_SYSTEM_PARA_WORD_RSP:
+        case CMD_SYSTEM_PARA_WORD_RSP: // 0xEF
             /* parse the command configure system parameter response, */
             parse_ret = BPSParseSystemParaRsp(&(pd->pu.sysParaRsp), buf_tmp, rmn_len);
+            break;
+        case CMD_TRANS_BYTES_WORD_REQ: // 0xF8
+            /* parse the command 'transmit bytes' request, */
+            parse_ret = BPSParseTransBytesReq(&(pd->pu.transBytesReq), buf_tmp, rmn_len);
+            break;
+        case CMD_TRANS_BYTES_WORD_RSP: // 0xF9
+            /* parse the command 'transmit bytes' response, */
+            parse_ret = BPSParseTransBytesRsp(&(pd->pu.transBytesRsp), buf_tmp, rmn_len);
             break;
         default:
             /* unknown command word */

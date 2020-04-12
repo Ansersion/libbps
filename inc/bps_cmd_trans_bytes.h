@@ -31,19 +31,6 @@
 #define CMD_TRANS_BYTES_WORD_REQ  0xF8
 #define CMD_TRANS_BYTES_WORD_RSP  (CMD_TRANS_BYTES_WORD_REQ+1)
 
-typedef enum ConfigTypeTransBytes {
-    READ_SYS_PARA=0,
-    WRITE_SYS_PARA,
-    NUM_SYS_PARA,
-} ConfigTypeTransBytes;
-
-typedef enum ParaTypeTransBytes {
-    RESERVED_SYS_PARA_TYPE=0,
-    SN_SYS_PARA_TYPE,
-    KEY_SYS_PARA_TYPE,
-    NUM_SYS_PARA_TYPE,
-} ParaTypeTransBytes;
-
 typedef struct BPSCmdTransBytesReq {
     BPS_UINT8 len;
     BPS_UINT8 * data;
