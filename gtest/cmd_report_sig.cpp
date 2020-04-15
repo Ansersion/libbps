@@ -24,7 +24,6 @@
 
 extern "C" 
 {
-#include <config.h>
 #include <bps_ret_code.h>
 #include <bps_public.h>
 #include <bps_cmd_report_sig.h>

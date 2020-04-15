@@ -26,44 +26,43 @@ extern "C"
 {
 #include <bps_ret_code.h>
 #include <bps_public.h>
-#include <bps_cmd_system_para.h>
+#include <bps_cmd_trans_bytes.h>
 }
 
 
 using namespace std;
 
-/** write system parameter SN: "ABCDEFGHIJKLMNOP" */
+/** MCU->MODULE: transmit 'ABC'. 
+    MODULE->MCU: transmit 'XYZ' */
 static const int MSG_BUF_SIZE = 256;
 static BPS_UINT8 buf[MSG_BUF_SIZE];
 static const int MCU_ADDR = 0;
 static const int MODULE_ADDR = 1;
 static const BPS_WORD HEADER_SIZE = BPS_HEADER_SIZE - BPS_VERSION_SIZE - BPS_ADDR_SIZE - BPS_REMAIN_LEN_SIZE;
-static const ConfigTypeSystemPara REQ_TYPE = WRITE_SYS_PARA;
-static const ParaTypeSystemPara PARA_TYPE = SN_SYS_PARA_TYPE;
-static const BPS_UINT16 INTERVAL = 0x5A5A;;
-static char * SN = "ABCDEFGHIJKLMNOP";
 
+static const BPS_UINT8 s_DataRequest[] = { 'A', 'B', 'C'};
+static const BPS_UINT8 s_DataResponse[] = { 'X', 'Y', 'Z'};
+
+/** BB CC 00 01 00 04 F8 03 41 42 43 C7 */
 static BPS_UINT8 REQ_MSG[] = 
 {
-    0xBB, 0xCC, 0x00, 0x01, 0x00, 0x14, 0xEE, 0x01, 0x01, 0x10, 0x41, 0x42, 0x43, 0x44, 0x45, 0x46, 0x47, 0x48, 0x49, 0x4A, 0x4B, 0x4C, 0x4D, 0x4E, 0x4F, 0x50, 0x9D
+    0xBB, 0xCC, 0x00, 0x01, 0x00, 0x05, 0xF8, 0x03, 0x41, 0x42, 0x43, 0xC7
 };
 
-// bb cc 00 10 00 15 ee 01 01 00 10
+/** BB CC 00 10 00 04 F9 03 58 59 5A 1C */
 static BPS_UINT8 RSP_MSG[] = 
 {
-    0xBB, 0xCC, 0x00, 0x10, 0x00, 0x04, 0xEF, 0x01, 0x01, 0x00, 0x05
+    0xBB, 0xCC, 0x00, 0x10, 0x00, 0x05, 0xF9, 0x03, 0x58, 0x59, 0x5A, 0x1C
 };
 
-/** pack the system parameter command request
+/** pack the transmission command request
   * packet flow: MCU -> MODULE */
-TEST(COMMAND_SYSTEM_PARA, PackRequest)
+TEST(COMMAND_TRANS_BYTES, PackRequest)
 {
     BPS_UINT8 * buf_tmp = buf;
-    BPSCmdSystemParaReq data;
-    data.configType = REQ_TYPE;
-    data.paraType = PARA_TYPE;
-    data.len = strlen(SN);
-    data.data = (BPS_UINT8 *)SN;
+    BPSCmdTransBytesReq data;
+    data.len = sizeof(s_DataRequest);;
+    data.data = (BPS_UINT8 *)s_DataRequest;
 
     memset(buf, 0, MSG_BUF_SIZE);
 
@@ -72,28 +71,27 @@ TEST(COMMAND_SYSTEM_PARA, PackRequest)
     buf_tmp = PackBPSAddr(buf_tmp, MCU_ADDR, MODULE_ADDR);
     buf_tmp += BPS_REMAIN_LEN_SIZE;
 
-    BPS_UINT16 tmpLen = BPSPackSystemParaReq(&data, buf_tmp, MSG_BUF_SIZE-HEADER_SIZE);
+    BPS_UINT16 tmpLen = BPSPackTransBytesReq(&data, buf_tmp, MSG_BUF_SIZE-HEADER_SIZE);
     EXPECT_GT(tmpLen, 0);
     PackBPSRemainLen(buf + BPS_REMAIN_LEN_POSITION, tmpLen);
     EXPECT_NE(PackBPSChecksum(buf, MSG_BUF_SIZE), (BPS_UINT8 *)BPS_NULL);
     tmpLen += HEADER_SIZE + BPS_CHECKSUM_SIZE;
     for(size_t i = 0; i < sizeof(REQ_MSG); i++) {
+        // printf("%02x ", buf[i]);
         EXPECT_EQ(REQ_MSG[i], buf[i]);
     }
+    // printf("\n");
 }
 
-/** pack the system parameter command response 
+/** pack the transmission command command response 
   * packet flow: MODULE -> MCU */
 
-TEST(COMMAND_SYSTEM_PARA, PackResponse)
+TEST(COMMAND_TRANS_BYTES, PackResponse)
 {
     BPS_UINT8 * buf_tmp = buf;
-    BPSCmdSystemParaRsp data;
-    data.configType = REQ_TYPE;
-    data.paraType = PARA_TYPE;
-    data.retCode = BPS_RET_CODE_OK;;
-    data.len = strlen(SN);
-    data.data = (BPS_UINT8 *)SN;
+    BPSCmdTransBytesRsp data;
+    data.len = sizeof(s_DataResponse);;
+    data.data = (BPS_UINT8 *)s_DataResponse;
 
     memset(buf, 0, MSG_BUF_SIZE);
 
@@ -102,7 +100,7 @@ TEST(COMMAND_SYSTEM_PARA, PackResponse)
     buf_tmp = PackBPSAddr(buf_tmp, MODULE_ADDR, MCU_ADDR);
     buf_tmp += BPS_REMAIN_LEN_SIZE;
 
-    BPS_UINT16 tmpLen = BPSPackSystemParaRsp(&data, buf_tmp, MSG_BUF_SIZE-HEADER_SIZE);
+    BPS_UINT16 tmpLen = BPSPackTransBytesRsp(&data, buf_tmp, MSG_BUF_SIZE-HEADER_SIZE);
     EXPECT_GT(tmpLen, 0);
     PackBPSRemainLen(buf + BPS_REMAIN_LEN_POSITION, tmpLen);
     EXPECT_NE(PackBPSChecksum(buf, MSG_BUF_SIZE), (BPS_UINT8 *)BPS_NULL);
@@ -114,28 +112,29 @@ TEST(COMMAND_SYSTEM_PARA, PackResponse)
     // printf("\n");
 }
 
-/** parse the system parameter command request
+/** parse the transmission command command request
   * packet flow: MODULE <- MCU */
-TEST(COMMAND_SYSTEM_PARA, ParseRequest)
+TEST(COMMAND_TRANS_BYTES, ParseRequest)
 {
     BPS_WORD size = sizeof(REQ_MSG);
-    BPSCmdSystemParaReq data;
-    BPS_UINT8 buffer[256];
+    BPSCmdTransBytesReq data;
+    BPS_UINT8 buffer[MSG_BUF_SIZE];
     data.data = buffer;
-    EXPECT_GT(BPSParseSystemParaReq(&data, REQ_MSG+BPS_CMD_WORD_POSITION+1, size), 0);
-    EXPECT_EQ(data.configType, REQ_TYPE);
-    EXPECT_EQ(data.paraType, PARA_TYPE);
-    EXPECT_EQ(data.len, strlen(SN));
-    EXPECT_EQ(strncmp((const char *)data.data, (const char *)SN, strlen(SN)), 0);
+    EXPECT_GT(BPSParseTransBytesReq(&data, REQ_MSG+BPS_CMD_WORD_POSITION+1, size), 0);
+    EXPECT_EQ(data.len, sizeof(s_DataRequest));
+    EXPECT_EQ(strncmp((const char *)data.data, (const char *)s_DataRequest, sizeof(s_DataRequest)), 0);
 }
 
-/** parse the system parameter command response 
+/** parse the transmission command command response 
   * packet flow: MCU <- MODULE */
-TEST(COMMAND_SYSTEM_PARA, ParseResponse)
+TEST(COMMAND_TRANS_BYTES, ParseResponse)
 {
     BPS_WORD size = sizeof(RSP_MSG);
-    BPSCmdSystemParaRsp data;
-    EXPECT_GT(BPSParseSystemParaRsp(&data, RSP_MSG+BPS_CMD_WORD_POSITION+1, size), 0);
-    EXPECT_EQ(data.configType, REQ_TYPE);
-    EXPECT_EQ(data.paraType, PARA_TYPE);
+    BPSCmdTransBytesRsp data;
+    BPS_UINT8 buffer[MSG_BUF_SIZE];
+    memset(buffer, 0, MSG_BUF_SIZE);
+    data.data = buffer;
+    EXPECT_GT(BPSParseTransBytesRsp(&data, RSP_MSG+BPS_CMD_WORD_POSITION+1, size), 0);
+    EXPECT_EQ(data.len, sizeof(s_DataRequest));
+    EXPECT_EQ(strncmp((const char *)data.data, (const char *)s_DataResponse, sizeof(s_DataResponse)), 0);
 }

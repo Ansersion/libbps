@@ -48,7 +48,7 @@ BPS_UINT16 BPSPackTransBytesReq(BPSCmdTransBytesReq * req, BPS_UINT8 * buf, BPS_
         return 0;
     }
     BPS_ASSERT_SIZE(size, req->len);
-    memcpy_bps(buf, req->data, req->len);
+    memcpy_bps(buf+i, req->data, req->len);
     i += req->len;
 
     return i;
@@ -71,7 +71,7 @@ BPS_UINT16 BPSPackTransBytesRsp(BPSCmdTransBytesRsp * rsp, BPS_UINT8 * buf, BPS_
         return 0;
     }
     BPS_ASSERT_SIZE(size, rsp->len);
-    memcpy_bps(buf, rsp->data, rsp->len);
+    memcpy_bps(buf+i, rsp->data, rsp->len);
     i += rsp->len;
 
     return i;
