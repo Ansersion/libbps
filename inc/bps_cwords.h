@@ -65,5 +65,13 @@
 /** 
   command set C
  */
+
+/** 
+  commands O
+ */
+#define CMD_SYSTEM_PARA_WORD_REQ  0xEE
+#define CMD_SYSTEM_PARA_WORD_RSP  0xEF
+
+
 #endif
 

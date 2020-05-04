@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////////
-/// Copyright 2019 Ansersion
+/// Copyright 2019-2020 Ansersion
 /// 
 /// Licensed under the Apache License, Version 2.0 (the "License");
 /// you may not use this file except in compliance with the License.
@@ -25,11 +25,11 @@
 #ifndef __BPS_CMD_SYSTEM_PARA_H
 #define __BPS_CMD_SYSTEM_PARA_H
 
+#if (BPS_CMD_SET == BPS_CMD_SET_B || BPS_CMD_SET == BPS_CMD_SET_T || BPS_CMD_SET == BPS_CMD_SET_C)
+
 #include <bps_public.h>
 #include <bps_cwords.h>
 
-#define CMD_SYSTEM_PARA_WORD_REQ  0xEE
-#define CMD_SYSTEM_PARA_WORD_RSP  0xEF
 
 typedef enum ConfigTypeSystemPara {
     READ_SYS_PARA=0,
@@ -49,6 +49,10 @@ typedef struct BPSCmdSystemParaReq {
     BPS_UINT8 paraType;
     BPS_UINT8 len;
     BPS_UINT8 * data;
+
+    /** maxLen the size of 'data', 
+      is set to be safe only for parsing that without dynamical memory allocation */
+    BPS_WORD maxLen;
 } BPSCmdSystemParaReq;
 
 typedef struct BPSCmdSystemParaRsp {
@@ -57,6 +61,10 @@ typedef struct BPSCmdSystemParaRsp {
     BPS_UINT8 retCode;
     BPS_UINT8 len;
     BPS_UINT8 * data;
+
+    /** maxLen the size of 'data', 
+      is set to be safe only for parsing that without dynamical memory allocation */
+    BPS_WORD maxLen;
 } BPSCmdSystemParaRsp;
 
 /** 
@@ -133,6 +141,8 @@ EXPORT_API BPS_UINT16 BPSParseSystemParaRspDyn(BPSCmdSystemParaRsp * rsp, const 
   * @Param rsp the response data struct.
  */
 EXPORT_API void BPSFreeMemSystemParaRsp(BPSCmdSystemParaRsp * rsp);
+#endif
+
 #endif
 
 #endif

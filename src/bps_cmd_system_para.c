@@ -22,6 +22,8 @@
 /// 
 ///////////////////////////////////////////////////////////////////////////////
 
+#if (BPS_CMD_SET == BPS_CMD_SET_B || BPS_CMD_SET == BPS_CMD_SET_T || BPS_CMD_SET == BPS_CMD_SET_C)
+
 #include <bps_cmd_system_para.h>
 #include <bps_ret_code.h>
 #include <bps_memcpy.h>
@@ -33,41 +35,24 @@
 
 BPS_UINT16 BPSPackSystemParaReq(BPSCmdSystemParaReq * req, BPS_UINT8 * buf, BPS_WORD size)
 {
-    BPS_UINT16 i = 0, j;
-    BPS_UINT8 len;
+    BPS_UINT16 i = 0;
     if(BPS_NULL == req || BPS_NULL == buf) {
         return 0;
     }
-    if(0 == size--) {
-        return 0;
-    }
+
+    BPS_ASSERT_SIZE_UINT8(size);
     buf[i++] = CMD_SYSTEM_PARA_WORD_REQ;
 
-    if(0 == size--) {
-        return 0;
-    }
+    BPS_ASSERT_SIZE_UINT8(size);
     buf[i++] = req->configType;
 
-    if(0 == size--) {
-        return 0;
-    }
+    BPS_ASSERT_SIZE_UINT8(size);
     buf[i++] = req->paraType;
 
-    if(RESERVED_SYS_PARA_TYPE != req->paraType && req->paraType < NUM_SYS_PARA_TYPE) {
-        if(0 == size--) {
-            return 0;
-        }
-        len = req->len;
-        buf[i++] = len;
-
-        if(len > size) {
-            return 0;
-        }
-        size -= len;
-
-        for(j = 0; j < len; j++) {
-            buf[i++] = req->data[j];
-        }
+    if(WRITE_SYS_PARA == req->configType) {
+        BPS_ASSERT_SIZE(size, sizeof(BPS_UINT8) + req->len);
+        BPS_Set1ByteField(buf+i, req->data, req->len);
+        i += sizeof(BPS_UINT8) + req->len;
     }
 
     return i;
@@ -75,46 +60,26 @@ BPS_UINT16 BPSPackSystemParaReq(BPSCmdSystemParaReq * req, BPS_UINT8 * buf, BPS_
 
 BPS_UINT16 BPSPackSystemParaRsp(BPSCmdSystemParaRsp * rsp, BPS_UINT8 * buf, BPS_WORD size)
 {
-    BPS_UINT16 i = 0, j;
-    BPS_UINT8 len;
+    BPS_UINT16 i = 0;
     if(BPS_NULL == rsp || BPS_NULL == buf) {
         return 0;
     }
-    if(0 == size--) {
-        return 0;
-    }
+    BPS_ASSERT_SIZE_UINT8(size);
     buf[i++] = CMD_SYSTEM_PARA_WORD_RSP;
 
-    if(0 == size--) {
-        return 0;
-    }
+    BPS_ASSERT_SIZE_UINT8(size);
     buf[i++] = rsp->configType;
 
-    if(0 == size--) {
-        return 0;
-    }
+    BPS_ASSERT_SIZE_UINT8(size);
     buf[i++] = rsp->paraType;
 
-    if(0 == size--) {
-        return 0;
-    }
+    BPS_ASSERT_SIZE_UINT8(size);
     buf[i++] = rsp->retCode;
 
     if(READ_SYS_PARA == rsp->configType && BPS_RET_CODE_OK == rsp->retCode) {
-        if(0 == size--) {
-            return 0;
-        }
-        len = rsp->len;
-        buf[i++] = len;
-
-        if(len > size) {
-            return 0;
-        }
-        size -= len;
-
-        for(j = 0; j < len; j++) {
-            buf[i++] = rsp->data[j];
-        }
+        BPS_ASSERT_SIZE(size, sizeof(BPS_UINT8) + rsp->len);
+        BPS_Set1ByteField(buf+i, rsp->data, rsp->len);
+        i += sizeof(BPS_UINT8) + rsp->len;
     }
 
     return i;
@@ -122,35 +87,28 @@ BPS_UINT16 BPSPackSystemParaRsp(BPSCmdSystemParaRsp * rsp, BPS_UINT8 * buf, BPS_
 
 BPS_UINT16 BPSParseSystemParaReq(BPSCmdSystemParaReq * req, const BPS_UINT8 * buf, BPS_WORD size)
 {
-    BPS_UINT16 i = 0, j;
+    BPS_UINT16 i = 0;
     BPS_UINT8 len;
     if(BPS_NULL == req || BPS_NULL == buf) {
         return 0;
     }
-    if(0 == size--) {
-        return 0;
-    }
+    BPS_ASSERT_SIZE_UINT8(size);
     req->configType = buf[i++];
 
-    if(0 == size--) {
-        return 0;
-    }
+    BPS_ASSERT_SIZE_UINT8(size);
     req->paraType = buf[i++];
 
     if(WRITE_SYS_PARA == req->configType) {
-        if(0 == size--) {
-            return 0;
-        }
+        BPS_ASSERT_SIZE_UINT8(size);
         len = buf[i++];
         req->len = len;
-
-        if(len > size || len > BPS_MAX_STRING_LEN) {
+        if(len > req->maxLen || BPS_NULL == req->data) {
             return 0;
         }
-        size -= len;
-        for(j = 0; j < len; j++) {
-            req->data[j] = buf[i++];
-        }
+
+        BPS_ASSERT_SIZE(size, len);
+        memcpy_bps(req->data, buf, len);
+        i += len;
     }
 
     return i;
@@ -158,40 +116,32 @@ BPS_UINT16 BPSParseSystemParaReq(BPSCmdSystemParaReq * req, const BPS_UINT8 * bu
 
 BPS_UINT16 BPSParseSystemParaRsp(BPSCmdSystemParaRsp * rsp, const BPS_UINT8 * buf, BPS_WORD size)
 {
-    BPS_UINT16 i = 0, j;
+    BPS_UINT16 i = 0;
     BPS_UINT8 len;
     if(BPS_NULL == rsp || BPS_NULL == buf) {
         return 0;
     }
-    if(0 == size--) {
-        return 0;
-    }
+    BPS_ASSERT_SIZE_UINT8(size);
     rsp->configType = buf[i++];
 
-    if(0 == size--) {
-        return 0;
-    }
+    BPS_ASSERT_SIZE_UINT8(size);
     rsp->paraType = buf[i++];
 
-    if(0 == size--) {
-        return 0;
-    }
+    BPS_ASSERT_SIZE_UINT8(size);
     rsp->retCode = buf[i++];
 
     if(BPS_RET_CODE_OK == rsp->retCode && READ_SYS_PARA == rsp->paraType) {
-        if(0 == size--) {
-            return 0;
-        }
+        BPS_ASSERT_SIZE_UINT8(size);
         len = buf[i++];
         rsp->len = len;
 
-        if(len > size || len > BPS_MAX_STRING_LEN) {
+        if(len > rsp->maxLen || BPS_NULL == rsp->data) {
             return 0;
         }
-        size -= len;
-        for(j = 0; j < len; j++) {
-            rsp->data[j] = buf[i++];
-        }
+
+        BPS_ASSERT_SIZE(size, len);
+        memcpy_bps(rsp->data, buf, len);
+        i += len;
     }
 
     return i;
@@ -212,17 +162,19 @@ BPS_UINT16 BPSParseSystemParaReqDyn(BPSCmdSystemParaReq * req, const BPS_UINT8 *
     BPS_ASSERT_SIZE_UINT8(size);
     req->paraType = buf[i++];
 
-    BPS_ASSERT_SIZE_UINT8(size);
-    len = buf[i++];
-    req->len = len;
+    if(WRITE_SYS_PARA == req->configType) {
+        BPS_ASSERT_SIZE_UINT8(size);
+        len = buf[i++];
+        req->len = len;
 
-    BPS_ASSERT_SIZE(size, len);
-    req->data = (BPS_UINT8 *)malloc_bps(len);
-    if(BPS_NULL == req->data) {
-        return 0;
+        BPS_ASSERT_SIZE(size, len);
+        req->data = (BPS_UINT8 *)malloc_bps(len);
+        if(BPS_NULL == req->data) {
+            return 0;
+        }
+        memcpy_bps(req->data, buf+i, len);
+        i += len;
     }
-    memcpy_bps(req->data, buf+i, len);
-    i += len;
 
     return i;
 }
@@ -257,17 +209,20 @@ BPS_UINT16 BPSParseSystemParaRspDyn(BPSCmdSystemParaRsp * rsp, const BPS_UINT8 *
     BPS_ASSERT_SIZE_UINT8(size);
     rsp->retCode = buf[i++];
 
-    BPS_ASSERT_SIZE_UINT8(size);
-    len = buf[i++];
-    rsp->len = len;
 
-    BPS_ASSERT_SIZE(size, len);
-    rsp->data = (BPS_UINT8 *)malloc_bps(len);
-    if(BPS_NULL == rsp->data) {
-        return 0;
+    if(BPS_RET_CODE_OK == rsp->retCode && READ_SYS_PARA == rsp->paraType) {
+        BPS_ASSERT_SIZE_UINT8(size);
+        len = buf[i++];
+        rsp->len = len;
+
+        BPS_ASSERT_SIZE(size, len);
+        rsp->data = (BPS_UINT8 *)malloc_bps(len);
+        if(BPS_NULL == rsp->data) {
+            return 0;
+        }
+        memcpy_bps(rsp->data, buf+i, len);
+        i += len;
     }
-    memcpy_bps(rsp->data, buf+i, len);
-    i += len;
 
     return i;
 }
@@ -285,3 +240,4 @@ void BPSFreeMemSystemParaRsp(BPSCmdSystemParaRsp * rsp)
 }
 #endif
 
+#endif
