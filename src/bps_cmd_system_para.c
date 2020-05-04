@@ -22,8 +22,6 @@
 /// 
 ///////////////////////////////////////////////////////////////////////////////
 
-#if (BPS_CMD_SET == BPS_CMD_SET_B || BPS_CMD_SET == BPS_CMD_SET_T || BPS_CMD_SET == BPS_CMD_SET_C)
-
 #include <bps_cmd_system_para.h>
 #include <bps_ret_code.h>
 #include <bps_memcpy.h>
@@ -107,7 +105,7 @@ BPS_UINT16 BPSParseSystemParaReq(BPSCmdSystemParaReq * req, const BPS_UINT8 * bu
         }
 
         BPS_ASSERT_SIZE(size, len);
-        memcpy_bps(req->data, buf, len);
+        memcpy_bps(req->data, buf+i, len);
         i += len;
     }
 
@@ -140,7 +138,7 @@ BPS_UINT16 BPSParseSystemParaRsp(BPSCmdSystemParaRsp * rsp, const BPS_UINT8 * bu
         }
 
         BPS_ASSERT_SIZE(size, len);
-        memcpy_bps(rsp->data, buf, len);
+        memcpy_bps(rsp->data, buf+i, len);
         i += len;
     }
 
@@ -240,4 +238,3 @@ void BPSFreeMemSystemParaRsp(BPSCmdSystemParaRsp * rsp)
 }
 #endif
 
-#endif

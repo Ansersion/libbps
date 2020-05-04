@@ -62,7 +62,7 @@
 /** 
   * @Brief: BPS_CMD_SET define the command set for BPS_CMD_SET_B/BPS_CMD_SET_T/BPS_CMD_SET_C    
  */
-#define BPS_CMD_SET    BPS_CMD_SET_B
+#define BPS_CMD_SET    BPS_CMD_SET_T
 
 /** 
   * @Brief: BPS_USE_STD define this macro to use standard c library, otherwise we will use the ones from BPS

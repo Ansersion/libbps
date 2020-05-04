@@ -61,6 +61,8 @@
 /** 
   command set T
  */
+#define CMD_TRANS_BYTES_WORD_REQ  0x40
+#define CMD_TRANS_BYTES_WORD_RSP  (CMD_TRANS_BYTES_WORD_REQ+1)
 
 /** 
   command set C

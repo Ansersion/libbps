@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////////
-/// Copyright 2019 Ansersion
+/// Copyright 2019-2020 Ansersion
 /// 
 /// Licensed under the Apache License, Version 2.0 (the "License");
 /// you may not use this file except in compliance with the License.
@@ -25,11 +25,10 @@
 #ifndef __BPS_CMD_TRANS_BYTES_H
 #define __BPS_CMD_TRANS_BYTES_H
 
+#if (BPS_CMD_SET == BPS_CMD_SET_T || BPS_CMD_SET == BPS_CMD_SET_C)
+
 #include <bps_public.h>
 #include <bps_cwords.h>
-
-#define CMD_TRANS_BYTES_WORD_REQ  0xF8
-#define CMD_TRANS_BYTES_WORD_RSP  (CMD_TRANS_BYTES_WORD_REQ+1)
 
 typedef struct BPSCmdTransBytesReq {
     BPS_UINT8 len;
@@ -125,3 +124,4 @@ EXPORT_API void BPSFreeMemTransBytesRsp(BPSCmdTransBytesRsp * rsp);
 
 #endif
 
+#endif

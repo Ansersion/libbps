@@ -25,8 +25,6 @@
 #ifndef __BPS_CMD_SYSTEM_PARA_H
 #define __BPS_CMD_SYSTEM_PARA_H
 
-#if (BPS_CMD_SET == BPS_CMD_SET_B || BPS_CMD_SET == BPS_CMD_SET_T || BPS_CMD_SET == BPS_CMD_SET_C)
-
 #include <bps_public.h>
 #include <bps_cwords.h>
 
@@ -145,5 +143,4 @@ EXPORT_API void BPSFreeMemSystemParaRsp(BPSCmdSystemParaRsp * rsp);
 
 #endif
 
-#endif
 

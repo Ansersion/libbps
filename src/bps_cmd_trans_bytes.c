@@ -22,6 +22,8 @@
 /// 
 ///////////////////////////////////////////////////////////////////////////////
 
+#if (BPS_CMD_SET == BPS_CMD_SET_T || BPS_CMD_SET == BPS_CMD_SET_C)
+
 #include <bps_cmd_trans_bytes.h>
 #include <bps_ret_code.h>
 #include <bps_memcpy.h>
@@ -41,15 +43,9 @@ BPS_UINT16 BPSPackTransBytesReq(BPSCmdTransBytesReq * req, BPS_UINT8 * buf, BPS_
     BPS_ASSERT_SIZE_UINT8(size);
     buf[i++] = CMD_TRANS_BYTES_WORD_REQ;
 
-    BPS_ASSERT_SIZE_UINT8(size);
-    buf[i++] = req->len;;
-
-    if(BPS_NULL == req->data) {
-        return 0;
-    }
-    BPS_ASSERT_SIZE(size, req->len);
-    memcpy_bps(buf+i, req->data, req->len);
-    i += req->len;
+    BPS_ASSERT_SIZE(size, sizeof(BPS_UINT8) + req->len);
+    BPS_Set1ByteField(buf+i, req->data, req->len);
+    i += sizeof(BPS_UINT8) + req->len;
 
     return i;
 }
@@ -64,15 +60,9 @@ BPS_UINT16 BPSPackTransBytesRsp(BPSCmdTransBytesRsp * rsp, BPS_UINT8 * buf, BPS_
     BPS_ASSERT_SIZE_UINT8(size);
     buf[i++] = CMD_TRANS_BYTES_WORD_RSP;
 
-    BPS_ASSERT_SIZE_UINT8(size);
-    buf[i++] = rsp->len;
-
-    if(BPS_NULL == rsp->data) {
-        return 0;
-    }
-    BPS_ASSERT_SIZE(size, rsp->len);
-    memcpy_bps(buf+i, rsp->data, rsp->len);
-    i += rsp->len;
+    BPS_ASSERT_SIZE(size, sizeof(BPS_UINT8) + rsp->len);
+    BPS_Set1ByteField(buf+i, rsp->data, rsp->len);
+    i += sizeof(BPS_UINT8) + rsp->len;
 
     return i;
 }
@@ -88,7 +78,7 @@ BPS_UINT16 BPSParseTransBytesReq(BPSCmdTransBytesReq * req, const BPS_UINT8 * bu
     len = buf[i++];
     req->len = len;
 
-    if(req->maxLen < len) {
+    if(len > req->maxLen || BPS_NULL == req->data) {
         return 0;
     }
     BPS_ASSERT_SIZE(size, len);
@@ -109,7 +99,7 @@ BPS_UINT16 BPSParseTransBytesRsp(BPSCmdTransBytesRsp * rsp, const BPS_UINT8 * bu
     len = buf[i++];
     rsp->len = len;
 
-    if(rsp->maxLen < len) {
+    if(len > rsp->maxLen || BPS_NULL == rsp->data) {
         return 0;
     }
     BPS_ASSERT_SIZE(size, len);
@@ -193,3 +183,4 @@ void BPSFreeMemTransBytesRsp(BPSCmdTransBytesRsp * rsp)
 }
 #endif
 
+#endif
