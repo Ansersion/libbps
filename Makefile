@@ -17,7 +17,6 @@ SRC_DIR = src
 
 
 MACRO 	+= -DBPS_CPU64
-MACRO 	+= -DBPS_USE_STD
 
 CFLAGS +=		-Wall
 CFLAGS +=		$(COMPILE_OPTS) 

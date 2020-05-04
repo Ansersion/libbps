@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////////
-/// Copyright 2019 Ansersion
+/// Copyright 2019-2020 Ansersion
 /// 
 /// Licensed under the Apache License, Version 2.0 (the "License");
 /// you may not use this file except in compliance with the License.
@@ -26,6 +26,10 @@
 #define __BPS_PUBLIC_H
 
 #include <bps_config.h>
+
+#define BPS_CMD_SET_B_ID    'B'
+#define BPS_CMD_SET_T_ID    'T'
+#define BPS_CMD_SET_C_ID    'C'
 
 #define BPS_HEADER 		0xBBCC
 #define BPS_HEADER_SIZE 		2
@@ -89,6 +93,52 @@
   */
 #define BPS_ASSERT_SIZE_UINT8(SIZE) { \
     if(0 == SIZE--) { \
+        return 0; \
+    } \
+}
+
+/**
+  * @Brief BPS_ASSERT_SIZE_DYN check whether the message size is OK, only used in 
+           'bps_cmd_xxx.c' to check message size(for API with dynamical memory allocation)
+  * @Param SIZE the buffer size left
+  * @Param MSG_LEN the message length which needs to be equal/lower than parameter 'SIZE'
+  * @Param FREE_API memory free API
+  * @Param DATA the data structure which needs to be freed
+  */
+#define BPS_ASSERT_SIZE_DYN(SIZE, MSG_LEN, FREE_API, DATA) { \
+    if(SIZE < MSG_LEN) {   \
+        FREE_API(DATA); \
+        return 0;   \
+    }   \
+    SIZE -= MSG_LEN; \
+}
+
+/**
+  * @Brief BPS_ASSERT_SIZE_TYPE_DYN check whether the message size is OK, only used in 
+           'bps_cmd_xxx.c' to check message size(for API with dynamical memory allocation)
+  * @Param SIZE the buffer size left
+  * @Param TYPE the variable type whose size needs to be equal/lower than parameter 'SIZE'
+  * @Param FREE_API memory free API
+  * @Param DATA the data structure which needs to be freed
+  */
+#define BPS_ASSERT_SIZE_TYPE_DYN(SIZE, TYPE, FREE_API, DATA) { \
+    if(SIZE < sizeof(TYPE)) {   \
+        FREE_API(DATA); \
+        return 0;   \
+    }   \
+    SIZE -= sizeof(TYPE); \
+}
+
+/**
+  * @Brief BPS_ASSERT_SIZE_UINT8_DYN is same as BPS_ASSERT_SIZE_TYPE_DYN(SIZE, BPS_UINT8), but it's
+  *        more effective, only used in 'bps_cmd_xxx.c' to check message size(for API with dynamical memory allocation)
+  * @Param SIZE the buffer size left
+  * @Param FREE_API memory free API
+  * @Param DATA the data structure which needs to be freed
+  */
+#define BPS_ASSERT_SIZE_UINT8_DYN(SIZE, FREE_API, DATA) { \
+    if(0 == SIZE--) { \
+        FREE_API(DATA); \
         return 0; \
     } \
 }

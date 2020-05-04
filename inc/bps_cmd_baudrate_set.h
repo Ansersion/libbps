@@ -25,11 +25,11 @@
 #ifndef __BPS_CMD_BAUDRATE_SET_H
 #define __BPS_CMD_BAUDRATE_SET_H
 
+#if (BPS_CMD_SET == BPS_CMD_SET_B || BPS_CMD_SET == BPS_CMD_SET_T || BPS_CMD_SET == BPS_CMD_SET_C)
+
 #include <bps_public.h>
 #include <bps_cwords.h>
 
-#define CMD_BAUDRATE_SET_WORD_REQ  0x0E
-#define CMD_BAUDRATE_SET_WORD_RSP  (CMD_BAUDRATE_SET_WORD_REQ+1)
 
 typedef enum ReqTypeBaudrateSet {
     QUERY_RT_BAUDRATE_SET = 0,
@@ -87,6 +87,8 @@ EXPORT_API BPS_UINT16 BPSParseBaudrateSetRsp(BPSCmdBaudrateSetRsp * rsp, const B
     #define ParseBaudrateSetRspDyn     ParseBaudrateSetRsp
     #define BPSFreeMemBaudrateSetReq(x)     
     #define BPSFreeMemBaudrateSetRsp(x)     
+#endif
+
 #endif
 
 #endif

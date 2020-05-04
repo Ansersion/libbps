@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////////
-/// Copyright 2019 Ansersion
+/// Copyright 2019-2020 Ansersion
 /// 
 /// Licensed under the Apache License, Version 2.0 (the "License");
 /// you may not use this file except in compliance with the License.
@@ -25,16 +25,18 @@
 #ifndef __BPS_CMD_HD_INFO_H
 #define __BPS_CMD_HD_INFO_H
 
+#if (BPS_CMD_SET == BPS_CMD_SET_B || BPS_CMD_SET == BPS_CMD_SET_T || BPS_CMD_SET == BPS_CMD_SET_C)
+
 #include <bps_public.h>
 #include <bps_cwords.h>
 
-#define CMD_HD_INFO_WORD_REQ  0x02
-#define CMD_HD_INFO_WORD_RSP  0x03
-
 typedef enum RspTypeHdInfo {
-    SN_RST_HD_INFO,
+    SN_RST_HD_INFO = 0,
     HARD_V_RST_HD_INFO,
     SOFT_V_RST_HD_INFO,
+    /** customise your own info ID here */
+
+    HD_INFO_NUM,
 } HdInfoType;
 
 typedef struct BPSCmdHDInfoReq {
@@ -45,6 +47,7 @@ typedef struct BPSCmdHDInfoField {
     BPS_UINT8 type;
     BPS_UINT8 len;
     BPS_UINT8 * data;
+
     /** maxLen the size of 'data', 
       is set to be safe only for parsing that without dynamical memory allocation */
     BPS_WORD maxLen;
@@ -53,7 +56,17 @@ typedef struct BPSCmdHDInfoField {
 typedef struct BPSCmdHDInfoRsp {
     BPSCmdHDInfoField * fieldArray;
     BPS_WORD fieldNum;
-    /** maxFieldNum is set to be safe only for parsing that without dynamical memory allocation */
+
+    /** infoTypeArray info type array which the user concerns.
+      * only the info type included in the array will be parsed, the other will be 
+      * ignored. It's a good use for memory saving. 
+      * Setting it to BPS_NULL means parsing all the info types.
+      * Only for API without dynamical memory allocation.
+      */
+    HdInfoType * infoTypeArray;
+    BPS_UINT8 infoTypeArrayLen;
+
+    /** maxFieldNum is set to be safe only for parsing that without dynamical memory allocation. */
     BPS_WORD maxFieldNum;
 } BPSCmdHDInfoRsp;
 
@@ -115,6 +128,8 @@ EXPORT_API BPS_UINT16 BPSParseHDInfoRspDyn(BPSCmdHDInfoRsp * rsp, const BPS_UINT
   * @Param rsp the response data struct.
  */
 EXPORT_API void BPSFreeMemHDInfoRsp(BPSCmdHDInfoRsp * rsp);
+#endif
+
 #endif
 
 #endif

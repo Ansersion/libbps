@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////////
-/// Copyright 2019 Ansersion
+/// Copyright 2019-2020 Ansersion
 /// 
 /// Licensed under the Apache License, Version 2.0 (the "License");
 /// you may not use this file except in compliance with the License.
@@ -26,41 +26,44 @@
 #define __BPS_CWORDS_H
 
 /** 
-  basic command words
+  command set B
  */
-#define CMD_COMM_TEST_REQ               0x00
-#define CMD_COMM_TEST_RSP               (CMD_COMM_TEST_REQ+1)
+#define CMD_COMM_TEST_WORD_REQ  0x00
+#define CMD_COMM_TEST_WORD_RSP  (CMD_COMM_TEST_WORD_REQ+1)
 
-#define CMD_HD_INFO_REQ                 0x02
-#define CMD_HD_INFO_RSP                 (CMD_HD_INFO_REQ+1)
+#define CMD_HD_INFO_WORD_REQ  0x02
+#define CMD_HD_INFO_WORD_RSP  (CMD_HD_INFO_WORD_REQ+1)
 
-#define CMD_ALIVE_INTERVAL_REQ          0x04
-#define CMD_ALIVE_INTERVAL_RSP          (CMD_ALIVE_INTERVAL_REQ+1)
+#define CMD_BAUDRATE_SET_WORD_REQ  0x04
+#define CMD_BAUDRATE_SET_WORD_RSP  (CMD_BAUDRATE_SET_WORD_REQ+1)
 
-#define CMD_NET_MODE_OPEN_REQ           0x06
-#define CMD_NET_MODE_OPEN_RSP           (CMD_NET_MODE_OPEN_REQ+1)
+#define CMD_LAUNCH_UPDATE_WORD_REQ  0x06
+#define CMD_LAUNCH_UPDATE_WORD_RSP  (CMD_LAUNCH_UPDATE_WORD_REQ+1)
 
-#define CMD_NET_MODE_SET_REQ            0x08
-#define CMD_NET_MODE_SET_RSP            (CMD_NET_MODE_SET_REQ+1)
+#define CMD_CLEAR_SPACE_WORD_REQ  0x08
+#define CMD_CLEAR_SPACE_WORD_RSP  (CMD_CLEAR_SPACE_WORD_REQ+1)
 
-#define CMD_NET_STATE_REQ               0x0A
-#define CMD_NET_STATE_RSP               (CMD_NET_STATE_REQ+1)
+#define CMD_WRITE_FRMW_WORD_REQ  0x0A
+#define CMD_WRITE_FRMW_WORD_RSP  (CMD_WRITE_FRMW_WORD_REQ+1)
 
-/**
-  signal command words
-  */
+#define CMD_UPDATE_CHECKSUM_WORD_REQ  0x0C
+#define CMD_UPDATE_CHECKSUM_WORD_RSP  (CMD_UPDATE_CHECKSUM_WORD_REQ+1)
 
-#define CMD_GET_SIG_TAB_REQ             0x80
-#define CMD_GET_SIG_TAB_RSP             (CMD_GET_SIG_TAB_REQ+1)
+#define CMD_RESET_WORD_REQ  0x0E
+#define CMD_RESET_WORD_RSP  (CMD_RESET_WORD_REQ+1)
 
-#define CMD_REPORT_SIG_REQ              0x82
-#define CMD_REPORT_SIG_RSP              (CMD_REPORT_SIG_REQ+1)
+#define CMD_FAC_RESTORE_WORD_REQ  0x10
+#define CMD_FAC_RESTORE_WORD_RSP  (CMD_FAC_RESTORE_WORD_REQ+1)
 
-#define CMD_RESPOND_CMD_REQ             0x84
-#define CMD_RESPOND_CMD_RSP             (CMD_RESPOND_CMD_REQ+1)
+#define CMD_ADDR_SET_WORD_REQ  0x12
+#define CMD_ADDR_SET_WORD_RSP  (CMD_ADDR_SET_WORD_REQ+1)
 
-#define CMD_RESPOND_VALUE_REQ           0x86
-#define CMD_RESPOND_VALUE_RSP           (CMD_RESPOND_VALUE_REQ+1)
+/** 
+  command set T
+ */
 
+/** 
+  command set C
+ */
 #endif
 

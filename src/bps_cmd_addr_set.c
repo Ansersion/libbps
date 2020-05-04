@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////////
-/// Copyright 2019-2020 Ansersion
+/// Copyright 2020 Ansersion
 /// 
 /// Licensed under the Apache License, Version 2.0 (the "License");
 /// you may not use this file except in compliance with the License.
@@ -13,8 +13,8 @@
 /// See the License for the specific language governing permissions and
 /// limitations under the License.
 ///
-/// @file 	bps_cmd_comm_test.c
-/// @brief 	APIs for command 'communication test'
+/// @file 	bps_cmd_addr_set.c
+/// @brief 	APIs for command 'set the BPS address'
 /// 
 /// @version 	0.1
 /// @author 	Ansersion
@@ -24,21 +24,64 @@
 
 #if (BPS_CMD_SET == BPS_CMD_SET_B || BPS_CMD_SET == BPS_CMD_SET_T || BPS_CMD_SET == BPS_CMD_SET_C)
 
-#include <bps_cmd_comm_test.h>
+#include <bps_cmd_addr_set.h>
 
-BPS_UINT16 BPSPackCommTestReq(BPSCmdCommTestReq * req, BPS_UINT8 * buf, BPS_WORD size)
+BPS_UINT16 BPSPackAddrSetReq(BPSCmdAddrSetReq * req, BPS_UINT8 * buf, BPS_WORD size)
 {
     BPS_UINT16 i = 0;
     if(BPS_NULL == req || BPS_NULL == buf) {
         return 0;
     }
     BPS_ASSERT_SIZE_UINT8(size);
-    buf[i++] = CMD_COMM_TEST_WORD_REQ;
+    buf[i++] = CMD_ADDR_SET_WORD_REQ;
+
+    BPS_ASSERT_SIZE_TYPE(size, BPS_UINT16);
+    buf = BPS_SetBig16(&(buf[i]), SECURITY_WORD_ADDR_SET);
+    i += sizeof(BPS_UINT16);
+
+    BPS_ASSERT_SIZE_UINT8(size);
+    buf[i++] = req->addr;
 
     return i;
 }
 
-BPS_UINT16 BPSPackCommTestRsp(BPSCmdCommTestRsp * rsp, BPS_UINT8 * buf, BPS_WORD size)
+BPS_UINT16 BPSPackAddrSetRsp(BPSCmdAddrSetRsp * rsp, BPS_UINT8 * buf, BPS_WORD size)
+{
+    BPS_UINT16 i = 0;
+    if(BPS_NULL == rsp || BPS_NULL == buf) {
+        return 0;
+    }
+    BPS_ASSERT_SIZE_UINT8(size);
+    buf[i++] = CMD_ADDR_SET_WORD_RSP;
+
+    BPS_ASSERT_SIZE_UINT8(size);
+    buf[i++] = rsp->retCode;
+
+    return i;
+}
+
+BPS_UINT16 BPSParseAddrSetReq(BPSCmdAddrSetReq * req, const BPS_UINT8 * buf, BPS_WORD size)
+{
+    BPS_UINT16 i = 0;
+    BPS_UINT16 security_word = 0;
+    if(BPS_NULL == req || BPS_NULL == buf) {
+        return 0;
+    }
+
+    BPS_ASSERT_SIZE_TYPE(size, BPS_UINT16);
+    buf = BPS_GetBig16(&(buf[i]), &security_word);
+    if(SECURITY_WORD_ADDR_SET != security_word) {
+        return 0;
+    }
+    i += sizeof(BPS_UINT16);
+
+    BPS_ASSERT_SIZE_UINT8(size);
+    req->addr = buf[i++];
+
+    return i;
+}
+
+BPS_UINT16 BPSParseAddrSetRsp(BPSCmdAddrSetRsp * rsp, const BPS_UINT8 * buf, BPS_WORD size)
 {
     BPS_UINT16 i = 0;
     if(BPS_NULL == rsp || BPS_NULL == buf) {
@@ -46,33 +89,10 @@ BPS_UINT16 BPSPackCommTestRsp(BPSCmdCommTestRsp * rsp, BPS_UINT8 * buf, BPS_WORD
     }
 
     BPS_ASSERT_SIZE_UINT8(size);
-    buf[i++] = CMD_COMM_TEST_WORD_RSP;
-
-    BPS_ASSERT_SIZE_UINT8(size);
-    buf[i++] = BPS_CMD_SET;
-
-    return i;
-}
-
-BPS_UINT16 BPSParseCommTestReq(BPSCmdCommTestReq * req, const BPS_UINT8 * buf, BPS_WORD size)
-{
-    BPS_UINT16 i = 0;
-    if(BPS_NULL == req || BPS_NULL == buf) {
-        return 0;
-    }
-    return i;
-}
-
-BPS_UINT16 BPSParseCommTestRsp(BPSCmdCommTestRsp * rsp, const BPS_UINT8 * buf, BPS_WORD size)
-{
-    BPS_UINT16 i = 0;
-    if(BPS_NULL == rsp || BPS_NULL == buf) {
-        return 0;
-    }
-    BPS_ASSERT_SIZE_UINT8(size);
-    rsp->cmdSet = buf[i++];
+    rsp->retCode = buf[i++];
 
     return i;
 }
 
 #endif
+

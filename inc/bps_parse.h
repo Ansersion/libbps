@@ -27,6 +27,14 @@
 
 #include <bps_public.h>
 #include <bps_cmd_comm_test.h>
+#include <bps_cmd_baudrate_set.h>
+#include <bps_cmd_launch_update.h>
+#include <bps_cmd_clear_space.h>
+#include <bps_cmd_write_frmw.h>
+#include <bps_cmd_update_checksum.h>
+#include <bps_cmd_reset.h>
+#include <bps_cmd_fac_restore.h>
+#include <bps_cmd_addr_set.h>
 #include <bps_cmd_hd_info.h>
 #include <bps_cmd_ping.h>
 #include <bps_cmd_open_netset.h>
@@ -45,6 +53,22 @@ typedef union BPSCmdPacketUnion {
     BPSCmdCommTestRsp           commTestRsp;
     BPSCmdHDInfoReq             hdInfoReq;
     BPSCmdHDInfoRsp             hdInfoRsp;
+    BPSCmdBaudrateSetReq      	baudrateSetReq;
+    BPSCmdBaudrateSetRsp      	baudrateSetRsp;
+    BPSCmdLnchUpdateReq         lnchUpdateReq;
+    BPSCmdLnchUpdateRsp         lnchUpdateRsp;
+    BPSCmdClearSpaceReq         clearSpaceReq;
+    BPSCmdClearSpaceRsp         clearSpaceRsp;
+    BPSCmdWriteFrmwReq          writeFrmwReq;
+    BPSCmdWriteFrmwRsp          writeFrmwRsp;
+    BPSCmdUpdateChecksumReq     updateChksumReq;
+    BPSCmdUpdateChecksumRsp     updateChksumRsp;
+    BPSCmdResetReq              resetReq;
+    BPSCmdResetRsp              resetRsp;
+    BPSCmdFacRestoreReq         facRestoreReq;
+    BPSCmdFacRestoreRsp         facRestoreRsp;
+    BPSCmdAddrSetReq            addrSetReq;
+    BPSCmdAddrSetRsp            addrSetRsp;
     BPSCmdPingReq               pingReq;
     BPSCmdPingRsp               pingRsp;
     BPSCmdOpenNetsetReq         openNetsetReq;
@@ -53,8 +77,6 @@ typedef union BPSCmdPacketUnion {
     BPSCmdConfigNetsetRsp       configNetsetRsp;
     BPSCmdNetstateQueryReq      netstateQueryReq;
     BPSCmdNetstateQueryRsp      netstateQueryRsp;
-    BPSCmdBaudrateSetReq      	baudrateSetReq;
-    BPSCmdBaudrateSetRsp      	baudrateSetRsp;
     BPSCmdGetSigtabReq          getSigtabReq;
     BPSCmdGetSigtabRsp          getSigtabRsp;
     BPSCmdReportSigReq          reportSigReq;

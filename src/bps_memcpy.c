@@ -43,25 +43,13 @@ void * memcpy_bps(void * dst, const void * src, BPS_WORD count)
         return dst;
     }
 
-	nword = count/sizeof(dst);
-	npad = count%sizeof(dst);
+	s = (BPS_UINT8 *)src;  
+	d = (BPS_UINT8 *)dst;  
 
-	s = (BPS_WORD *)src;  
-	d = (BPS_WORD *)dst;  
-
-	while(nword--)  
+	while(count--)  
 	{
 		*d++ = *s++;  
 		// printf("%x ", *(d-1));
-	}
-	// printf("\n");
-
-	s8 = (BPS_UINT8 *)s;
-	d8 = (BPS_UINT8 *)d;
-	while(npad--)  
-	{
-		*d8++ = *s8++;  
-		// printf("%x ", *(d8-1));
 	}
 	// printf("\n");
 

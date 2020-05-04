@@ -13,8 +13,8 @@
 /// See the License for the specific language governing permissions and
 /// limitations under the License.
 ///
-/// @file 	bps_cmd_baudrate_set.c
-/// @brief 	APIs for command 'set/query serial baudrate'
+/// @file 	bps_cmd_update_checksum.c
+/// @brief 	APIs for command 'check the update firmware'
 /// 
 /// @version 	0.1
 /// @author 	Ansersion
@@ -24,68 +24,92 @@
 
 #if (BPS_CMD_SET == BPS_CMD_SET_B || BPS_CMD_SET == BPS_CMD_SET_T || BPS_CMD_SET == BPS_CMD_SET_C)
 
-#include <bps_cmd_baudrate_set.h>
+#include <bps_cmd_update_checksum.h>
 
-BPS_UINT16 BPSPackBaudrateSetReq(BPSCmdBaudrateSetReq * req, BPS_UINT8 * buf, BPS_WORD size)
+BPS_UINT16 BPSPackUpdateChecksumReq(BPSCmdUpdateChecksumReq * req, BPS_UINT8 * buf, BPS_WORD size)
 {
     BPS_UINT16 i = 0;
     if(BPS_NULL == req || BPS_NULL == buf) {
         return 0;
     }
     BPS_ASSERT_SIZE_UINT8(size);
-    buf[i++] = CMD_BAUDRATE_SET_WORD_REQ;
+    buf[i++] = CMD_UPDATE_CHECKSUM_WORD_REQ;
+
+    BPS_ASSERT_SIZE_TYPE(size, BPS_UINT16);
+    buf = BPS_SetBig16(&(buf[i]), SECURITY_WORD_UPDATE_CHKSUM);
+    i += sizeof(BPS_UINT16);
 
     BPS_ASSERT_SIZE_UINT8(size);
-    buf[i++] = req->type;
+    buf[i++] = req->mode;
 
-    if(SET_RT_BAUDRATE_SET == req->type) {
+    BPS_ASSERT_SIZE_TYPE(size, BPS_UINT32);
+    buf = BPS_SetBig32(&(buf[i]), req->len);
+    i += sizeof(BPS_UINT32);
+
+    BPS_ASSERT_SIZE_TYPE(size, BPS_UINT32);
+    buf = BPS_SetBig32(&(buf[i]), req->chksum);
+    i += sizeof(BPS_UINT32);
+
+    if(RT_UPDATE_CHECKSUM_GUIDE == req->mode) {
         BPS_ASSERT_SIZE_TYPE(size, BPS_UINT32);
-        buf = BPS_SetBig32(&(buf[i]), req->baudrate);
+        buf = BPS_SetBig32(&(buf[i]), req->addr);
         i += sizeof(BPS_UINT32);
     }
 
     return i;
 }
 
-BPS_UINT16 BPSPackBaudrateSetRsp(BPSCmdBaudrateSetRsp * rsp, BPS_UINT8 * buf, BPS_WORD size)
+BPS_UINT16 BPSPackUpdateChecksumRsp(BPSCmdUpdateChecksumRsp * rsp, BPS_UINT8 * buf, BPS_WORD size)
 {
     BPS_UINT16 i = 0;
     if(BPS_NULL == rsp || BPS_NULL == buf) {
         return 0;
     }
     BPS_ASSERT_SIZE_UINT8(size);
-    buf[i++] = CMD_BAUDRATE_SET_WORD_RSP;
+    buf[i++] = CMD_UPDATE_CHECKSUM_WORD_RSP;
 
     BPS_ASSERT_SIZE_UINT8(size);
     buf[i++] = rsp->retCode;
 
-    BPS_ASSERT_SIZE_TYPE(size, BPS_UINT32);
-    buf = BPS_SetBig32(&(buf[i]), rsp->baudrate);
-    i += sizeof(BPS_UINT32);
-
     return i;
 }
 
-BPS_UINT16 BPSParseBaudrateSetReq(BPSCmdBaudrateSetReq * req, const BPS_UINT8 * buf, BPS_WORD size)
+BPS_UINT16 BPSParseUpdateChecksumReq(BPSCmdUpdateChecksumReq * req, const BPS_UINT8 * buf, BPS_WORD size)
 {
     BPS_UINT16 i = 0;
+    BPS_UINT16 security_word = 0;
     if(BPS_NULL == req || BPS_NULL == buf) {
         return 0;
     }
 
-    BPS_ASSERT_SIZE_UINT8(size);
-    req->type = buf[i++];
+    BPS_ASSERT_SIZE_TYPE(size, BPS_UINT16);
+    buf = BPS_GetBig16(&(buf[i]), &security_word);
+    if(SECURITY_WORD_UPDATE_CHKSUM != security_word) {
+        return 0;
+    }
+    i += sizeof(BPS_UINT16);
 
-    if(SET_RT_BAUDRATE_SET == req->type) {
+    BPS_ASSERT_SIZE_UINT8(size);
+    req->mode = buf[i++];
+
+    BPS_ASSERT_SIZE_TYPE(size, BPS_UINT32);
+    buf = BPS_GetBig32(&(buf[i]), &(req->len));
+    i += sizeof(BPS_UINT32);
+
+    BPS_ASSERT_SIZE_TYPE(size, BPS_UINT32);
+    buf = BPS_GetBig32(&(buf[i]), &(req->chksum));
+    i += sizeof(BPS_UINT32);
+
+    if(RT_UPDATE_CHECKSUM_GUIDE == req->mode) {
         BPS_ASSERT_SIZE_TYPE(size, BPS_UINT32);
-        buf = BPS_GetBig32(&(buf[i]), &(req->baudrate));
+        buf = BPS_GetBig32(&(buf[i]), &(req->addr));
         i += sizeof(BPS_UINT32);
     }
 
     return i;
 }
 
-BPS_UINT16 BPSParseBaudrateSetRsp(BPSCmdBaudrateSetRsp * rsp, const BPS_UINT8 * buf, BPS_WORD size)
+BPS_UINT16 BPSParseUpdateChecksumRsp(BPSCmdUpdateChecksumRsp * rsp, const BPS_UINT8 * buf, BPS_WORD size)
 {
     BPS_UINT16 i = 0;
     if(BPS_NULL == rsp || BPS_NULL == buf) {
@@ -94,10 +118,6 @@ BPS_UINT16 BPSParseBaudrateSetRsp(BPSCmdBaudrateSetRsp * rsp, const BPS_UINT8 * 
 
     BPS_ASSERT_SIZE_UINT8(size);
     rsp->retCode = buf[i++];
-
-    BPS_ASSERT_SIZE_TYPE(size, BPS_UINT32);
-    buf = BPS_GetBig32(&(buf[i]), &(rsp->baudrate));
-    i += sizeof(BPS_UINT32);
 
     return i;
 }
