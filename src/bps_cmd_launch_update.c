@@ -22,10 +22,10 @@
 /// 
 ///////////////////////////////////////////////////////////////////////////////
 
-#if (BPS_CMD_SET == BPS_CMD_SET_B || BPS_CMD_SET == BPS_CMD_SET_T || BPS_CMD_SET == BPS_CMD_SET_C)
 
 #include <bps_cmd_launch_update.h>
 
+#if (BPS_CMD_SET == BPS_CMD_SET_B || BPS_CMD_SET == BPS_CMD_SET_T || BPS_CMD_SET == BPS_CMD_SET_C)
 BPS_UINT16 BPSPackLnchUpdateReq(BPSCmdLnchUpdateReq * req, BPS_UINT8 * buf, BPS_WORD size)
 {
     BPS_UINT16 i = 0;
@@ -36,7 +36,7 @@ BPS_UINT16 BPSPackLnchUpdateReq(BPSCmdLnchUpdateReq * req, BPS_UINT8 * buf, BPS_
     buf[i++] = CMD_LAUNCH_UPDATE_WORD_REQ;
 
     BPS_ASSERT_SIZE_TYPE(size, BPS_UINT16);
-    buf = BPS_SetBig16(&(buf[i]), SECURITY_WORD_LNCH_UPDATE);
+    BPS_SetBig16(&(buf[i]), SECURITY_WORD_LNCH_UPDATE);
     i += sizeof(BPS_UINT16);
 
     return i;

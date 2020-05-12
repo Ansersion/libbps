@@ -29,24 +29,25 @@ extern "C"
 #include <bps_cmd_comm_test.h>
 }
 
-
 using namespace std;
 
-/** post siangl: signal ID=0x0001, type=0x04(ENUM), value=0x0002 */
+/** communication test T Device*/
+#define TEST_COMMAND_SET    BPS_CMD_SET_T
+
 static const int MSG_BUF_SIZE = 256;
 static BPS_UINT8 buf[MSG_BUF_SIZE];
 static const int MCU_ADDR = 0;
 static const int MODULE_ADDR = 1;
 static const BPS_WORD HEADER_SIZE = BPS_HEADER_SIZE - BPS_VERSION_SIZE - BPS_ADDR_SIZE - BPS_REMAIN_LEN_SIZE;
 
-BPS_UINT8 COMM_TEST_REQ_MSG[] = 
+static BPS_UINT8 REQ_MSG[] = 
 {
     0xBB, 0xCC, 0x00, 0x01, 0x00, 0x01, 0x00, 0x02
 };
 
-BPS_UINT8 COMM_TEST_RSP_MSG[] = 
+static BPS_UINT8 RSP_MSG[] = 
 {
-    0xBB, 0xCC, 0x00, 0x10, 0x00, 0x01, 0x01, 0x12
+    0xBB, 0xCC, 0x00, 0x10, 0x00, 0x02, 0x01, TEST_COMMAND_SET, 0x67
 };
 
 /** pack the communication test command request
@@ -68,8 +69,8 @@ TEST(COMMAND_COMM_TEST, PackRequest)
     PackBPSRemainLen(buf + BPS_REMAIN_LEN_POSITION, tmpLen);
     EXPECT_NE(PackBPSChecksum(buf, MSG_BUF_SIZE), (BPS_UINT8 *)BPS_NULL);
     tmpLen += HEADER_SIZE + BPS_CHECKSUM_SIZE;
-    for(size_t i = 0; i < sizeof(COMM_TEST_REQ_MSG); i++) {
-        EXPECT_EQ(COMM_TEST_REQ_MSG[i], buf[i]);
+    for(size_t i = 0; i < sizeof(REQ_MSG); i++) {
+        EXPECT_EQ(REQ_MSG[i], buf[i]);
     }
 }
 
@@ -93,8 +94,8 @@ TEST(COMMAND_COMM_TEST, PackResponse)
     PackBPSRemainLen(buf + BPS_REMAIN_LEN_POSITION, tmpLen);
     EXPECT_NE(PackBPSChecksum(buf, MSG_BUF_SIZE), (BPS_UINT8 *)BPS_NULL);
     tmpLen += HEADER_SIZE + BPS_CHECKSUM_SIZE;
-    for(size_t i = 0; i < sizeof(COMM_TEST_RSP_MSG); i++) {
-        EXPECT_EQ(COMM_TEST_RSP_MSG[i], buf[i]);
+    for(size_t i = 0; i < sizeof(RSP_MSG); i++) {
+        EXPECT_EQ(RSP_MSG[i], buf[i]);
     }
 }
 
@@ -102,16 +103,38 @@ TEST(COMMAND_COMM_TEST, PackResponse)
   * packet flow: MODULE <- MCU */
 TEST(COMMAND_COMM_TEST, ParseRequest)
 {
-    BPS_WORD size = sizeof(COMM_TEST_REQ_MSG);
+    BPS_WORD size = sizeof(REQ_MSG);
     BPSCmdCommTestReq data;
-    BPSParseCommTestReq(&data, COMM_TEST_REQ_MSG+BPS_CMD_WORD_POSITION+1, size);
+    BPSParseCommTestReq(&data, REQ_MSG+BPS_CMD_WORD_POSITION+1, size);
 }
 
 /** parse the communication test command response 
   * packet flow: MCU <- MODULE */
 TEST(COMMAND_COMM_TEST, ParseResponse)
 {
-    BPS_WORD size = sizeof(COMM_TEST_RSP_MSG);
+    BPS_WORD size = sizeof(RSP_MSG);
     BPSCmdCommTestRsp data;
-    BPSParseCommTestRsp(&data, COMM_TEST_RSP_MSG+BPS_CMD_WORD_POSITION+1, size);
+    BPSParseCommTestRsp(&data, RSP_MSG+BPS_CMD_WORD_POSITION+1, size);
+    EXPECT_EQ(data.cmdSet, TEST_COMMAND_SET);
+}
+
+/** parse(DYN) the communication test command request
+  * packet flow: MODULE <- MCU */
+TEST(COMMAND_COMM_TEST, ParseRequestDyn)
+{
+    BPS_WORD size = sizeof(REQ_MSG);
+    BPSCmdCommTestReq data;
+    BPSParseCommTestReqDyn(&data, REQ_MSG+BPS_CMD_WORD_POSITION+1, size);
+    BPSFreeMemCommTestReq(&data);
+}
+
+/** parse(DYN) the communication test command response 
+  * packet flow: MCU <- MODULE */
+TEST(COMMAND_COMM_TEST, ParseResponseDyn)
+{
+    BPS_WORD size = sizeof(RSP_MSG);
+    BPSCmdCommTestRsp data;
+    BPSParseCommTestRspDyn(&data, RSP_MSG+BPS_CMD_WORD_POSITION+1, size);
+    EXPECT_EQ(data.cmdSet, TEST_COMMAND_SET);
+    BPSFreeMemCommTestRsp(&data);
 }

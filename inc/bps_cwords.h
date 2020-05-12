@@ -67,12 +67,15 @@
 /** 
   command set C
  */
+#define CMD_GET_SIGTAB_WORD_REQ  0x80
+#define CMD_GET_SIGTAB_WORD_RSP  (CMD_GET_SIGTAB_WORD_REQ+1)
+
 
 /** 
   commands O
  */
 #define CMD_SYSTEM_PARA_WORD_REQ  0xEE
-#define CMD_SYSTEM_PARA_WORD_RSP  0xEF
+#define CMD_SYSTEM_PARA_WORD_RSP  (CMD_SYSTEM_PARA_WORD_REQ+1)
 
 
 #endif

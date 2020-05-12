@@ -22,9 +22,10 @@
 /// 
 ///////////////////////////////////////////////////////////////////////////////
 
-#if (BPS_CMD_SET == BPS_CMD_SET_B || BPS_CMD_SET == BPS_CMD_SET_T || BPS_CMD_SET == BPS_CMD_SET_C)
 
 #include <bps_cmd_reset.h>
+
+#if (BPS_CMD_SET == BPS_CMD_SET_B || BPS_CMD_SET == BPS_CMD_SET_T || BPS_CMD_SET == BPS_CMD_SET_C)
 
 BPS_UINT16 BPSPackResetReq(BPSCmdResetReq * req, BPS_UINT8 * buf, BPS_WORD size)
 {
@@ -36,7 +37,7 @@ BPS_UINT16 BPSPackResetReq(BPSCmdResetReq * req, BPS_UINT8 * buf, BPS_WORD size)
     buf[i++] = CMD_RESET_WORD_REQ;
 
     BPS_ASSERT_SIZE_TYPE(size, BPS_UINT16);
-    buf = BPS_SetBig16(&(buf[i]), SECURITY_WORD_RESET);
+    BPS_SetBig16(&(buf[i]), SECURITY_WORD_RESET);
     i += sizeof(BPS_UINT16);
 
     return i;

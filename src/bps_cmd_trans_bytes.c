@@ -22,7 +22,6 @@
 /// 
 ///////////////////////////////////////////////////////////////////////////////
 
-#if (BPS_CMD_SET == BPS_CMD_SET_T || BPS_CMD_SET == BPS_CMD_SET_C)
 
 #include <bps_cmd_trans_bytes.h>
 #include <bps_ret_code.h>
@@ -32,6 +31,8 @@
 #ifdef BPS_MEM_DYN
     #include <bps_memmng.h>
 #endif
+
+#if (BPS_CMD_SET == BPS_CMD_SET_T || BPS_CMD_SET == BPS_CMD_SET_C)
 
 BPS_UINT16 BPSPackTransBytesReq(BPSCmdTransBytesReq * req, BPS_UINT8 * buf, BPS_WORD size)
 {

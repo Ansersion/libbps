@@ -16,8 +16,6 @@ INCLUDES += -Iinc
 SRC_DIR = src
 
 
-MACRO 	+= -DBPS_CPU64
-
 CFLAGS +=		-Wall
 CFLAGS +=		$(COMPILE_OPTS) 
 CFLAGS +=		$(MACRO) 

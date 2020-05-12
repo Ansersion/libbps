@@ -49,6 +49,8 @@
 #include <bps_cmd_trans_bytes.h>
 
 typedef union BPSCmdPacketUnion {
+#if (BPS_CMD_SET == BPS_CMD_SET_B || BPS_CMD_SET == BPS_CMD_SET_T || BPS_CMD_SET == BPS_CMD_SET_C)
+    /** Command Set B */
     BPSCmdCommTestReq           commTestReq;
     BPSCmdCommTestRsp           commTestRsp;
     BPSCmdHDInfoReq             hdInfoReq;
@@ -69,6 +71,16 @@ typedef union BPSCmdPacketUnion {
     BPSCmdFacRestoreRsp         facRestoreRsp;
     BPSCmdAddrSetReq            addrSetReq;
     BPSCmdAddrSetRsp            addrSetRsp;
+#endif
+
+#if (BPS_CMD_SET == BPS_CMD_SET_T || BPS_CMD_SET == BPS_CMD_SET_C)
+    /** Command Set T */
+    BPSCmdTransBytesReq         transBytesReq;
+    BPSCmdTransBytesRsp         transBytesRsp;
+#endif
+
+#if (BPS_CMD_SET == BPS_CMD_SET_C)
+    /** Command Set C */
     BPSCmdPingReq               pingReq;
     BPSCmdPingRsp               pingRsp;
     BPSCmdOpenNetsetReq         openNetsetReq;
@@ -85,10 +97,11 @@ typedef union BPSCmdPacketUnion {
     BPSCmdPostRsp               postRsp;
     BPSCmdGetSigReq             getSigReq;
     BPSCmdGetSigRsp             getSigRsp;
+#endif
+
+    /** O Commands */
     BPSCmdSystemParaReq         sysParaReq;
     BPSCmdSystemParaRsp         sysParaRsp;
-    BPSCmdTransBytesReq         transBytesReq;
-    BPSCmdTransBytesRsp         transBytesRsp;
 } BPSCmdPacketUnion;
 
 typedef struct BPSPacketData {

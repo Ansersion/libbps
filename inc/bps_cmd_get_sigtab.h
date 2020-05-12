@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////////
-/// Copyright 2019 Ansersion
+/// Copyright 2019-2020 Ansersion
 /// 
 /// Licensed under the Apache License, Version 2.0 (the "License");
 /// you may not use this file except in compliance with the License.
@@ -25,11 +25,10 @@
 #ifndef __BPS_CMD_GET_SIGTAB_H
 #define __BPS_CMD_GET_SIGTAB_H
 
+#if (BPS_CMD_SET == BPS_CMD_SET_C)
+
 #include <bps_public.h>
 #include <bps_cwords.h>
-
-#define CMD_GET_SIGTAB_WORD_REQ  0x80
-#define CMD_GET_SIGTAB_WORD_RSP  0x81
 
 typedef struct BPSCmdGetSigtabReq {
     BPS_UINT8 recv;
@@ -43,7 +42,8 @@ typedef struct BPSCmdGetSigtabField {
 
 typedef struct BPSCmdGetSigtabRsp {
     BPSCmdGetSigtabField * fieldArray;
-    BPS_WORD fieldNum;
+    BPS_UINT16 fieldNum;
+
     /** maxFieldNum is set to be safe only for parsing that without dynamical memory allocation */
     BPS_WORD maxFieldNum;
 } BPSCmdGetSigtabRsp;
@@ -110,3 +110,4 @@ EXPORT_API void BPSFreeMemGetSigtabRsp(BPSCmdGetSigtabRsp * rsp);
 
 #endif
 
+#endif

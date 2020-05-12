@@ -22,9 +22,10 @@
 /// 
 ///////////////////////////////////////////////////////////////////////////////
 
-#if (BPS_CMD_SET == BPS_CMD_SET_B || BPS_CMD_SET == BPS_CMD_SET_T || BPS_CMD_SET == BPS_CMD_SET_C)
 
 #include <bps_cmd_baudrate_set.h>
+
+#if (BPS_CMD_SET == BPS_CMD_SET_B || BPS_CMD_SET == BPS_CMD_SET_T || BPS_CMD_SET == BPS_CMD_SET_C)
 
 BPS_UINT16 BPSPackBaudrateSetReq(BPSCmdBaudrateSetReq * req, BPS_UINT8 * buf, BPS_WORD size)
 {
@@ -40,7 +41,7 @@ BPS_UINT16 BPSPackBaudrateSetReq(BPSCmdBaudrateSetReq * req, BPS_UINT8 * buf, BP
 
     if(SET_RT_BAUDRATE_SET == req->type) {
         BPS_ASSERT_SIZE_TYPE(size, BPS_UINT32);
-        buf = BPS_SetBig32(&(buf[i]), req->baudrate);
+        BPS_SetBig32(&(buf[i]), req->baudrate);
         i += sizeof(BPS_UINT32);
     }
 
@@ -60,7 +61,7 @@ BPS_UINT16 BPSPackBaudrateSetRsp(BPSCmdBaudrateSetRsp * rsp, BPS_UINT8 * buf, BP
     buf[i++] = rsp->retCode;
 
     BPS_ASSERT_SIZE_TYPE(size, BPS_UINT32);
-    buf = BPS_SetBig32(&(buf[i]), rsp->baudrate);
+    BPS_SetBig32(&(buf[i]), rsp->baudrate);
     i += sizeof(BPS_UINT32);
 
     return i;

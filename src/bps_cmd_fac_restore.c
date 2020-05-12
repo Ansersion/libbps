@@ -22,9 +22,10 @@
 /// 
 ///////////////////////////////////////////////////////////////////////////////
 
-#if (BPS_CMD_SET == BPS_CMD_SET_B || BPS_CMD_SET == BPS_CMD_SET_T || BPS_CMD_SET == BPS_CMD_SET_C)
 
 #include <bps_cmd_fac_restore.h>
+
+#if (BPS_CMD_SET == BPS_CMD_SET_B || BPS_CMD_SET == BPS_CMD_SET_T || BPS_CMD_SET == BPS_CMD_SET_C)
 
 BPS_UINT16 BPSPackFacRestoreReq(BPSCmdFacRestoreReq * req, BPS_UINT8 * buf, BPS_WORD size)
 {
@@ -36,7 +37,7 @@ BPS_UINT16 BPSPackFacRestoreReq(BPSCmdFacRestoreReq * req, BPS_UINT8 * buf, BPS_
     buf[i++] = CMD_FAC_RESTORE_WORD_REQ;
 
     BPS_ASSERT_SIZE_TYPE(size, BPS_UINT16);
-    buf = BPS_SetBig16(&(buf[i]), SECURITY_WORD_FAC_RESTORE);
+    BPS_SetBig16(&(buf[i]), SECURITY_WORD_FAC_RESTORE);
     i += sizeof(BPS_UINT16);
 
     return i;

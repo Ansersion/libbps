@@ -109,7 +109,7 @@ EXPORT_API BPS_UINT16 BPSParseHDInfoReq(BPSCmdHDInfoReq * req, const BPS_UINT8 *
 EXPORT_API BPS_UINT16 BPSParseHDInfoRsp(BPSCmdHDInfoRsp * rsp, const BPS_UINT8 * buf, BPS_WORD size);
 
 #ifdef BPS_MEM_DYN
-    #define ParseHDInfoReqDyn     ParseHDInfoReq
+    #define BPSParseHDInfoReqDyn     BPSParseHDInfoReq
 /** 
   * @Brief BPSParseHDInfoRsp parse packet of 'query hardware info' response
   * @Param rsp the response data struct to store the message.

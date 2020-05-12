@@ -22,10 +22,10 @@
 /// 
 ///////////////////////////////////////////////////////////////////////////////
 
-#if (BPS_CMD_SET == BPS_CMD_SET_B || BPS_CMD_SET == BPS_CMD_SET_T || BPS_CMD_SET == BPS_CMD_SET_C)
 
 #include <bps_cmd_clear_space.h>
 
+#if (BPS_CMD_SET == BPS_CMD_SET_B || BPS_CMD_SET == BPS_CMD_SET_T || BPS_CMD_SET == BPS_CMD_SET_C)
 BPS_UINT16 BPSPackClearSpaceReq(BPSCmdClearSpaceReq * req, BPS_UINT8 * buf, BPS_WORD size)
 {
     BPS_UINT16 i = 0;
@@ -39,12 +39,12 @@ BPS_UINT16 BPSPackClearSpaceReq(BPSCmdClearSpaceReq * req, BPS_UINT8 * buf, BPS_
     buf[i++] = req->mode;
 
     BPS_ASSERT_SIZE_TYPE(size, BPS_UINT32);
-    buf = BPS_SetBig32(&(buf[i]), req->len);
+    BPS_SetBig32(&(buf[i]), req->len);
     i += sizeof(BPS_UINT32);
 
     if(RT_CLR_SPC_GUIDE == req->mode) {
         BPS_ASSERT_SIZE_TYPE(size, BPS_UINT32);
-        buf = BPS_SetBig32(&(buf[i]), req->addr);
+        BPS_SetBig32(&(buf[i]), req->addr);
         i += sizeof(BPS_UINT32);
     }
 

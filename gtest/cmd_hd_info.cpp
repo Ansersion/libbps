@@ -129,8 +129,12 @@ TEST(COMMAND_HD_INFO, ParseResponse)
     fields[0].data = buf0;
     fields[1].data = buf1;
     fields[2].data = buf2;
+    fields[0].maxLen = 128;
+    fields[1].maxLen = 128;
+    fields[2].maxLen = 128;
     BPSCmdHDInfoRsp data;
 
+    data.infoTypeArray = BPS_NULL;
     data.fieldArray = fields;
     data.maxFieldNum = MAX_FIELD_NUM;
 
@@ -152,4 +156,55 @@ TEST(COMMAND_HD_INFO, ParseResponse)
             ASSERT_FALSE("Unknown Hardware info type");
         }
     }
+}
+
+/** parse(DYN) the hardware info command request
+  * packet flow: MODULE <- MCU */
+TEST(COMMAND_HD_INFO, ParseRequestDyn)
+{
+    BPS_WORD size = sizeof(REQ_MSG);
+    BPSCmdHDInfoReq data;
+    BPSParseHDInfoReqDyn(&data, REQ_MSG+BPS_CMD_WORD_POSITION+1, size);
+    BPSFreeMemHDInfoReq(&data);
+}
+
+/** parse(DYN) the hardware info command response 
+  * packet flow: MCU <- MODULE */
+TEST(COMMAND_HD_INFO, ParseResponseDyn)
+{
+    BPS_WORD size = sizeof(RSP_MSG);
+    BPSCmdHDInfoField fields[MAX_FIELD_NUM];
+    BPS_UINT8 buf0[128] = {0};
+    BPS_UINT8 buf1[128] = {0};
+    BPS_UINT8 buf2[128] = {0};
+    fields[0].data = buf0;
+    fields[1].data = buf1;
+    fields[2].data = buf2;
+    fields[0].maxLen = 128;
+    fields[1].maxLen = 128;
+    fields[2].maxLen = 128;
+    BPSCmdHDInfoRsp data;
+
+    data.fieldArray = fields;
+    data.maxFieldNum = MAX_FIELD_NUM;
+
+    EXPECT_GT(BPSParseHDInfoRspDyn(&data, RSP_MSG+BPS_CMD_WORD_POSITION+1, size), 0);
+    EXPECT_EQ(data.fieldNum, sizeof(FIELD_ARRAY)/sizeof(BPSCmdHDInfoField));
+
+    for(size_t i = 0; i < data.fieldNum; i++) {
+        BPSCmdHDInfoField * field = &(data.fieldArray[i]);
+        if(SN_RST_HD_INFO == field->type) {
+            EXPECT_EQ(field->len, FIELD_ARRAY[0].len);
+            EXPECT_EQ(strncmp((const char *)field->data, (const char *)FIELD_ARRAY[0].data, field->len), 0);
+        } else if(HARD_V_RST_HD_INFO == field->type) {
+            EXPECT_EQ(field->len, FIELD_ARRAY[1].len);
+            EXPECT_EQ(strncmp((const char *)field->data, (const char *)FIELD_ARRAY[1].data, field->len), 0);
+        } else if(SOFT_V_RST_HD_INFO == field->type) {
+            EXPECT_EQ(field->len, FIELD_ARRAY[2].len);
+            EXPECT_EQ(strncmp((const char *)field->data, (const char *)FIELD_ARRAY[2].data, field->len), 0);
+        } else {
+            ASSERT_FALSE("Unknown Hardware info type");
+        }
+    }
+    BPSFreeMemHDInfoRsp(&data);
 }

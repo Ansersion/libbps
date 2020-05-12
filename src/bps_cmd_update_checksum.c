@@ -22,10 +22,10 @@
 /// 
 ///////////////////////////////////////////////////////////////////////////////
 
-#if (BPS_CMD_SET == BPS_CMD_SET_B || BPS_CMD_SET == BPS_CMD_SET_T || BPS_CMD_SET == BPS_CMD_SET_C)
 
 #include <bps_cmd_update_checksum.h>
 
+#if (BPS_CMD_SET == BPS_CMD_SET_B || BPS_CMD_SET == BPS_CMD_SET_T || BPS_CMD_SET == BPS_CMD_SET_C)
 BPS_UINT16 BPSPackUpdateChecksumReq(BPSCmdUpdateChecksumReq * req, BPS_UINT8 * buf, BPS_WORD size)
 {
     BPS_UINT16 i = 0;
@@ -36,23 +36,23 @@ BPS_UINT16 BPSPackUpdateChecksumReq(BPSCmdUpdateChecksumReq * req, BPS_UINT8 * b
     buf[i++] = CMD_UPDATE_CHECKSUM_WORD_REQ;
 
     BPS_ASSERT_SIZE_TYPE(size, BPS_UINT16);
-    buf = BPS_SetBig16(&(buf[i]), SECURITY_WORD_UPDATE_CHKSUM);
+    BPS_SetBig16(&(buf[i]), SECURITY_WORD_UPDATE_CHKSUM);
     i += sizeof(BPS_UINT16);
 
     BPS_ASSERT_SIZE_UINT8(size);
     buf[i++] = req->mode;
 
     BPS_ASSERT_SIZE_TYPE(size, BPS_UINT32);
-    buf = BPS_SetBig32(&(buf[i]), req->len);
+    BPS_SetBig32(&(buf[i]), req->len);
     i += sizeof(BPS_UINT32);
 
     BPS_ASSERT_SIZE_TYPE(size, BPS_UINT32);
-    buf = BPS_SetBig32(&(buf[i]), req->chksum);
+    BPS_SetBig32(&(buf[i]), req->chksum);
     i += sizeof(BPS_UINT32);
 
     if(RT_UPDATE_CHECKSUM_GUIDE == req->mode) {
         BPS_ASSERT_SIZE_TYPE(size, BPS_UINT32);
-        buf = BPS_SetBig32(&(buf[i]), req->addr);
+        BPS_SetBig32(&(buf[i]), req->addr);
         i += sizeof(BPS_UINT32);
     }
 

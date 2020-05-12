@@ -10,5 +10,5 @@ then
 fi
 
 mkdir -p backup
-ls | grep -v my_gtest_main.cc |grep -v $1| grep test_.*cpp$ | xargs -I '{}' mv '{}' ./backup/
+ls | grep -v my_gtest_main.cc |grep -v $1| grep cmd_.*cpp$ | xargs -I '{}' mv '{}' ./backup/
 rm -f ./backup/$1

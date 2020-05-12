@@ -22,10 +22,10 @@
 /// 
 ///////////////////////////////////////////////////////////////////////////////
 
-#if (BPS_CMD_SET == BPS_CMD_SET_B || BPS_CMD_SET == BPS_CMD_SET_T || BPS_CMD_SET == BPS_CMD_SET_C)
 
 #include <bps_cmd_addr_set.h>
 
+#if (BPS_CMD_SET == BPS_CMD_SET_B || BPS_CMD_SET == BPS_CMD_SET_T || BPS_CMD_SET == BPS_CMD_SET_C)
 BPS_UINT16 BPSPackAddrSetReq(BPSCmdAddrSetReq * req, BPS_UINT8 * buf, BPS_WORD size)
 {
     BPS_UINT16 i = 0;
@@ -36,7 +36,7 @@ BPS_UINT16 BPSPackAddrSetReq(BPSCmdAddrSetReq * req, BPS_UINT8 * buf, BPS_WORD s
     buf[i++] = CMD_ADDR_SET_WORD_REQ;
 
     BPS_ASSERT_SIZE_TYPE(size, BPS_UINT16);
-    buf = BPS_SetBig16(&(buf[i]), SECURITY_WORD_ADDR_SET);
+    BPS_SetBig16(&(buf[i]), SECURITY_WORD_ADDR_SET);
     i += sizeof(BPS_UINT16);
 
     BPS_ASSERT_SIZE_UINT8(size);

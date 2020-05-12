@@ -98,7 +98,7 @@ EXPORT_API BPS_UINT16 BPSParseWriteFrmwRsp(BPSCmdWriteFrmwRsp * rsp, const BPS_U
   * @Param size the buffer size
   * @return the number of bytes which the function handled, 0 means parsing failed/none
  */
-EXPORT_API BPS_UINT16 BPSParseWriteFrmwReqDyn(BPSCmdWriteFrmwRsp * req, const BPS_UINT8 * buf, BPS_WORD size);
+EXPORT_API BPS_UINT16 BPSParseWriteFrmwReqDyn(BPSCmdWriteFrmwReq * req, const BPS_UINT8 * buf, BPS_WORD size);
 
     #define ParseWriteFrmwRspDyn     ParseWriteFrmwRsp
 

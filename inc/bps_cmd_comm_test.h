@@ -75,8 +75,8 @@ EXPORT_API BPS_UINT16 BPSParseCommTestReq(BPSCmdCommTestReq * req, const BPS_UIN
 EXPORT_API BPS_UINT16 BPSParseCommTestRsp(BPSCmdCommTestRsp * rsp, const BPS_UINT8 * buf, BPS_WORD size);
 
 #ifdef BPS_MEM_DYN
-    #define ParseCommTestReqDyn     ParseCommTestReq
-    #define ParseCommTestRspDyn     ParseCommTestRsp
+    #define BPSParseCommTestReqDyn     BPSParseCommTestReq
+    #define BPSParseCommTestRspDyn     BPSParseCommTestRsp
     #define BPSFreeMemCommTestReq(x)     
     #define BPSFreeMemCommTestRsp(x)     
 #endif

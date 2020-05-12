@@ -22,7 +22,6 @@
 /// 
 ///////////////////////////////////////////////////////////////////////////////
 
-#if (BPS_CMD_SET == BPS_CMD_SET_B || BPS_CMD_SET == BPS_CMD_SET_T || BPS_CMD_SET == BPS_CMD_SET_C)
 
 #include <bps_cmd_write_frmw.h>
 #include <bps_memcpy.h>
@@ -32,6 +31,7 @@
 #include <bps_memmng.h>
 #endif
 
+#if (BPS_CMD_SET == BPS_CMD_SET_B || BPS_CMD_SET == BPS_CMD_SET_T || BPS_CMD_SET == BPS_CMD_SET_C)
 
 BPS_UINT16 BPSPackWriteFrmwReq(BPSCmdWriteFrmwReq * req, BPS_UINT8 * buf, BPS_WORD size)
 {
@@ -50,7 +50,7 @@ BPS_UINT16 BPSPackWriteFrmwReq(BPSCmdWriteFrmwReq * req, BPS_UINT8 * buf, BPS_WO
     i += sizeof(BPS_UINT8) + req->len;
 
     BPS_ASSERT_SIZE_TYPE(size, BPS_UINT32);
-    buf = BPS_SetBig32(&(buf[i]), req->offset);
+    BPS_SetBig32(&(buf[i]), req->offset);
     i += sizeof(BPS_UINT32);
 
     return i;

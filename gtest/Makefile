@@ -44,7 +44,6 @@ LIBS :=
 INCLUDE_DIR :=
 
 MACRO   :=
-MACRO   := -DBPS_CPU64
 
 CXXFLAGS += $(MACRO)
 

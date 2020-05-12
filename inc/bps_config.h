@@ -30,9 +30,9 @@
 #define BPS_INLINE 	extern inline
 
 /** @Brief: BPS command set */
-#define BPS_CMD_SET_B   1
-#define BPS_CMD_SET_T   2
-#define BPS_CMD_SET_C   3
+#define BPS_CMD_SET_B   'B'
+#define BPS_CMD_SET_T   'T'
+#define BPS_CMD_SET_C   'C'
 
 #ifdef WIN32
 #define EXPORT_API __declspec(dllexport) 
@@ -47,17 +47,17 @@
 /** 
   * @Brief: BPS_CPU64/32/16/8 uncomment one of the following line to indicate the CPU type.
  */
-// #define BPS_CPU_64
-// #define BPS_CPU_32
-// #define BPS_CPU_16
-// #define BPS_CPU_8
+#define BPS_CPU64
+// #define BPS_CPU32
+// #define BPS_CPU16
+// #define BPS_CPU8
 
 /** 
   * @Brief: BPS_MEM_DYN for system that can alloc memory dynamically(malloc/free)
   * it will enable to compile functions 'ParseXXXReqDyn/ParseXXXRspDyn', 
   * which are more efficient for memory usage.
  */
-// #define BPS_MEM_DYN
+#define BPS_MEM_DYN
 
 /** 
   * @Brief: BPS_CMD_SET define the command set for BPS_CMD_SET_B/BPS_CMD_SET_T/BPS_CMD_SET_C    
