@@ -79,7 +79,7 @@ BPS_UINT16 BPSParseBaudrateSetReq(BPSCmdBaudrateSetReq * req, const BPS_UINT8 * 
 
     if(SET_RT_BAUDRATE_SET == req->type) {
         BPS_ASSERT_SIZE_TYPE(size, BPS_UINT32);
-        buf = BPS_GetBig32(&(buf[i]), &(req->baudrate));
+        BPS_GetBig32(&(buf[i]), &(req->baudrate));
         i += sizeof(BPS_UINT32);
     }
 
@@ -97,7 +97,7 @@ BPS_UINT16 BPSParseBaudrateSetRsp(BPSCmdBaudrateSetRsp * rsp, const BPS_UINT8 * 
     rsp->retCode = buf[i++];
 
     BPS_ASSERT_SIZE_TYPE(size, BPS_UINT32);
-    buf = BPS_GetBig32(&(buf[i]), &(rsp->baudrate));
+    BPS_GetBig32(&(buf[i]), &(rsp->baudrate));
     i += sizeof(BPS_UINT32);
 
     return i;

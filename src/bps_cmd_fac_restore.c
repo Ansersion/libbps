@@ -67,7 +67,7 @@ BPS_UINT16 BPSParseFacRestoreReq(BPSCmdFacRestoreReq * req, const BPS_UINT8 * bu
     }
 
     BPS_ASSERT_SIZE_TYPE(size, BPS_UINT16);
-    buf = BPS_GetBig16(&(buf[i]), &security_word);
+    BPS_GetBig16(&(buf[i]), &security_word);
     if(SECURITY_WORD_FAC_RESTORE != security_word) {
         return 0;
     }

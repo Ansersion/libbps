@@ -86,8 +86,8 @@ EXPORT_API BPS_UINT16 BPSParseUpdateChecksumReq(BPSCmdUpdateChecksumReq * req, c
 EXPORT_API BPS_UINT16 BPSParseUpdateChecksumRsp(BPSCmdUpdateChecksumRsp * rsp, const BPS_UINT8 * buf, BPS_WORD size);
 
 #ifdef BPS_MEM_DYN
-    #define ParseUpdateChecksumReqDyn     ParseUpdateChecksumReq
-    #define ParseUpdateChecksumRspDyn     ParseUpdateChecksumRsp
+    #define BPSParseUpdateChecksumReqDyn     BPSParseUpdateChecksumReq
+    #define BPSParseUpdateChecksumRspDyn     BPSParseUpdateChecksumRsp
     #define BPSFreeMemUpdateChecksumReq(x)     
     #define BPSFreeMemUpdateChecksumRsp(x)     
 #endif

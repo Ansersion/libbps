@@ -77,8 +77,8 @@ EXPORT_API BPS_UINT16 BPSParseLnchUpdateReq(BPSCmdLnchUpdateReq * req, const BPS
 EXPORT_API BPS_UINT16 BPSParseLnchUpdateRsp(BPSCmdLnchUpdateRsp * rsp, const BPS_UINT8 * buf, BPS_WORD size);
 
 #ifdef BPS_MEM_DYN
-    #define ParseLnchUpdateReqDyn     ParseLnchUpdateReq
-    #define ParseLnchUpdateRspDyn     ParseLnchUpdateRsp
+    #define BPSParseLnchUpdateReqDyn     BPSParseLnchUpdateReq
+    #define BPSParseLnchUpdateRspDyn     BPSParseLnchUpdateRsp
     #define BPSFreeMemLnchUpdateReq(x)     
     #define BPSFreeMemLnchUpdateRsp(x)     
 #endif

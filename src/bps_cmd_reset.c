@@ -67,7 +67,7 @@ BPS_UINT16 BPSParseResetReq(BPSCmdResetReq * req, const BPS_UINT8 * buf, BPS_WOR
     }
 
     BPS_ASSERT_SIZE_TYPE(size, BPS_UINT16);
-    buf = BPS_GetBig16(&(buf[i]), &security_word);
+    BPS_GetBig16(&(buf[i]), &security_word);
     if(SECURITY_WORD_RESET != security_word) {
         return 0;
     }

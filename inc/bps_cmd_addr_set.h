@@ -77,8 +77,8 @@ EXPORT_API BPS_UINT16 BPSParseAddrSetReq(BPSCmdAddrSetReq * req, const BPS_UINT8
 EXPORT_API BPS_UINT16 BPSParseAddrSetRsp(BPSCmdAddrSetRsp * rsp, const BPS_UINT8 * buf, BPS_WORD size);
 
 #ifdef BPS_MEM_DYN
-    #define ParseAddrSetReqDyn     ParseAddrSetReq
-    #define ParseAddrSetRspDyn     ParseAddrSetRsp
+    #define BPSParseAddrSetReqDyn     BPSParseAddrSetReq
+    #define BPSParseAddrSetRspDyn     BPSParseAddrSetRsp
     #define BPSFreeMemAddrSetReq(x)     
     #define BPSFreeMemAddrSetRsp(x)     
 #endif

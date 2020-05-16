@@ -90,7 +90,7 @@ BPS_UINT16 BPSParsePingReq(BPSCmdPingReq * req, const BPS_UINT8 * buf, BPS_WORD 
             return 0;
         }
         size -= sizeof(BPS_UINT16);
-        buf = BPS_GetBig16(&(buf[i]), &(req->interval));
+        BPS_GetBig16(&(buf[i]), &(req->interval));
         i += sizeof(BPS_UINT16);
     }
 
@@ -108,7 +108,7 @@ BPS_UINT16 BPSParsePingRsp(BPSCmdPingRsp * rsp, const BPS_UINT8 * buf, BPS_WORD 
         return 0;
     }
     size -= sizeof(BPS_UINT16);
-    buf = BPS_GetBig16(&(buf[i]), &(rsp->interval));
+    BPS_GetBig16(&(buf[i]), &(rsp->interval));
     i += sizeof(BPS_UINT16);
 
     return i;

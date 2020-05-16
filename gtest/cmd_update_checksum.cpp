@@ -26,40 +26,43 @@ extern "C"
 {
 #include <bps_ret_code.h>
 #include <bps_public.h>
-#include <bps_cmd_baudrate_set.h>
+#include <bps_cmd_update_checksum.h>
 }
 
 
 using namespace std;
 
-/** baudrate set to 9600 */
+/** check the 64KB update firmware by auto mode */
 static const int MSG_BUF_SIZE = 256;
 static BPS_UINT8 buf[MSG_BUF_SIZE];
 static const int MCU_ADDR = 0;
 static const int MODULE_ADDR = 1;
 static const BPS_WORD HEADER_SIZE = BPS_HEADER_SIZE - BPS_VERSION_SIZE - BPS_ADDR_SIZE - BPS_REMAIN_LEN_SIZE;
 
+static const ReqTypeUpdateChecksum ReqType = RT_UPDATE_CHECKSUM_AUTO;
+static const BPS_UINT32 DataLen = 0x00010000;
+static const BPS_UINT32 Checksum = 0xAABBCCDD;
 static const BPS_UINT8 RET_CODE = BPS_RET_CODE_OK;
-static const ReqTypeBaudrateSet REQ_TYPE = QUERY_RT_BAUDRATE_SET;;
-static const BPS_UINT32 Baudrate = 9600;
 
 static BPS_UINT8 REQ_MSG[] = 
 {
-    0xBB, 0xCC, 0x00, 0x01, 0x00, 0x02, 0x04, 0x00, 0x07,
+    0xBB, 0xCC, 0x00, 0x01, 0x00, 0x0C, 0x0C, 0xCB, 0xBC, 0x00, 0x00, 0x01, 0x00, 0x00, 0xAA, 0xBB, 0xCC, 0xDD, 0xAF,
 };
 
 static BPS_UINT8 RSP_MSG[] = 
 {
-    0xBB, 0xCC, 0x00, 0x10, 0x00, 0x06, 0x05, 0x00, 0x00, 0x00, 0x25, 0x80, 0xC0,
+    0xBB, 0xCC, 0x00, 0x10, 0x00, 0x02, 0x0D, 0x00, 0x1F,
 };
 
-/** pack the baudrate set command request
+/** pack the check the update firmware command request
   * packet flow: MCU -> MODULE */
-TEST(COMMAND_BAUDRATE_SET, PackRequest)
+TEST(COMMAND_UPDATE_CHECKSUM, PackRequest)
 {
     BPS_UINT8 * buf_tmp = buf;
-    BPSCmdBaudrateSetReq data;
-    data.type = REQ_TYPE;
+    BPSCmdUpdateChecksumReq data;
+    data.mode = ReqType;
+    data.len = DataLen;
+    data.chksum = Checksum;
 
     memset(buf, 0, MSG_BUF_SIZE);
 
@@ -68,7 +71,7 @@ TEST(COMMAND_BAUDRATE_SET, PackRequest)
     buf_tmp = PackBPSAddr(buf_tmp, MCU_ADDR, MODULE_ADDR);
     buf_tmp += BPS_REMAIN_LEN_SIZE;
 
-    BPS_UINT16 tmpLen = BPSPackBaudrateSetReq(&data, buf_tmp, MSG_BUF_SIZE-HEADER_SIZE);
+    BPS_UINT16 tmpLen = BPSPackUpdateChecksumReq(&data, buf_tmp, MSG_BUF_SIZE-HEADER_SIZE);
     EXPECT_GT(tmpLen, 0);
     PackBPSRemainLen(buf + BPS_REMAIN_LEN_POSITION, tmpLen);
     EXPECT_NE(PackBPSChecksum(buf, MSG_BUF_SIZE), (BPS_UINT8 *)BPS_NULL);
@@ -78,15 +81,14 @@ TEST(COMMAND_BAUDRATE_SET, PackRequest)
     }
 }
 
-/** pack the baudrate set command response 
+/** pack the check the update firmware command response 
   * packet flow: MODULE -> MCU */
 
-TEST(COMMAND_BAUDRATE_SET, PackResponse)
+TEST(COMMAND_UPDATE_CHECKSUM, PackResponse)
 {
     BPS_UINT8 * buf_tmp = buf;
-    BPSCmdBaudrateSetRsp data;
+    BPSCmdUpdateChecksumRsp data;
     data.retCode = RET_CODE;
-    data.baudrate = Baudrate;
 
     memset(buf, 0, MSG_BUF_SIZE);
 
@@ -95,7 +97,7 @@ TEST(COMMAND_BAUDRATE_SET, PackResponse)
     buf_tmp = PackBPSAddr(buf_tmp, MODULE_ADDR, MCU_ADDR);
     buf_tmp += BPS_REMAIN_LEN_SIZE;
 
-    BPS_UINT16 tmpLen = BPSPackBaudrateSetRsp(&data, buf_tmp, MSG_BUF_SIZE-HEADER_SIZE);
+    BPS_UINT16 tmpLen = BPSPackUpdateChecksumRsp(&data, buf_tmp, MSG_BUF_SIZE-HEADER_SIZE);
     EXPECT_GT(tmpLen, 0);
     PackBPSRemainLen(buf + BPS_REMAIN_LEN_POSITION, tmpLen);
     EXPECT_NE(PackBPSChecksum(buf, MSG_BUF_SIZE), (BPS_UINT8 *)BPS_NULL);
@@ -105,46 +107,48 @@ TEST(COMMAND_BAUDRATE_SET, PackResponse)
     }
 }
 // 
-/** parse the baudrate set command request
+/** parse the check the update firmware command request
   * packet flow: MODULE <- MCU */
-TEST(COMMAND_BAUDRATE_SET, ParseRequest)
+TEST(COMMAND_UPDATE_CHECKSUM, ParseRequest)
 {
     BPS_WORD size = sizeof(REQ_MSG);
-    BPSCmdBaudrateSetReq data;
-    EXPECT_GT(BPSParseBaudrateSetReq(&data, REQ_MSG+BPS_CMD_WORD_POSITION+1, size), 0);
-    EXPECT_EQ(data.type, REQ_TYPE);
+    BPSCmdUpdateChecksumReq data;
+    EXPECT_GT(BPSParseUpdateChecksumReq(&data, REQ_MSG+BPS_CMD_WORD_POSITION+1, size), 0);
+    EXPECT_EQ(data.mode, ReqType);
+    EXPECT_EQ(data.len, DataLen);
+    EXPECT_EQ(data.chksum, Checksum);
 }
 
-/** parse the baudrate set command response 
+/** parse the check the update firmware command response 
   * packet flow: MCU <- MODULE */
-TEST(COMMAND_BAUDRATE_SET, ParseResponse)
+TEST(COMMAND_UPDATE_CHECKSUM, ParseResponse)
 {
     BPS_WORD size = sizeof(RSP_MSG);
-    BPSCmdBaudrateSetRsp data;
-    EXPECT_GT(BPSParseBaudrateSetRsp(&data, RSP_MSG+BPS_CMD_WORD_POSITION+1, size), 0);
+    BPSCmdUpdateChecksumRsp data;
+    EXPECT_GT(BPSParseUpdateChecksumRsp(&data, RSP_MSG+BPS_CMD_WORD_POSITION+1, size), 0);
     EXPECT_EQ(data.retCode, RET_CODE);
-    EXPECT_EQ(data.baudrate, Baudrate);
 }
 
-/** parse(DYN) the baudrate set command request
+/** parse(DYN) the check the update firmware command request
   * packet flow: MODULE <- MCU */
-TEST(COMMAND_BAUDRATE_SET, ParseRequestDyn)
+TEST(COMMAND_UPDATE_CHECKSUM, ParseRequestDyn)
 {
     BPS_WORD size = sizeof(REQ_MSG);
-    BPSCmdBaudrateSetReq data;
-    BPSParseBaudrateSetReqDyn(&data, REQ_MSG+BPS_CMD_WORD_POSITION+1, size);
-    EXPECT_EQ(data.type, REQ_TYPE);
-    BPSFreeMemBaudrateSetReq(&data);
+    BPSCmdUpdateChecksumReq data;
+    BPSParseUpdateChecksumReqDyn(&data, REQ_MSG+BPS_CMD_WORD_POSITION+1, size);
+    EXPECT_EQ(data.mode, ReqType);
+    EXPECT_EQ(data.len, DataLen);
+    EXPECT_EQ(data.chksum, Checksum);
+    BPSFreeMemUpdateChecksumReq(&data);
 }
 
-/** parse(DYN) the baudrate set command response 
+/** parse(DYN) the check the update firmware command response 
   * packet flow: MCU <- MODULE */
-TEST(COMMAND_BAUDRATE_SET, ParseResponseDyn)
+TEST(COMMAND_UPDATE_CHECKSUM, ParseResponseDyn)
 {
     BPS_WORD size = sizeof(RSP_MSG);
-    BPSCmdBaudrateSetRsp data;
-    BPSParseBaudrateSetRspDyn(&data, RSP_MSG+BPS_CMD_WORD_POSITION+1, size);
+    BPSCmdUpdateChecksumRsp data;
+    BPSParseUpdateChecksumRspDyn(&data, RSP_MSG+BPS_CMD_WORD_POSITION+1, size);
     EXPECT_EQ(data.retCode, RET_CODE);
-    EXPECT_EQ(data.baudrate, Baudrate);
-    BPSFreeMemBaudrateSetRsp(&data);
+    BPSFreeMemUpdateChecksumRsp(&data);
 }

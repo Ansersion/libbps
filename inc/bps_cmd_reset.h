@@ -77,8 +77,8 @@ EXPORT_API BPS_UINT16 BPSParseResetReq(BPSCmdResetReq * req, const BPS_UINT8 * b
 EXPORT_API BPS_UINT16 BPSParseResetRsp(BPSCmdResetRsp * rsp, const BPS_UINT8 * buf, BPS_WORD size);
 
 #ifdef BPS_MEM_DYN
-    #define ParseResetReqDyn     ParseResetReq
-    #define ParseResetRspDyn     ParseResetRsp
+    #define BPSParseResetReqDyn     BPSParseResetReq
+    #define BPSParseResetRspDyn     BPSParseResetRsp
     #define BPSFreeMemResetReq(x)     
     #define BPSFreeMemResetRsp(x)     
 #endif

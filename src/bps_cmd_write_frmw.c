@@ -94,7 +94,7 @@ BPS_UINT16 BPSParseWriteFrmwReq(BPSCmdWriteFrmwReq * req, const BPS_UINT8 * buf,
     i += tmp;
 
     BPS_ASSERT_SIZE_TYPE(size, BPS_UINT32);
-    buf = BPS_GetBig32(&(buf[i]), &(req->offset));
+    BPS_GetBig32(&(buf[i]), &(req->offset));
     i += sizeof(BPS_UINT32);
 
     return i;
@@ -141,7 +141,7 @@ BPS_UINT16 BPSParseWriteFrmwReqDyn(BPSCmdWriteFrmwReq * req, const BPS_UINT8 * b
     req->data = p_data;
 
     BPS_ASSERT_SIZE_TYPE_DYN(size, BPS_UINT32, BPSFreeMemWriteFrmwReq, req);
-    buf = BPS_GetBig32(&(buf[i]), &(req->offset));
+    BPS_GetBig32(&(buf[i]), &(req->offset));
     i += sizeof(BPS_UINT32);
 
     return i;

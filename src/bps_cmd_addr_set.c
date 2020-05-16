@@ -69,7 +69,7 @@ BPS_UINT16 BPSParseAddrSetReq(BPSCmdAddrSetReq * req, const BPS_UINT8 * buf, BPS
     }
 
     BPS_ASSERT_SIZE_TYPE(size, BPS_UINT16);
-    buf = BPS_GetBig16(&(buf[i]), &security_word);
+    BPS_GetBig16(&(buf[i]), &security_word);
     if(SECURITY_WORD_ADDR_SET != security_word) {
         return 0;
     }

@@ -83,8 +83,8 @@ EXPORT_API BPS_UINT16 BPSParseBaudrateSetReq(BPSCmdBaudrateSetReq * req, const B
 EXPORT_API BPS_UINT16 BPSParseBaudrateSetRsp(BPSCmdBaudrateSetRsp * rsp, const BPS_UINT8 * buf, BPS_WORD size);
 
 #ifdef BPS_MEM_DYN
-    #define ParseBaudrateSetReqDyn     ParseBaudrateSetReq
-    #define ParseBaudrateSetRspDyn     ParseBaudrateSetRsp
+    #define BPSParseBaudrateSetReqDyn     BPSParseBaudrateSetReq
+    #define BPSParseBaudrateSetRspDyn     BPSParseBaudrateSetRsp
     #define BPSFreeMemBaudrateSetReq(x)     
     #define BPSFreeMemBaudrateSetRsp(x)     
 #endif

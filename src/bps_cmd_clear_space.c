@@ -77,12 +77,12 @@ BPS_UINT16 BPSParseClearSpaceReq(BPSCmdClearSpaceReq * req, const BPS_UINT8 * bu
     req->mode = buf[i++];
 
     BPS_ASSERT_SIZE_TYPE(size, BPS_UINT32);
-    buf = BPS_GetBig32(&(buf[i]), &(req->len));
+    BPS_GetBig32(&(buf[i]), &(req->len));
     i += sizeof(BPS_UINT32);
 
     if(RT_CLR_SPC_GUIDE == req->mode) {
         BPS_ASSERT_SIZE_TYPE(size, BPS_UINT32);
-        buf = BPS_GetBig32(&(buf[i]), &(req->addr));
+        BPS_GetBig32(&(buf[i]), &(req->addr));
         i += sizeof(BPS_UINT32);
     }
 

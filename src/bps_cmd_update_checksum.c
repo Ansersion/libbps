@@ -83,7 +83,7 @@ BPS_UINT16 BPSParseUpdateChecksumReq(BPSCmdUpdateChecksumReq * req, const BPS_UI
     }
 
     BPS_ASSERT_SIZE_TYPE(size, BPS_UINT16);
-    buf = BPS_GetBig16(&(buf[i]), &security_word);
+    BPS_GetBig16(&(buf[i]), &security_word);
     if(SECURITY_WORD_UPDATE_CHKSUM != security_word) {
         return 0;
     }
@@ -93,16 +93,16 @@ BPS_UINT16 BPSParseUpdateChecksumReq(BPSCmdUpdateChecksumReq * req, const BPS_UI
     req->mode = buf[i++];
 
     BPS_ASSERT_SIZE_TYPE(size, BPS_UINT32);
-    buf = BPS_GetBig32(&(buf[i]), &(req->len));
+    BPS_GetBig32(&(buf[i]), &(req->len));
     i += sizeof(BPS_UINT32);
 
     BPS_ASSERT_SIZE_TYPE(size, BPS_UINT32);
-    buf = BPS_GetBig32(&(buf[i]), &(req->chksum));
+    BPS_GetBig32(&(buf[i]), &(req->chksum));
     i += sizeof(BPS_UINT32);
 
     if(RT_UPDATE_CHECKSUM_GUIDE == req->mode) {
         BPS_ASSERT_SIZE_TYPE(size, BPS_UINT32);
-        buf = BPS_GetBig32(&(buf[i]), &(req->addr));
+        BPS_GetBig32(&(buf[i]), &(req->addr));
         i += sizeof(BPS_UINT32);
     }
 

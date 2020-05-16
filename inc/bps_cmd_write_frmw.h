@@ -100,7 +100,7 @@ EXPORT_API BPS_UINT16 BPSParseWriteFrmwRsp(BPSCmdWriteFrmwRsp * rsp, const BPS_U
  */
 EXPORT_API BPS_UINT16 BPSParseWriteFrmwReqDyn(BPSCmdWriteFrmwReq * req, const BPS_UINT8 * buf, BPS_WORD size);
 
-    #define ParseWriteFrmwRspDyn     ParseWriteFrmwRsp
+    #define BPSParseWriteFrmwRspDyn     BPSParseWriteFrmwRsp
 
 /** 
   * @Brief BPSFreeMemWriteFrmwReq free the memory of the response struct

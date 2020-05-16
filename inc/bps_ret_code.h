@@ -30,7 +30,7 @@
 #define BPS_RET_CODE_CMD_PARA_INVALID           0x02
 #define BPS_RET_CODE_SIG_ID_INVALID             0x03
 #define	BPS_RET_CODE_SIG_VAL_INVALID            0x04
-#define BPS_RET_CODE_FAILED                     0xFF
+#define BPS_RET_CODE_UNKNOWN_ERR                0xFF
 
 #endif
 

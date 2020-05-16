@@ -83,8 +83,8 @@ EXPORT_API BPS_UINT16 BPSParseClearSpaceReq(BPSCmdClearSpaceReq * req, const BPS
 EXPORT_API BPS_UINT16 BPSParseClearSpaceRsp(BPSCmdClearSpaceRsp * rsp, const BPS_UINT8 * buf, BPS_WORD size);
 
 #ifdef BPS_MEM_DYN
-    #define ParseClearSpaceReqDyn     ParseClearSpaceReq
-    #define ParseClearSpaceRspDyn     ParseClearSpaceRsp
+    #define BPSParseClearSpaceReqDyn     BPSParseClearSpaceReq
+    #define BPSParseClearSpaceRspDyn     BPSParseClearSpaceRsp
     #define BPSFreeMemClearSpaceReq(x)     
     #define BPSFreeMemClearSpaceRsp(x)     
 #endif
