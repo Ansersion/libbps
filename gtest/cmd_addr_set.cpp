@@ -129,7 +129,7 @@ TEST(COMMAND_ADDR_SET, ParseRequestDyn)
 {
     BPS_WORD size = sizeof(REQ_MSG);
     BPSCmdAddrSetReq data;
-    BPSParseAddrSetReqDyn(&data, REQ_MSG+BPS_CMD_WORD_POSITION+1, size);
+    EXPECT_GT(BPSParseAddrSetReqDyn(&data, REQ_MSG+BPS_CMD_WORD_POSITION+1, size), 0);
     EXPECT_EQ(data.addr, NewAddr);
     BPSFreeMemAddrSetReq(&data);
 }
@@ -140,7 +140,7 @@ TEST(COMMAND_ADDR_SET, ParseResponseDyn)
 {
     BPS_WORD size = sizeof(RSP_MSG);
     BPSCmdAddrSetRsp data;
-    BPSParseAddrSetRspDyn(&data, RSP_MSG+BPS_CMD_WORD_POSITION+1, size);
+    EXPECT_GT(BPSParseAddrSetRspDyn(&data, RSP_MSG+BPS_CMD_WORD_POSITION+1, size), 0);
     EXPECT_EQ(data.retCode, RET_CODE);
     BPSFreeMemAddrSetRsp(&data);
 }

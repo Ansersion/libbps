@@ -132,7 +132,7 @@ TEST(COMMAND_BAUDRATE_SET, ParseRequestDyn)
 {
     BPS_WORD size = sizeof(REQ_MSG);
     BPSCmdBaudrateSetReq data;
-    BPSParseBaudrateSetReqDyn(&data, REQ_MSG+BPS_CMD_WORD_POSITION+1, size);
+    EXPECT_GT(BPSParseBaudrateSetReqDyn(&data, REQ_MSG+BPS_CMD_WORD_POSITION+1, size), 0);
     EXPECT_EQ(data.type, REQ_TYPE);
     BPSFreeMemBaudrateSetReq(&data);
 }
@@ -143,7 +143,7 @@ TEST(COMMAND_BAUDRATE_SET, ParseResponseDyn)
 {
     BPS_WORD size = sizeof(RSP_MSG);
     BPSCmdBaudrateSetRsp data;
-    BPSParseBaudrateSetRspDyn(&data, RSP_MSG+BPS_CMD_WORD_POSITION+1, size);
+    EXPECT_GT(BPSParseBaudrateSetRspDyn(&data, RSP_MSG+BPS_CMD_WORD_POSITION+1, size), 0);
     EXPECT_EQ(data.retCode, RET_CODE);
     EXPECT_EQ(data.baudrate, Baudrate);
     BPSFreeMemBaudrateSetRsp(&data);

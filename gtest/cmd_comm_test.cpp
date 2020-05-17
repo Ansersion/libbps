@@ -124,6 +124,8 @@ TEST(COMMAND_COMM_TEST, ParseRequestDyn)
 {
     BPS_WORD size = sizeof(REQ_MSG);
     BPSCmdCommTestReq data;
+    // EXPECT_GT(BPSParseCommTestReqDyn(&data, REQ_MSG+BPS_CMD_WORD_POSITION+1, size), 0);
+    /** always zero, no need to check */
     BPSParseCommTestReqDyn(&data, REQ_MSG+BPS_CMD_WORD_POSITION+1, size);
     BPSFreeMemCommTestReq(&data);
 }
@@ -134,7 +136,7 @@ TEST(COMMAND_COMM_TEST, ParseResponseDyn)
 {
     BPS_WORD size = sizeof(RSP_MSG);
     BPSCmdCommTestRsp data;
-    BPSParseCommTestRspDyn(&data, RSP_MSG+BPS_CMD_WORD_POSITION+1, size);
+    EXPECT_GT(BPSParseCommTestRspDyn(&data, RSP_MSG+BPS_CMD_WORD_POSITION+1, size), 0);
     EXPECT_EQ(data.cmdSet, TEST_COMMAND_SET);
     BPSFreeMemCommTestRsp(&data);
 }

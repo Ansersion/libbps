@@ -164,6 +164,8 @@ TEST(COMMAND_HD_INFO, ParseRequestDyn)
 {
     BPS_WORD size = sizeof(REQ_MSG);
     BPSCmdHDInfoReq data;
+    /** always zero, no need to check */
+    // EXPECT_GT(BPSParseHDInfoReqDyn(&data, REQ_MSG+BPS_CMD_WORD_POSITION+1, size), 0);
     BPSParseHDInfoReqDyn(&data, REQ_MSG+BPS_CMD_WORD_POSITION+1, size);
     BPSFreeMemHDInfoReq(&data);
 }

@@ -135,7 +135,7 @@ TEST(COMMAND_UPDATE_CHECKSUM, ParseRequestDyn)
 {
     BPS_WORD size = sizeof(REQ_MSG);
     BPSCmdUpdateChecksumReq data;
-    BPSParseUpdateChecksumReqDyn(&data, REQ_MSG+BPS_CMD_WORD_POSITION+1, size);
+    EXPECT_GT(BPSParseUpdateChecksumReqDyn(&data, REQ_MSG+BPS_CMD_WORD_POSITION+1, size), 0);
     EXPECT_EQ(data.mode, ReqType);
     EXPECT_EQ(data.len, DataLen);
     EXPECT_EQ(data.chksum, Checksum);
@@ -148,7 +148,7 @@ TEST(COMMAND_UPDATE_CHECKSUM, ParseResponseDyn)
 {
     BPS_WORD size = sizeof(RSP_MSG);
     BPSCmdUpdateChecksumRsp data;
-    BPSParseUpdateChecksumRspDyn(&data, RSP_MSG+BPS_CMD_WORD_POSITION+1, size);
+    EXPECT_GT(BPSParseUpdateChecksumRspDyn(&data, RSP_MSG+BPS_CMD_WORD_POSITION+1, size), 0);
     EXPECT_EQ(data.retCode, RET_CODE);
     BPSFreeMemUpdateChecksumRsp(&data);
 }

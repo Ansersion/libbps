@@ -156,7 +156,7 @@ TEST(COMMAND_WRITE_FRMW, ParseRequestDyn)
 {
     BPS_WORD size = sizeof(REQ_MSG);
     BPSCmdWriteFrmwReq data;
-    BPSParseWriteFrmwReqDyn(&data, REQ_MSG+BPS_CMD_WORD_POSITION+1, size);
+    EXPECT_GT(BPSParseWriteFrmwReqDyn(&data, REQ_MSG+BPS_CMD_WORD_POSITION+1, size), 0);
     EXPECT_EQ(data.mode, ReqType);
     EXPECT_EQ(data.len, DataLen);
     for(int i = 0; i < data.len; i++) {
@@ -172,7 +172,7 @@ TEST(COMMAND_WRITE_FRMW, ParseResponseDyn)
 {
     BPS_WORD size = sizeof(RSP_MSG);
     BPSCmdWriteFrmwRsp data;
-    BPSParseWriteFrmwRspDyn(&data, RSP_MSG+BPS_CMD_WORD_POSITION+1, size);
+    EXPECT_GT(BPSParseWriteFrmwRspDyn(&data, RSP_MSG+BPS_CMD_WORD_POSITION+1, size), 0);
     EXPECT_EQ(data.retCode, RET_CODE);
     BPSFreeMemWriteFrmwRsp(&data);
 }

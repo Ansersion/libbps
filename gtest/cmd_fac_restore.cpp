@@ -126,7 +126,7 @@ TEST(COMMAND_FAC_RESTORE, ParseRequestDyn)
 {
     BPS_WORD size = sizeof(REQ_MSG);
     BPSCmdFacRestoreReq data;
-    BPSParseFacRestoreReqDyn(&data, REQ_MSG+BPS_CMD_WORD_POSITION+1, size);
+    EXPECT_GT(BPSParseFacRestoreReqDyn(&data, REQ_MSG+BPS_CMD_WORD_POSITION+1, size), 0);
     BPSFreeMemFacRestoreReq(&data);
 }
 
@@ -136,7 +136,7 @@ TEST(COMMAND_FAC_RESTORE, ParseResponseDyn)
 {
     BPS_WORD size = sizeof(RSP_MSG);
     BPSCmdFacRestoreRsp data;
-    BPSParseFacRestoreRspDyn(&data, RSP_MSG+BPS_CMD_WORD_POSITION+1, size);
+    EXPECT_GT(BPSParseFacRestoreRspDyn(&data, RSP_MSG+BPS_CMD_WORD_POSITION+1, size), 0);
     EXPECT_EQ(data.retCode, RET_CODE);
     BPSFreeMemFacRestoreRsp(&data);
 }

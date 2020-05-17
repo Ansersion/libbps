@@ -1,4 +1,4 @@
-//   Copyright 2019 Ansersion
+//   Copyright 2020 Ansersion
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
 //   you may not use this file except in compliance with the License.
@@ -32,37 +32,37 @@ extern "C"
 
 using namespace std;
 
-/** MCU->MODULE: transmit 'ABC'. 
-    MODULE->MCU: transmit 'XYZ' */
+/** transmit data "ABC" from master to slave;
+  transmit data "XYZ" from slave to master */
 static const int MSG_BUF_SIZE = 256;
 static BPS_UINT8 buf[MSG_BUF_SIZE];
 static const int MCU_ADDR = 0;
 static const int MODULE_ADDR = 1;
 static const BPS_WORD HEADER_SIZE = BPS_HEADER_SIZE - BPS_VERSION_SIZE - BPS_ADDR_SIZE - BPS_REMAIN_LEN_SIZE;
 
-static const BPS_UINT8 s_DataRequest[] = { 'A', 'B', 'C'};
-static const BPS_UINT8 s_DataResponse[] = { 'X', 'Y', 'Z'};
+static const BPS_UINT8 TransData1[] = {'A', 'B', 'C'};
+static const BPS_UINT32 TransDataLen1 = sizeof(TransData1);
+static const BPS_UINT8 TransData2[] = {'X', 'Y', 'Z'};
+static const BPS_UINT32 TransDataLen2 = sizeof(TransData2);
 
-/** BB CC 00 01 00 04 F8 03 41 42 43 C7 */
 static BPS_UINT8 REQ_MSG[] = 
 {
-    0xBB, 0xCC, 0x00, 0x01, 0x00, 0x05, 0xF8, 0x03, 0x41, 0x42, 0x43, 0xC7
+    0xBB, 0xCC, 0x00, 0x01, 0x00, 0x05, 0x40, 0x03, 0x41, 0x42, 0x43, 0x0F,
 };
 
-/** BB CC 00 10 00 04 F9 03 58 59 5A 1C */
 static BPS_UINT8 RSP_MSG[] = 
 {
-    0xBB, 0xCC, 0x00, 0x10, 0x00, 0x05, 0xF9, 0x03, 0x58, 0x59, 0x5A, 0x1C
+    0xBB, 0xCC, 0x00, 0x10, 0x00, 0x05, 0x41, 0x03, 0x58, 0x59, 0x5A, 0x64,
 };
 
-/** pack the transmission command request
+/** pack the transmit bytes command request
   * packet flow: MCU -> MODULE */
 TEST(COMMAND_TRANS_BYTES, PackRequest)
 {
     BPS_UINT8 * buf_tmp = buf;
     BPSCmdTransBytesReq data;
-    data.len = sizeof(s_DataRequest);;
-    data.data = (BPS_UINT8 *)s_DataRequest;
+    data.len = TransDataLen1;
+    data.data = (BPS_UINT8 *)TransData1;
 
     memset(buf, 0, MSG_BUF_SIZE);
 
@@ -77,21 +77,19 @@ TEST(COMMAND_TRANS_BYTES, PackRequest)
     EXPECT_NE(PackBPSChecksum(buf, MSG_BUF_SIZE), (BPS_UINT8 *)BPS_NULL);
     tmpLen += HEADER_SIZE + BPS_CHECKSUM_SIZE;
     for(size_t i = 0; i < sizeof(REQ_MSG); i++) {
-        // printf("%02x ", buf[i]);
         EXPECT_EQ(REQ_MSG[i], buf[i]);
     }
-    // printf("\n");
 }
 
-/** pack the transmission command command response 
+/** pack the transmit bytes command response 
   * packet flow: MODULE -> MCU */
 
 TEST(COMMAND_TRANS_BYTES, PackResponse)
 {
     BPS_UINT8 * buf_tmp = buf;
     BPSCmdTransBytesRsp data;
-    data.len = sizeof(s_DataResponse);;
-    data.data = (BPS_UINT8 *)s_DataResponse;
+    data.len = TransDataLen2;
+    data.data = (BPS_UINT8 *)TransData2;
 
     memset(buf, 0, MSG_BUF_SIZE);
 
@@ -106,35 +104,67 @@ TEST(COMMAND_TRANS_BYTES, PackResponse)
     EXPECT_NE(PackBPSChecksum(buf, MSG_BUF_SIZE), (BPS_UINT8 *)BPS_NULL);
     tmpLen += HEADER_SIZE + BPS_CHECKSUM_SIZE;
     for(size_t i = 0; i < sizeof(RSP_MSG); i++) {
-        // printf("%02x ", buf[i]);
         EXPECT_EQ(RSP_MSG[i], buf[i]);
-    }
-    // printf("\n");
+    }  
 }
-
-/** parse the transmission command command request
+// 
+/** parse the transmit bytes command request
   * packet flow: MODULE <- MCU */
 TEST(COMMAND_TRANS_BYTES, ParseRequest)
 {
     BPS_WORD size = sizeof(REQ_MSG);
     BPSCmdTransBytesReq data;
-    BPS_UINT8 buffer[MSG_BUF_SIZE];
-    data.data = buffer;
+    BPS_UINT8 data_buf[TransDataLen1];
+    data.data = data_buf;
+    data.maxLen = TransDataLen1;
+
     EXPECT_GT(BPSParseTransBytesReq(&data, REQ_MSG+BPS_CMD_WORD_POSITION+1, size), 0);
-    EXPECT_EQ(data.len, sizeof(s_DataRequest));
-    EXPECT_EQ(strncmp((const char *)data.data, (const char *)s_DataRequest, sizeof(s_DataRequest)), 0);
+    for(int i = 0; i < data.len; i++) {
+        EXPECT_EQ(data.data[i], TransData1[i]);
+    }
 }
 
-/** parse the transmission command command response 
+/** parse the transmit bytes command response 
   * packet flow: MCU <- MODULE */
 TEST(COMMAND_TRANS_BYTES, ParseResponse)
 {
     BPS_WORD size = sizeof(RSP_MSG);
     BPSCmdTransBytesRsp data;
-    BPS_UINT8 buffer[MSG_BUF_SIZE];
-    memset(buffer, 0, MSG_BUF_SIZE);
-    data.data = buffer;
+    BPS_UINT8 data_buf[TransDataLen2];
+    data.data = data_buf;
+    data.maxLen = TransDataLen2;
     EXPECT_GT(BPSParseTransBytesRsp(&data, RSP_MSG+BPS_CMD_WORD_POSITION+1, size), 0);
-    EXPECT_EQ(data.len, sizeof(s_DataRequest));
-    EXPECT_EQ(strncmp((const char *)data.data, (const char *)s_DataResponse, sizeof(s_DataResponse)), 0);
+    for(int i = 0; i < data.len; i++) {
+        EXPECT_EQ(data.data[i], TransData2[i]);
+    }
+}
+
+/** parse(DYN) the transmit bytes command request
+  * packet flow: MODULE <- MCU */
+TEST(COMMAND_TRANS_BYTES, ParseRequestDyn)
+{
+    BPS_WORD size = sizeof(REQ_MSG);
+    BPSCmdTransBytesReq data;
+    EXPECT_GT(BPSParseTransBytesReqDyn(&data, REQ_MSG+BPS_CMD_WORD_POSITION+1, size), 0);
+
+    for(int i = 0; i < data.len; i++) {
+        EXPECT_EQ(data.data[i], TransData1[i]);
+    }
+
+    BPSFreeMemTransBytesReq(&data);
+}
+
+/** parse(DYN) the transmit bytes command response 
+  * packet flow: MCU <- MODULE */
+TEST(COMMAND_TRANS_BYTES, ParseResponseDyn)
+{
+    BPS_WORD size = sizeof(RSP_MSG);
+    BPSCmdTransBytesRsp data;
+    EXPECT_GT(BPSParseTransBytesRspDyn(&data, RSP_MSG+BPS_CMD_WORD_POSITION+1, size), 0);
+
+    for(int i = 0; i < data.len; i++) {
+        EXPECT_EQ(data.data[i], TransData2[i]);
+    }
+
+    BPSFreeMemTransBytesRsp(&data);
 }

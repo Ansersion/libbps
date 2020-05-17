@@ -126,7 +126,7 @@ TEST(COMMAND_LAUNCH_UPDATE, ParseRequestDyn)
 {
     BPS_WORD size = sizeof(REQ_MSG);
     BPSCmdLnchUpdateReq data;
-    BPSParseLnchUpdateReqDyn(&data, REQ_MSG+BPS_CMD_WORD_POSITION+1, size);
+    EXPECT_GT(BPSParseLnchUpdateReqDyn(&data, REQ_MSG+BPS_CMD_WORD_POSITION+1, size), 0);
     BPSFreeMemLnchUpdateReq(&data);
 }
 
@@ -136,7 +136,7 @@ TEST(COMMAND_LAUNCH_UPDATE, ParseResponseDyn)
 {
     BPS_WORD size = sizeof(RSP_MSG);
     BPSCmdLnchUpdateRsp data;
-    BPSParseLnchUpdateRspDyn(&data, RSP_MSG+BPS_CMD_WORD_POSITION+1, size);
+    EXPECT_GT(BPSParseLnchUpdateRspDyn(&data, RSP_MSG+BPS_CMD_WORD_POSITION+1, size), 0);
     EXPECT_EQ(data.retCode, RET_CODE);
     BPSFreeMemLnchUpdateRsp(&data);
 }
