@@ -58,7 +58,7 @@
 #define BPS_GetBig16 	BPS_GetNet16
 #define BPS_GetBig32 	BPS_GetNet32
 
-#define BPS_MAX_STRING_LEN  255
+#define BPS_MAX_STRING_LEN  256
 
 /**
   * @Brief BPS_ASSERT_SIZE check whether the message size is OK, only used in 

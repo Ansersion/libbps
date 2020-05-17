@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////////
-/// Copyright 2019 Ansersion
+/// Copyright 2019-2020 Ansersion
 /// 
 /// Licensed under the Apache License, Version 2.0 (the "License");
 /// you may not use this file except in compliance with the License.
@@ -25,11 +25,10 @@
 #ifndef __BPS_CMD_REPORT_SIG_H
 #define __BPS_CMD_REPORT_SIG_H
 
+#if (BPS_CMD_SET == BPS_CMD_SET_C)
+
 #include <bps_public.h>
 #include <bps_cwords.h>
-
-#define CMD_REPORT_SIG_WORD_REQ  0x82
-#define CMD_REPORT_SIG_WORD_RSP  0x83
 
 typedef struct BPSCmdReportSigField {
     BPS_UINT16 signalId;
@@ -137,3 +136,4 @@ EXPORT_API void BPSFreeMemReportSigRsp(BPSCmdReportSigRsp * rsp);
 
 #endif
 
+#endif

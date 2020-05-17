@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////////
-/// Copyright 2019 Ansersion
+/// Copyright 2019-2020 Ansersion
 /// 
 /// Licensed under the Apache License, Version 2.0 (the "License");
 /// you may not use this file except in compliance with the License.
@@ -25,11 +25,10 @@
 #ifndef __BPS_CMD_GET_SIG_H
 #define __BPS_CMD_GET_SIG_H
 
+#if (BPS_CMD_SET == BPS_CMD_SET_C)
+
 #include <bps_public.h>
 #include <bps_cwords.h>
-
-#define CMD_GET_SIG_WORD_REQ  0x86
-#define CMD_GET_SIG_WORD_RSP  0x87
 
 typedef struct BPSCmdGetSigField {
     BPS_UINT16 signalId;
@@ -40,6 +39,9 @@ typedef struct BPSCmdGetSigField {
 typedef struct BPSCmdGetSigReq {
     BPS_WORD sigNum;
     BPS_UINT16 * sigArray;
+
+    /** maxFieldNum is set to be safe only for parsing that without dynamical memory allocation */
+    BPS_WORD maxFieldNum;
 } BPSCmdGetSigReq;
 
 typedef struct BPSCmdGetSigRsp {
@@ -47,6 +49,9 @@ typedef struct BPSCmdGetSigRsp {
     BPS_WORD fieldNum;
     BPSCmdGetSigField * fieldArray;
     void * extension;
+
+    /** maxFieldNum is set to be safe only for parsing that without dynamical memory allocation */
+    BPS_WORD maxFieldNum;
 } BPSCmdGetSigRsp;
 
 /** 
@@ -133,6 +138,8 @@ EXPORT_API void BPSFreeMemGetSigReq(BPSCmdGetSigReq * req);
   * @Param rsp the response data struct.
  */
 EXPORT_API void BPSFreeMemGetSigRsp(BPSCmdGetSigRsp * rsp);
+#endif
+
 #endif
 
 #endif

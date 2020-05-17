@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////////
-/// Copyright 2019 Ansersion
+/// Copyright 2019-2020 Ansersion
 /// 
 /// Licensed under the Apache License, Version 2.0 (the "License");
 /// you may not use this file except in compliance with the License.
@@ -32,6 +32,8 @@
     #include <bps_memmng.h>
 #endif
 
+#if (BPS_CMD_SET == BPS_CMD_SET_C)
+
 BPS_UINT16 BPSPackGetSigReq(BPSCmdGetSigReq * req, BPS_UINT8 * buf, BPS_WORD size)
 {
     BPS_UINT16 i = 0;
@@ -39,22 +41,15 @@ BPS_UINT16 BPSPackGetSigReq(BPSCmdGetSigReq * req, BPS_UINT8 * buf, BPS_WORD siz
     if(BPS_NULL == req || BPS_NULL == buf) {
         return 0;
     }
-    if(0 == size--) {
-        return 0;
-    }
+    BPS_ASSERT_SIZE_UINT8(size);
     buf[i++] = CMD_GET_SIG_WORD_REQ;
 
-    if(0 == size--) {
-        return 0;
-    }
+    BPS_ASSERT_SIZE_UINT8(size);
     sig_num = (BPS_UINT8)(req->sigNum & 0xFF);
     buf[i++] = sig_num;
 
     for(j = 0; j < sig_num; j++) {
-        if(sizeof(BPS_UINT16) > size) {
-            return 0;
-        }
-        size -= sizeof(BPS_UINT16);
+        BPS_ASSERT_SIZE_TYPE(size, BPS_UINT16);
         BPS_SetBig16(buf+i, req->sigArray[j]);
         i += sizeof(BPS_UINT16);
     }
@@ -71,42 +66,28 @@ BPS_UINT16 BPSPackGetSigRsp(BPSCmdGetSigRsp * rsp, BPS_UINT8 * buf, BPS_WORD siz
     if(BPS_NULL == rsp || BPS_NULL == buf) {
         return 0;
     }
-    if(0 == size--) {
-        return 0;
-    }
+    BPS_ASSERT_SIZE_UINT8(size);
     buf[i++] = CMD_GET_SIG_WORD_REQ;
 
-    if(0 == size--) {
-        return 0;
-    }
+    BPS_ASSERT_SIZE_UINT8(size);
     buf[i++] = rsp->retCode;
 
     if(BPS_RET_CODE_OK == rsp->retCode) {
-        if(0 == size--) {
-            return 0;
-        }
+        BPS_ASSERT_SIZE_UINT8(size);
         field_num = (BPS_UINT8)(rsp->fieldNum & 0xFF);
         buf[i++] = field_num;
 
         for(j = 0; j < field_num; j++) {
-            if(sizeof(BPS_UINT16) > size) {
-                return 0;
-            }
-            size -= sizeof(BPS_UINT16);
+            BPS_ASSERT_SIZE_TYPE(size, BPS_UINT16);
             field_tmp = rsp->fieldArray + j;
             BPS_SetBig16(buf+i, field_tmp->signalId);
             i += sizeof(BPS_UINT16);
 
-            if(0 == size--) {
-                return 0;
-            }
+            BPS_ASSERT_SIZE_UINT8(size);
             buf[i++] = field_tmp->signalType;
 
             len = BPS_GetSigValueLen(field_tmp->signalType, field_tmp->value);
-            if(len > size) {
-                return 0;
-            }
-            size -= len;
+            BPS_ASSERT_SIZE(size, len);
             BPS_SetSigValue(buf+i, field_tmp->signalType, field_tmp->value);
             i += len;
         }
@@ -114,10 +95,7 @@ BPS_UINT16 BPSPackGetSigRsp(BPSCmdGetSigRsp * rsp, BPS_UINT8 * buf, BPS_WORD siz
         switch(rsp->retCode) {
             case BPS_RET_CODE_SIG_ID_INVALID:
             case BPS_RET_CODE_SIG_VAL_INVALID:
-                if(sizeof(BPS_UINT16) > size) {
-                    return 0;
-                }
-                size -= sizeof(BPS_UINT16);
+                BPS_ASSERT_SIZE_TYPE(size, BPS_UINT16);
                 BPS_SetBig16(buf, *(BPS_UINT16 *)(rsp->extension));
                 i += sizeof(BPS_UINT16);
                 break;
@@ -135,16 +113,15 @@ BPS_UINT16 BPSParseGetSigReq(BPSCmdGetSigReq * req, const BPS_UINT8 * buf, BPS_W
         return 0;
     }
 
-    if(0 == size--) {
-        return 0;
-    }
+    BPS_ASSERT_SIZE_UINT8(size);
     req->sigNum = buf[i++];
 
+    if(req->sigNum > req->maxFieldNum) {
+        return 0;
+    }
+
     for(j = 0; j < req->sigNum; j++) {
-        if(sizeof(BPS_UINT16) > size) {
-            return 0;
-        }
-        size -= sizeof(BPS_UINT16);
+        BPS_ASSERT_SIZE_TYPE(size, BPS_UINT16);
         BPS_GetBig16(buf+i, req->sigArray + j);
         i += sizeof(BPS_UINT16);
     }
@@ -162,44 +139,33 @@ BPS_UINT16 BPSParseGetSigRsp(BPSCmdGetSigRsp * rsp, const BPS_UINT8 * buf, BPS_W
         return 0;
     }
 
-    if(0 == size--) {
-        return 0;
-    }
+    BPS_ASSERT_SIZE_UINT8(size);
     rsp->retCode = buf[i++];
 
     if(BPS_RET_CODE_OK == rsp->retCode) {
-        if(0 == size--) {
+        BPS_ASSERT_SIZE_UINT8(size);
+        field_num = buf[i++];
+        if(field_num > rsp->maxFieldNum) {
             return 0;
         }
-        field_num = buf[i++];
         rsp->fieldNum = field_num;
 
         for(j = 0; j < field_num; j++) {
-            if(sizeof(BPS_UINT16) > size) {
-                return 0;
-            }
-            size -= sizeof(BPS_UINT16);
+            BPS_ASSERT_SIZE_TYPE(size, BPS_UINT16);
             field_tmp = rsp->fieldArray + j;
             BPS_GetBig16(buf+i, &(field_tmp->signalId));
             i += sizeof(BPS_UINT16);
 
-            if(0 == size--) {
-                return 0;
-            }
+            BPS_ASSERT_SIZE_UINT8(size);
             field_tmp->signalType = buf[i++];
 
             if(BPS_SIG_TYPE_STR == field_tmp->signalType) {
-                if(0 == size--) {
-                    return 0;
-                }
+                BPS_ASSERT_SIZE_UINT8(size);
                 len = buf[i++];
             } else {
                 len = BPS_GetSigValueLen2(field_tmp->signalType);
             }
-            if(len > size) {
-                return 0;
-            }
-            size -= len;
+            BPS_ASSERT_SIZE(size, len);
             BPS_GetSigValue(buf+i, field_tmp->signalType, &(field_tmp->value), len);
             i += len;
         }
@@ -207,10 +173,10 @@ BPS_UINT16 BPSParseGetSigRsp(BPSCmdGetSigRsp * rsp, const BPS_UINT8 * buf, BPS_W
         switch(rsp->retCode) {
             case BPS_RET_CODE_SIG_ID_INVALID:
             case BPS_RET_CODE_SIG_VAL_INVALID:
-                if(sizeof(BPS_UINT16) > size) {
+                BPS_ASSERT_SIZE_TYPE(size, BPS_UINT16);
+                if(BPS_NULL == rsp->extension) {
                     return 0;
                 }
-                size -= sizeof(BPS_UINT16);
                 BPS_GetBig16(buf, (BPS_UINT16 *)(rsp->extension));
                 i += sizeof(BPS_UINT16);
                 break;
@@ -230,19 +196,16 @@ BPS_UINT16 BPSParseGetSigReqDyn(BPSCmdGetSigReq * req, const BPS_UINT8 * buf, BP
     }
     req->sigArray = BPS_NULL;
 
-    if(0 == size--) {
-        return 0;
-    }
+    BPS_ASSERT_SIZE_TYPE(size, BPS_UINT16);
     req->sigNum = buf[i++];
     req->sigArray = (BPS_UINT16 *)malloc_bps(req->sigNum * sizeof(BPS_UINT16));
+    if(BPS_NULL == req->sigArray) {
+        return 0;
+    }
     memset_bps(req->sigArray, 0, req->sigNum * sizeof(BPS_UINT16));
 
     for(j = 0; j < req->sigNum; j++) {
-        if(sizeof(BPS_UINT16) > size) {
-            BPSFreeMemGetSigReq(req);
-            return 0;
-        }
-        size -= sizeof(BPS_UINT16);
+        BPS_ASSERT_SIZE_TYPE_DYN(size, BPS_UINT16, BPSFreeMemGetSigReq, req);
         BPS_GetBig16(buf+i, req->sigArray + j);
         i += sizeof(BPS_UINT16);
     }
@@ -262,18 +225,17 @@ BPS_UINT16 BPSParseGetSigRspDyn(BPSCmdGetSigRsp * rsp, const BPS_UINT8 * buf, BP
     rsp->fieldArray = BPS_NULL;
     rsp->extension = BPS_NULL;
 
-    if(0 == size--) {
-        return 0;
-    }
+    BPS_ASSERT_SIZE_UINT8(size);
     rsp->retCode = buf[i++];
 
     if(BPS_RET_CODE_OK == rsp->retCode) {
-        if(0 == size--) {
-            return 0;
-        }
+        BPS_ASSERT_SIZE_UINT8(size);
         field_num = buf[i++];
         rsp->fieldNum = field_num;
         rsp->fieldArray = (BPSCmdGetSigField *)malloc_bps(field_num * sizeof(BPSCmdGetSigField));
+        if(BPS_NULL == rsp->fieldArray) {
+            return 0;
+        }
         memset_bps(rsp->fieldArray, 0, field_num * sizeof(BPSCmdGetSigField));
 
         for(j = 0; j < field_num; j++) {
@@ -286,27 +248,17 @@ BPS_UINT16 BPSParseGetSigRspDyn(BPSCmdGetSigRsp * rsp, const BPS_UINT8 * buf, BP
             BPS_GetBig16(buf+i, &(field_tmp->signalId));
             i += sizeof(BPS_UINT16);
 
-            if(0 == size--) {
-                BPSFreeMemGetSigRsp(rsp);
-                return 0;
-            }
+            BPS_ASSERT_SIZE_UINT8_DYN(size, BPSFreeMemGetSigRsp, rsp);
             field_tmp->signalType = buf[i++];
 
             if(BPS_SIG_TYPE_STR == field_tmp->signalType) {
-                if(0 == size--) {
-                    BPSFreeMemGetSigRsp(rsp);
-                    return 0;
-                }
+                BPS_ASSERT_SIZE_UINT8_DYN(size, BPSFreeMemGetSigRsp, rsp);
                 len = buf[i++];
                 field_tmp->value.t_str = (BPS_UINT8 *)malloc_bps(len+1);
             } else {
                 len = BPS_GetSigValueLen2(field_tmp->signalType);
             }
-            if(len > size) {
-                BPSFreeMemGetSigRsp(rsp);
-                return 0;
-            }
-            size -= len;
+            BPS_ASSERT_SIZE_DYN(size, len, BPSFreeMemGetSigRsp, rsp);
             BPS_GetSigValue(buf+i, field_tmp->signalType, &(field_tmp->value), len);
             i += len;
         }
@@ -314,11 +266,11 @@ BPS_UINT16 BPSParseGetSigRspDyn(BPSCmdGetSigRsp * rsp, const BPS_UINT8 * buf, BP
         switch(rsp->retCode) {
             case BPS_RET_CODE_SIG_ID_INVALID:
             case BPS_RET_CODE_SIG_VAL_INVALID:
-                if(sizeof(BPS_UINT16) > size) {
+                BPS_ASSERT_SIZE_TYPE(size, BPS_UINT16);
+                rsp->extension = (void *)malloc_bps(sizeof(BPS_UINT16));
+                if(BPS_NULL == rsp->extension) {
                     return 0;
                 }
-                size -= sizeof(BPS_UINT16);
-                rsp->extension = (void *)malloc_bps(sizeof(BPS_UINT16));
                 BPS_GetBig16(buf, (BPS_UINT16 *)(rsp->extension));
                 i += sizeof(BPS_UINT16);
                 break;
@@ -366,3 +318,4 @@ void BPSFreeMemGetSigRsp(BPSCmdGetSigRsp * rsp)
 
 #endif
 
+#endif
