@@ -84,9 +84,11 @@ BPS_UINT16 BPSPackPostRsp(BPSCmdPostRsp * rsp, BPS_UINT8 * buf, BPS_WORD size)
     switch(rsp->retCode) {
         case BPS_RET_CODE_SIG_ID_INVALID:
         case BPS_RET_CODE_SIG_VAL_INVALID:
-            BPS_ASSERT_SIZE_TYPE(size, BPS_UINT16);
-            BPS_SetBig16(buf, *((BPS_UINT16 *)(rsp->extension)));
-            i += sizeof(BPS_UINT16);
+            if(BPS_NULL != rsp->extension) {
+                BPS_ASSERT_SIZE_TYPE(size, BPS_UINT16);
+                BPS_SetBig16(buf, *((BPS_UINT16 *)(rsp->extension)));
+                i += sizeof(BPS_UINT16);
+            }
             break;
     }
 
@@ -148,11 +150,11 @@ BPS_UINT16 BPSParsePostRsp(BPSCmdPostRsp * rsp, const BPS_UINT8 * buf, BPS_WORD 
     switch(rsp->retCode) {
         case BPS_RET_CODE_SIG_ID_INVALID:
         case BPS_RET_CODE_SIG_VAL_INVALID:
-            BPS_ASSERT_SIZE_TYPE(size, BPS_UINT16);
             if(BPS_NULL != rsp->extension) {
+                BPS_ASSERT_SIZE_TYPE(size, BPS_UINT16);
                 BPS_GetBig16(buf, (BPS_UINT16 *)(rsp->extension));
+                i += sizeof(BPS_UINT16);
             }
-            i += sizeof(BPS_UINT16);
             break;
     }
 

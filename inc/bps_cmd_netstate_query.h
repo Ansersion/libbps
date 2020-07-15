@@ -25,11 +25,10 @@
 #ifndef __BPS_CMD_NETSTATE_QUERY_H
 #define __BPS_CMD_NETSTATE_QUERY_H
 
+#if (BPS_CMD_SET == BPS_CMD_SET_C)
+
 #include <bps_public.h>
 #include <bps_cwords.h>
-
-#define CMD_NETSTATE_QUERY_WORD_REQ  0x0A
-#define CMD_NETSTATE_QUERY_WORD_RSP  0x0B
 
 typedef struct BPSCmdNetstateQueryReq {
     BPS_UINT8 recv;
@@ -76,11 +75,12 @@ EXPORT_API BPS_UINT16 BPSParseNetstateQueryReq(BPSCmdNetstateQueryReq * req, con
 EXPORT_API BPS_UINT16 BPSParseNetstateQueryRsp(BPSCmdNetstateQueryRsp * rsp, const BPS_UINT8 * buf, BPS_WORD size);
 
 #ifdef BPS_MEM_DYN
-    #define ParseNetstateQueryReqDyn     ParseNetstateQueryReq
-    #define ParseNetstateQueryRspDyn     ParseNetstateQueryRsp
+    #define BPSParseNetstateQueryReqDyn     BPSParseNetstateQueryReq
+    #define BPSParseNetstateQueryRspDyn     BPSParseNetstateQueryRsp
     #define BPSFreeMemNetstateQueryReq(x)     
     #define BPSFreeMemNetstateQueryRsp(x)     
 #endif
 
 #endif
 
+#endif

@@ -169,7 +169,11 @@ BPS_WORD BPS_GetSigValueLen(BPSSigType type, BPSSigTypeU value)
             len = 4;
             break;
         case BPS_SIG_TYPE_STR: 
-            len = strlen_bps((const char *)value.t_str) + 1;
+            if(BPS_NULL != value.t_str) {
+                len = strlen_bps((const char *)value.t_str);
+            } else {
+                len = 0;
+            }
             break;
         case BPS_SIG_TYPE_BOOLEAN:
             len = 1;

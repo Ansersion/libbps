@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////////
-/// Copyright 2019 Ansersion
+/// Copyright 2019-2020 Ansersion
 /// 
 /// Licensed under the Apache License, Version 2.0 (the "License");
 /// you may not use this file except in compliance with the License.
@@ -25,11 +25,10 @@
 #ifndef __BPS_CMD_CONFIG_NETSET_H
 #define __BPS_CMD_CONFIG_NETSET_H
 
+#if (BPS_CMD_SET == BPS_CMD_SET_C)
+
 #include <bps_public.h>
 #include <bps_cwords.h>
-
-#define CMD_CONFIG_NETSET_WORD_REQ  0x08
-#define CMD_CONFIG_NETSET_WORD_RSP  0x09
 
 typedef enum ReqTypeConfigNet {
     QUERY_RT_CONFIG_NET = 0,
@@ -84,11 +83,12 @@ EXPORT_API BPS_UINT16 BPSParseConfigNetsetReq(BPSCmdConfigNetsetReq * req, const
 EXPORT_API BPS_UINT16 BPSParseConfigNetsetRsp(BPSCmdConfigNetsetRsp * rsp, const BPS_UINT8 * buf, BPS_WORD size);
 
 #ifdef BPS_MEM_DYN
-    #define ParseConfigNetsetReqDyn     ParseConfigNetsetReq
-    #define ParseConfigNetsetRspDyn     ParseConfigNetsetRsp
+    #define BPSParseConfigNetsetReqDyn     BPSParseConfigNetsetReq
+    #define BPSParseConfigNetsetRspDyn     BPSParseConfigNetsetRsp
     #define BPSFreeMemConfigNetsetReq(x)     
     #define BPSFreeMemConfigNetsetRsp(x)     
 #endif
 
 #endif
 
+#endif

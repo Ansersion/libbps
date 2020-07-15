@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////////
-/// Copyright 2019 Ansersion
+/// Copyright 2019-2020 Ansersion
 /// 
 /// Licensed under the Apache License, Version 2.0 (the "License");
 /// you may not use this file except in compliance with the License.
@@ -25,11 +25,10 @@
 #ifndef __BPS_CMD_OPEN_NETSET_H
 #define __BPS_CMD_OPEN_NETSET_H
 
+#if (BPS_CMD_SET == BPS_CMD_SET_C)
+
 #include <bps_public.h>
 #include <bps_cwords.h>
-
-#define CMD_OPEN_NETSET_WORD_REQ  0x06
-#define CMD_OPEN_NETSET_WORD_RSP  0x07
 
 typedef enum ReqTypeOpenNetset {
     TURN_OFF_OPEN_NETSET = 0,
@@ -81,10 +80,12 @@ EXPORT_API BPS_UINT16 BPSParseOpenNetsetReq(BPSCmdOpenNetsetReq * req, const BPS
 EXPORT_API BPS_UINT16 BPSParseOpenNetsetRsp(BPSCmdOpenNetsetRsp * rsp, const BPS_UINT8 * buf, BPS_WORD size);
 
 #ifdef BPS_MEM_DYN
-    #define ParseOpenNetsetReqDyn     ParseOpenNetsetReq
-    #define ParseOpenNetsetRspDyn     ParseOpenNetsetRsp
+    #define BPSParseOpenNetsetReqDyn     BPSParseOpenNetsetReq
+    #define BPSParseOpenNetsetRspDyn     BPSParseOpenNetsetRsp
     #define BPSFreeMemOpenNetsetReq(x)     
     #define BPSFreeMemOpenNetsetRsp(x)     
+#endif
+
 #endif
 
 #endif

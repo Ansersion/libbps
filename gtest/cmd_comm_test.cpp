@@ -31,9 +31,6 @@ extern "C"
 
 using namespace std;
 
-/** communication test T Device*/
-#define TEST_COMMAND_SET    BPS_CMD_SET_T
-
 static const int MSG_BUF_SIZE = 256;
 static BPS_UINT8 buf[MSG_BUF_SIZE];
 static const int MCU_ADDR = 0;
@@ -47,7 +44,7 @@ static BPS_UINT8 REQ_MSG[] =
 
 static BPS_UINT8 RSP_MSG[] = 
 {
-    0xBB, 0xCC, 0x00, 0x10, 0x00, 0x02, 0x01, TEST_COMMAND_SET, 0x67
+    0xBB, 0xCC, 0x00, 0x10, 0x00, 0x02, 0x01, BPS_CMD_SET, 0x56
 };
 
 /** pack the communication test command request
@@ -115,7 +112,7 @@ TEST(COMMAND_COMM_TEST, ParseResponse)
     BPS_WORD size = sizeof(RSP_MSG);
     BPSCmdCommTestRsp data;
     BPSParseCommTestRsp(&data, RSP_MSG+BPS_CMD_WORD_POSITION+1, size);
-    EXPECT_EQ(data.cmdSet, TEST_COMMAND_SET);
+    EXPECT_EQ(data.cmdSet, BPS_CMD_SET);
 }
 
 /** parse(DYN) the communication test command request
@@ -137,6 +134,6 @@ TEST(COMMAND_COMM_TEST, ParseResponseDyn)
     BPS_WORD size = sizeof(RSP_MSG);
     BPSCmdCommTestRsp data;
     EXPECT_GT(BPSParseCommTestRspDyn(&data, RSP_MSG+BPS_CMD_WORD_POSITION+1, size), 0);
-    EXPECT_EQ(data.cmdSet, TEST_COMMAND_SET);
+    EXPECT_EQ(data.cmdSet, BPS_CMD_SET);
     BPSFreeMemCommTestRsp(&data);
 }

@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////////
-/// Copyright 2019 Ansersion
+/// Copyright 2019-2020 Ansersion
 /// 
 /// Licensed under the Apache License, Version 2.0 (the "License");
 /// you may not use this file except in compliance with the License.
@@ -22,7 +22,15 @@
 /// 
 ///////////////////////////////////////////////////////////////////////////////
 
+#include <bps_public.h>
+#include <bps_ret_code.h>
 #include <bps_cmd_config_netset.h>
+
+#ifdef BPS_MEM_DYN
+    #include <bps_memmng.h>
+#endif
+
+#if (BPS_CMD_SET == BPS_CMD_SET_C)
 
 BPS_UINT16 BPSPackConfigNetsetReq(BPSCmdConfigNetsetReq * req, BPS_UINT8 * buf, BPS_WORD size)
 {
@@ -30,20 +38,14 @@ BPS_UINT16 BPSPackConfigNetsetReq(BPSCmdConfigNetsetReq * req, BPS_UINT8 * buf, 
     if(BPS_NULL == req || BPS_NULL == buf) {
         return 0;
     }
-    if(0 == size--) {
-        return 0;
-    }
+    BPS_ASSERT_SIZE_UINT8(size);
     buf[i++] = CMD_CONFIG_NETSET_WORD_REQ;
 
-    if(0 == size--) {
-        return 0;
-    }
+    BPS_ASSERT_SIZE_UINT8(size);
     buf[i++] = req->type;
 
     if(SET_RT_CONFIG_NET == req->type) {
-        if(0 == size--) {
-            return 0;
-        }
+        BPS_ASSERT_SIZE_UINT8(size);
         buf[i++] = req->mode;
     }
 
@@ -56,24 +58,16 @@ BPS_UINT16 BPSPackConfigNetsetRsp(BPSCmdConfigNetsetRsp * rsp, BPS_UINT8 * buf, 
     if(BPS_NULL == rsp || BPS_NULL == buf) {
         return 0;
     }
-    if(0 == size--) {
-        return 0;
-    }
+    BPS_ASSERT_SIZE_UINT8(size);
     buf[i++] = CMD_CONFIG_NETSET_WORD_RSP;
 
-    if(0 == size--) {
-        return 0;
-    }
+    BPS_ASSERT_SIZE_UINT8(size);
     buf[i++] = rsp->retCode;
 
-    if(0 == size--) {
-        return 0;
-    }
+    BPS_ASSERT_SIZE_UINT8(size);
     buf[i++] = rsp->commType;
 
-    if(0 == size--) {
-        return 0;
-    }
+    BPS_ASSERT_SIZE_UINT8(size);
     buf[i++] = rsp->mode;
 
     return i;
@@ -86,15 +80,11 @@ BPS_UINT16 BPSParseConfigNetsetReq(BPSCmdConfigNetsetReq * req, const BPS_UINT8 
         return 0;
     }
 
-    if(0 == size--) {
-        return 0;
-    }
+    BPS_ASSERT_SIZE_UINT8(size);
     req->type = buf[i++];
 
     if(SET_RT_CONFIG_NET == req->type) {
-        if(0 == size--) {
-            return 0;
-        }
+        BPS_ASSERT_SIZE_UINT8(size);
         req->mode = buf[i++];
     }
 
@@ -108,21 +98,16 @@ BPS_UINT16 BPSParseConfigNetsetRsp(BPSCmdConfigNetsetRsp * rsp, const BPS_UINT8 
         return 0;
     }
 
-    if(0 == size--) {
-        return 0;
-    }
+    BPS_ASSERT_SIZE_UINT8(size);
     rsp->retCode = buf[i++];
 
-    if(0 == size--) {
-        return 0;
-    }
+    BPS_ASSERT_SIZE_UINT8(size);
     rsp->commType = buf[i++];
 
-    if(0 == size--) {
-        return 0;
-    }
+    BPS_ASSERT_SIZE_UINT8(size);
     rsp->mode = buf[i++];
 
     return i;
 }
 
+#endif

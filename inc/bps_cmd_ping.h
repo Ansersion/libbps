@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////////
-/// Copyright 2019 Ansersion
+/// Copyright 2019-2020 Ansersion
 /// 
 /// Licensed under the Apache License, Version 2.0 (the "License");
 /// you may not use this file except in compliance with the License.
@@ -25,11 +25,10 @@
 #ifndef __BPS_CMD_PING_H
 #define __BPS_CMD_PING_H
 
+#if (BPS_CMD_SET == BPS_CMD_SET_C)
+
 #include <bps_public.h>
 #include <bps_cwords.h>
-
-#define CMD_PING_WORD_REQ  0x04
-#define CMD_PING_WORD_RSP  0x05
 
 typedef enum ReqTypePing {
     QUERY_RT_PING = 0,
@@ -82,11 +81,12 @@ EXPORT_API BPS_UINT16 BPSParsePingReq(BPSCmdPingReq * req, const BPS_UINT8 * buf
 EXPORT_API BPS_UINT16 BPSParsePingRsp(BPSCmdPingRsp * rsp, const BPS_UINT8 * buf, BPS_WORD size);
 
 #ifdef BPS_MEM_DYN
-    #define ParsePingReqDyn     ParsePingReq
-    #define ParsePingRspDyn     ParsePingRsp
+    #define BPSParsePingReqDyn     BPSParsePingReq
+    #define BPSParsePingRspDyn     BPSParsePingRsp
     #define BPSFreeMemPingReq(x)     
     #define BPSFreeMemPingRsp(x)     
 #endif
 
 #endif
 
+#endif

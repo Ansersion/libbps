@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////////
-/// Copyright 2019 Ansersion
+/// Copyright 2019-2020 Ansersion
 /// 
 /// Licensed under the Apache License, Version 2.0 (the "License");
 /// you may not use this file except in compliance with the License.
@@ -24,15 +24,19 @@
 
 #include <bps_cmd_netstate_query.h>
 
+#ifdef BPS_MEM_DYN
+    #include <bps_memmng.h>
+#endif
+
+#if (BPS_CMD_SET == BPS_CMD_SET_C)
+
 BPS_UINT16 BPSPackNetstateQueryReq(BPSCmdNetstateQueryReq * req, BPS_UINT8 * buf, BPS_WORD size)
 {
     BPS_UINT16 i = 0;
     if(BPS_NULL == req || BPS_NULL == buf) {
         return 0;
     }
-    if(0 == size--) {
-        return 0;
-    }
+    BPS_ASSERT_SIZE_UINT8(size);
     buf[i++] = CMD_NETSTATE_QUERY_WORD_REQ;
 
     return i;
@@ -44,14 +48,10 @@ BPS_UINT16 BPSPackNetstateQueryRsp(BPSCmdNetstateQueryRsp * rsp, BPS_UINT8 * buf
     if(BPS_NULL == rsp || BPS_NULL == buf) {
         return 0;
     }
-    if(0 == size--) {
-        return 0;
-    }
+    BPS_ASSERT_SIZE_UINT8(size);
     buf[i++] = CMD_NETSTATE_QUERY_WORD_RSP;
 
-    if(0 == size--) {
-        return 0;
-    }
+    BPS_ASSERT_SIZE_UINT8(size);
     buf[i++] = rsp->state;
 
     return i;
@@ -74,11 +74,10 @@ BPS_UINT16 BPSParseNetstateQueryRsp(BPSCmdNetstateQueryRsp * rsp, const BPS_UINT
         return 0;
     }
 
-    if(0 == size--) {
-        return 0;
-    }
+    BPS_ASSERT_SIZE_UINT8(size);
     rsp->state = buf[i++];
 
     return i;
 }
 
+#endif
