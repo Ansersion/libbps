@@ -1,4 +1,4 @@
-//   Copyright 2019 Ansersion
+//   Copyright 2019-2020 Ansersion
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
 //   you may not use this file except in compliance with the License.
@@ -33,6 +33,8 @@ extern "C"
 
 
 using namespace std;
+
+#if (BPS_CMD_SET == BPS_CMD_SET_C)
 
 /** query net configure mode: WIFI + AP */
 static const int MSG_BUF_SIZE = 256;
@@ -127,3 +129,5 @@ TEST(COMMAND_CONFIG_NETSET, ParseResponse)
     EXPECT_EQ(data.commType, COMM_TYPE);
     EXPECT_EQ(data.mode, NET_MODE);
 }
+
+#endif

@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////////
-/// Copyright 2019 Ansersion
+/// Copyright 2019-2020 Ansersion
 /// 
 /// Licensed under the Apache License, Version 2.0 (the "License");
 /// you may not use this file except in compliance with the License.
@@ -26,7 +26,9 @@
 #define __BPS_PARSE_H
 
 #include <bps_public.h>
+
 #include <bps_cmd_comm_test.h>
+#include <bps_cmd_hd_info.h>
 #include <bps_cmd_baudrate_set.h>
 #include <bps_cmd_launch_update.h>
 #include <bps_cmd_clear_space.h>
@@ -35,18 +37,19 @@
 #include <bps_cmd_reset.h>
 #include <bps_cmd_fac_restore.h>
 #include <bps_cmd_addr_set.h>
-#include <bps_cmd_hd_info.h>
-#include <bps_cmd_ping.h>
-#include <bps_cmd_open_netset.h>
-#include <bps_cmd_config_netset.h>
-#include <bps_cmd_netstate_query.h>
+
+#include <bps_cmd_trans_bytes.h>
+
 #include <bps_cmd_get_sigtab.h>
 #include <bps_cmd_report_sig.h>
 #include <bps_cmd_post.h>
 #include <bps_cmd_get_sig.h>
+#include <bps_cmd_open_netset.h>
+#include <bps_cmd_config_netset.h>
+#include <bps_cmd_netstate_query.h>
+#include <bps_cmd_netaddr_query.h>
+#include <bps_cmd_ping.h>
 #include <bps_cmd_system_para.h>
-#include <bps_cmd_baudrate_set.h>
-#include <bps_cmd_trans_bytes.h>
 
 typedef union BPSCmdPacketUnion {
 #if (BPS_CMD_SET == BPS_CMD_SET_B || BPS_CMD_SET == BPS_CMD_SET_T || BPS_CMD_SET == BPS_CMD_SET_C)
@@ -81,14 +84,6 @@ typedef union BPSCmdPacketUnion {
 
 #if (BPS_CMD_SET == BPS_CMD_SET_C)
     /** Command Set C */
-    BPSCmdPingReq               pingReq;
-    BPSCmdPingRsp               pingRsp;
-    BPSCmdOpenNetsetReq         openNetsetReq;
-    BPSCmdOpenNetsetRsp         openNetsetRsp;
-    BPSCmdConfigNetsetReq       configNetsetReq;
-    BPSCmdConfigNetsetRsp       configNetsetRsp;
-    BPSCmdNetstateQueryReq      netstateQueryReq;
-    BPSCmdNetstateQueryRsp      netstateQueryRsp;
     BPSCmdGetSigtabReq          getSigtabReq;
     BPSCmdGetSigtabRsp          getSigtabRsp;
     BPSCmdReportSigReq          reportSigReq;
@@ -97,6 +92,16 @@ typedef union BPSCmdPacketUnion {
     BPSCmdPostRsp               postRsp;
     BPSCmdGetSigReq             getSigReq;
     BPSCmdGetSigRsp             getSigRsp;
+    BPSCmdOpenNetsetReq         openNetsetReq;
+    BPSCmdOpenNetsetRsp         openNetsetRsp;
+    BPSCmdConfigNetsetReq       configNetsetReq;
+    BPSCmdConfigNetsetRsp       configNetsetRsp;
+    BPSCmdNetstateQueryReq      netstateQueryReq;
+    BPSCmdNetstateQueryRsp      netstateQueryRsp;
+    BPSCmdNetaddrQueryReq       netaddrQueryReq;
+    BPSCmdNetaddrQueryRsp       netaddrQueryRsp;
+    BPSCmdPingReq               pingReq;
+    BPSCmdPingRsp               pingRsp;
 #endif
 
     /** O Commands */

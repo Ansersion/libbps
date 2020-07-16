@@ -31,6 +31,7 @@ extern "C"
 
 
 using namespace std;
+#if (BPS_CMD_SET == BPS_CMD_SET_B || BPS_CMD_SET == BPS_CMD_SET_T || BPS_CMD_SET == BPS_CMD_SET_C)
 
 /** clear space of 64KB by auto mode */
 static const int MSG_BUF_SIZE = 256;
@@ -146,3 +147,4 @@ TEST(COMMAND_CLEAR_SPACE, ParseResponseDyn)
     EXPECT_EQ(data.retCode, RET_CODE);
     BPSFreeMemClearSpaceRsp(&data);
 }
+#endif

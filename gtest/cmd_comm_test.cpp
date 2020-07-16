@@ -1,4 +1,4 @@
-//   Copyright 2019 Ansersion
+//   Copyright 2019-2020 Ansersion
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
 //   you may not use this file except in compliance with the License.
@@ -31,6 +31,7 @@ extern "C"
 
 using namespace std;
 
+#if (BPS_CMD_SET == BPS_CMD_SET_B || BPS_CMD_SET == BPS_CMD_SET_T || BPS_CMD_SET == BPS_CMD_SET_C)
 static const int MSG_BUF_SIZE = 256;
 static BPS_UINT8 buf[MSG_BUF_SIZE];
 static const int MCU_ADDR = 0;
@@ -42,10 +43,26 @@ static BPS_UINT8 REQ_MSG[] =
     0xBB, 0xCC, 0x00, 0x01, 0x00, 0x01, 0x00, 0x02
 };
 
+#if (BPS_CMD_SET == BPS_CMD_SET_C)
 static BPS_UINT8 RSP_MSG[] = 
 {
     0xBB, 0xCC, 0x00, 0x10, 0x00, 0x02, 0x01, BPS_CMD_SET, 0x56
 };
+
+#elif (BPS_CMD_SET == BPS_CMD_SET_T)
+static BPS_UINT8 RSP_MSG[] = 
+{
+    0xBB, 0xCC, 0x00, 0x10, 0x00, 0x02, 0x01, BPS_CMD_SET, 0x67
+};
+
+#elif (BPS_CMD_SET == BPS_CMD_SET_B)
+static BPS_UINT8 RSP_MSG[] = 
+{
+    0xBB, 0xCC, 0x00, 0x10, 0x00, 0x02, 0x01, BPS_CMD_SET, 0x55
+};
+#else
+#error Please define macro BPS_CMD_SET first to BPS_CMD_SET_B/BPS_CMD_SET_T/BPS_CMD_SET_C
+#endif
 
 /** pack the communication test command request
   * packet flow: MCU -> MODULE */
@@ -137,3 +154,4 @@ TEST(COMMAND_COMM_TEST, ParseResponseDyn)
     EXPECT_EQ(data.cmdSet, BPS_CMD_SET);
     BPSFreeMemCommTestRsp(&data);
 }
+#endif

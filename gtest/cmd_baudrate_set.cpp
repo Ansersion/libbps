@@ -32,6 +32,7 @@ extern "C"
 
 using namespace std;
 
+#if (BPS_CMD_SET == BPS_CMD_SET_B || BPS_CMD_SET == BPS_CMD_SET_T || BPS_CMD_SET == BPS_CMD_SET_C)
 /** baudrate set to 9600 */
 static const int MSG_BUF_SIZE = 256;
 static BPS_UINT8 buf[MSG_BUF_SIZE];
@@ -148,3 +149,4 @@ TEST(COMMAND_BAUDRATE_SET, ParseResponseDyn)
     EXPECT_EQ(data.baudrate, Baudrate);
     BPSFreeMemBaudrateSetRsp(&data);
 }
+#endif

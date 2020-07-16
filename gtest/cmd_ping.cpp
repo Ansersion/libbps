@@ -1,4 +1,4 @@
-//   Copyright 2019 Ansersion
+//   Copyright 2019-2020 Ansersion
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
 //   you may not use this file except in compliance with the License.
@@ -31,6 +31,8 @@ extern "C"
 
 
 using namespace std;
+
+#if (BPS_CMD_SET == BPS_CMD_SET_C)
 
 /** ping: query ping interval, interval=0x5A5A */
 static const int MSG_BUF_SIZE = 256;
@@ -121,3 +123,4 @@ TEST(COMMAND_PING, ParseResponse)
     EXPECT_GT(BPSParsePingRsp(&data, RSP_MSG+BPS_CMD_WORD_POSITION+1, size), 0);
     EXPECT_EQ(data.interval, INTERVAL);
 }
+#endif

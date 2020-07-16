@@ -1,4 +1,4 @@
-//   Copyright 2019 Ansersion
+//   Copyright 2019-2020 Ansersion
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
 //   you may not use this file except in compliance with the License.
@@ -31,6 +31,8 @@ extern "C"
 
 
 using namespace std;
+
+#if (BPS_CMD_SET == BPS_CMD_SET_C)
 
 /** open net setting: to start net setting */
 
@@ -121,3 +123,4 @@ TEST(COMMAND_OPEN_NETSET, ParseResponse)
     EXPECT_GT(BPSParseOpenNetsetRsp(&data, RSP_MSG+BPS_CMD_WORD_POSITION+1, size), 0);
     EXPECT_EQ(data.retCode, BPS_RET_CODE_OK);
 }
+#endif

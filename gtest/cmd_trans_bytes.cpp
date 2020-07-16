@@ -32,6 +32,7 @@ extern "C"
 
 using namespace std;
 
+#if (BPS_CMD_SET == BPS_CMD_SET_T || BPS_CMD_SET == BPS_CMD_SET_C)
 /** transmit data "ABC" from master to slave;
   transmit data "XYZ" from slave to master */
 static const int MSG_BUF_SIZE = 256;
@@ -168,3 +169,4 @@ TEST(COMMAND_TRANS_BYTES, ParseResponseDyn)
 
     BPSFreeMemTransBytesRsp(&data);
 }
+#endif

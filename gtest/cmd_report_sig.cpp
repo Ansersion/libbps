@@ -1,4 +1,4 @@
-//   Copyright 2019 Ansersion
+//   Copyright 2019-2020 Ansersion
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
 //   you may not use this file except in compliance with the License.
@@ -31,6 +31,8 @@ extern "C"
 
 
 using namespace std;
+
+#if (BPS_CMD_SET == BPS_CMD_SET_C)
 
 /** report siangl: signal ID=0x0001, type=0x04(ENUM), value=0x0002 */
 static const int MSG_BUF_SIZE = 256;
@@ -137,3 +139,4 @@ TEST(COMMAND_REPORT_SIG, ParseResponse)
     EXPECT_GT(BPSParseReportSigRsp(&data, RSP_MSG+BPS_CMD_WORD_POSITION+1, size), 0);
     EXPECT_EQ(data.retCode, BPS_RET_CODE_OK);
 }
+#endif

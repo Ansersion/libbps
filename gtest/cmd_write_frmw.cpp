@@ -31,6 +31,7 @@ extern "C"
 
 
 using namespace std;
+#if (BPS_CMD_SET == BPS_CMD_SET_B || BPS_CMD_SET == BPS_CMD_SET_T || BPS_CMD_SET == BPS_CMD_SET_C)
 
 /** write update firmware data(64 bytes) to offset 0x00000000 by auto mode */
 static const int MSG_BUF_SIZE = 256;
@@ -176,3 +177,4 @@ TEST(COMMAND_WRITE_FRMW, ParseResponseDyn)
     EXPECT_EQ(data.retCode, RET_CODE);
     BPSFreeMemWriteFrmwRsp(&data);
 }
+#endif

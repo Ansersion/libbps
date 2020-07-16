@@ -32,6 +32,8 @@ extern "C"
 
 using namespace std;
 
+#if (BPS_CMD_SET == BPS_CMD_SET_B || BPS_CMD_SET == BPS_CMD_SET_T || BPS_CMD_SET == BPS_CMD_SET_C)
+
 /** check the 64KB update firmware by auto mode */
 static const int MSG_BUF_SIZE = 256;
 static BPS_UINT8 buf[MSG_BUF_SIZE];
@@ -152,3 +154,4 @@ TEST(COMMAND_UPDATE_CHECKSUM, ParseResponseDyn)
     EXPECT_EQ(data.retCode, RET_CODE);
     BPSFreeMemUpdateChecksumRsp(&data);
 }
+#endif

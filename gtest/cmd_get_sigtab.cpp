@@ -1,4 +1,4 @@
-//   Copyright 2019 Ansersion
+//   Copyright 2019-2020 Ansersion
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
 //   you may not use this file except in compliance with the License.
@@ -31,6 +31,8 @@ extern "C"
 
 
 using namespace std;
+
+#if (BPS_CMD_SET == BPS_CMD_SET_C)
 
 /** get signal table: 4 signal at all, they are:
   signalID=0x0000, type=string, 
@@ -150,3 +152,4 @@ TEST(COMMAND_GET_SIGTAB, ParseResponse)
         }
     }
 }
+#endif

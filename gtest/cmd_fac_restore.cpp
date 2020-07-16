@@ -32,6 +32,8 @@ extern "C"
 
 using namespace std;
 
+#if (BPS_CMD_SET == BPS_CMD_SET_B || BPS_CMD_SET == BPS_CMD_SET_T || BPS_CMD_SET == BPS_CMD_SET_C)
+
 /** restore factory settings */
 static const int MSG_BUF_SIZE = 256;
 static BPS_UINT8 buf[MSG_BUF_SIZE];
@@ -140,3 +142,4 @@ TEST(COMMAND_FAC_RESTORE, ParseResponseDyn)
     EXPECT_EQ(data.retCode, RET_CODE);
     BPSFreeMemFacRestoreRsp(&data);
 }
+#endif

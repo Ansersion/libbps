@@ -1,4 +1,4 @@
-//   Copyright 2019 Ansersion
+//   Copyright 2019-2020 Ansersion
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
 //   you may not use this file except in compliance with the License.
@@ -32,6 +32,8 @@ extern "C"
 
 
 using namespace std;
+
+#if (BPS_CMD_SET == BPS_CMD_SET_C)
 
 /** query the net state: WIFI CONNECTED */
 static const int MSG_BUF_SIZE = 256;
@@ -119,3 +121,5 @@ TEST(COMMAND_NETSTATE_QUERY, ParseResponse)
     EXPECT_GT(BPSParseNetstateQueryRsp(&data, RSP_MSG+BPS_CMD_WORD_POSITION+1, size), 0);
     EXPECT_EQ(data.state, NET_STATE);
 }
+
+#endif

@@ -147,86 +147,87 @@ BPSPacketData * BPSParseNoCheck(BPS_UINT8 * buf, BPSPacketData * pd)
             break;
 #endif
 
-        // case CMD_PING_WORD_REQ:
-        //     /* parse the command ping request, */
-        //     parse_ret = BPSParsePingReq(&(pd->pu.pingReq), buf_tmp, rmn_len);
-        //     break;
-        // case CMD_PING_WORD_RSP:
-        //     /* parse the command ping response, */
-        //     parse_ret = BPSParsePingRsp(&(pd->pu.pingRsp), buf_tmp, rmn_len);
-        //     break;
-        // case CMD_OPEN_NETSET_WORD_REQ:
-        //     /* parse the command open net setting request, */
-        //     parse_ret = BPSParseOpenNetsetReq(&(pd->pu.openNetsetReq), buf_tmp, rmn_len);
-        //     break;
-        // case CMD_OPEN_NETSET_WORD_RSP:
-        //     /* parse the command open net setting response, */
-        //     parse_ret = BPSParseOpenNetsetRsp(&(pd->pu.openNetsetRsp), buf_tmp, rmn_len);
-        //     break;
-        // case CMD_CONFIG_NETSET_WORD_REQ:
-        //     /* parse the command configure net setting request, */
-        //     parse_ret = BPSParseConfigNetsetReq(&(pd->pu.configNetsetReq), buf_tmp, rmn_len);
-        //     /* because the function will never fail and return 0, so set 'parse_ret = 1' to make the error check to pass through*/
-        //     parse_ret = 1;
-        //     break;
-        // case CMD_CONFIG_NETSET_WORD_RSP:
-        //     /* parse the command configure net setting response, */
-        //     parse_ret = BPSParseConfigNetsetRsp(&(pd->pu.configNetsetRsp), buf_tmp, rmn_len);
-        //     break;
-        // case CMD_NETSTATE_QUERY_WORD_REQ:
-        //     /* parse the command query net state request, */
-        //     parse_ret = BPSParseNetstateQueryReq(&(pd->pu.netstateQueryReq), buf_tmp, rmn_len);
-        //     /* because the function will never fail and return 0, so set 'parse_ret = 1' to make the error check to pass through*/
-        //     parse_ret = 1;
-        //     break;
-        // case CMD_NETSTATE_QUERY_WORD_RSP:
-        //     /* parse the command query net state response, */
-        //     parse_ret = BPSParseNetstateQueryRsp(&(pd->pu.netstateQueryRsp), buf_tmp, rmn_len);
-        //     break;
-        // case CMD_BAUDRATE_SET_WORD_REQ:
-        //     /* parse the command 'set/query serial baudrate' request, */
-        //     parse_ret = BPSParseBaudrateSetReq(&(pd->pu.baudrateSetReq), buf_tmp, rmn_len);
-        //     /* because the function will never fail and return 0, so set 'parse_ret = 1' to make the error check to pass through*/
-        //     parse_ret = 1;
-        //     break;
-        // case CMD_BAUDRATE_SET_WORD_RSP:
-        //     /* parse the command 'set/query serial baudrate' response, */
-        //     parse_ret = BPSParseBaudrateSetRsp(&(pd->pu.baudrateSetRsp), buf_tmp, rmn_len);
-        //     break;
-        // case CMD_GET_SIGTAB_WORD_REQ:
-        //     /* parse the command get signal table request, */
-        //     parse_ret = BPSParseGetSigtabReq(&(pd->pu.getSigtabReq), buf_tmp, rmn_len);
-        //     /* because the function will never fail and return 0, so set 'parse_ret = 1' to make the error check to pass through*/
-        //     parse_ret = 1;
-        //     break;
-        // case CMD_GET_SIGTAB_WORD_RSP:
-        //     /* parse the command get signal table response, */
-        //     parse_ret = BPSParseGetSigtabRsp(&(pd->pu.getSigtabRsp), buf_tmp, rmn_len);
-        //     break;
-        // case CMD_REPORT_SIG_WORD_REQ:
-        //     /* parse the command report signal values request, */
-        //     parse_ret = BPSParseReportSigReq(&(pd->pu.reportSigReq), buf_tmp, rmn_len);
-        //     break;
-        // case CMD_REPORT_SIG_WORD_RSP:
-        //     /* parse the command report signal values response, */
-        //     parse_ret = BPSParseReportSigRsp(&(pd->pu.reportSigRsp), buf_tmp, rmn_len);
-        //     break;
-        // case CMD_POST_WORD_REQ:
-        //     /* parse the command post signal request, */
-        //     parse_ret = BPSParsePostReq(&(pd->pu.postReq), buf_tmp, rmn_len);
-        //     break;
-        // case CMD_POST_WORD_RSP:
-        //     /* parse the command post signal response, */
-        //     parse_ret = BPSParsePostRsp(&(pd->pu.postRsp), buf_tmp, rmn_len);
-        //     break;
-        // case CMD_GET_SIG_WORD_REQ:
-        //     /* parse the command get signal values request, */
-        //     parse_ret = BPSParseGetSigReq(&(pd->pu.getSigReq), buf_tmp, rmn_len);
-        //     break;
-        // case CMD_GET_SIG_WORD_RSP:
-        //     /* parse the command get signal values response, */
-        //     parse_ret = BPSParseGetSigRsp(&(pd->pu.getSigRsp), buf_tmp, rmn_len);
-        //     break;
+#if (BPS_CMD_SET == BPS_CMD_SET_C)
+        case CMD_GET_SIGTAB_WORD_REQ:
+            /* parse the command get signal table request, */
+            parse_ret = BPSParseGetSigtabReq(&(pd->pu.getSigtabReq), buf_tmp, rmn_len);
+            /* because the function will never fail and return 0, so set 'parse_ret = 1' to make the error check to pass through*/
+            parse_ret = 1;
+            break;
+        case CMD_GET_SIGTAB_WORD_RSP:
+            /* parse the command get signal table response, */
+            parse_ret = BPSParseGetSigtabRsp(&(pd->pu.getSigtabRsp), buf_tmp, rmn_len);
+            break;
+        case CMD_REPORT_SIG_WORD_REQ:
+            /* parse the command report signal values request, */
+            parse_ret = BPSParseReportSigReq(&(pd->pu.reportSigReq), buf_tmp, rmn_len);
+            break;
+        case CMD_REPORT_SIG_WORD_RSP:
+            /* parse the command report signal values response, */
+            parse_ret = BPSParseReportSigRsp(&(pd->pu.reportSigRsp), buf_tmp, rmn_len);
+            break;
+        case CMD_POST_WORD_REQ:
+            /* parse the command post signal request, */
+            parse_ret = BPSParsePostReq(&(pd->pu.postReq), buf_tmp, rmn_len);
+            break;
+        case CMD_POST_WORD_RSP:
+            /* parse the command post signal response, */
+            parse_ret = BPSParsePostRsp(&(pd->pu.postRsp), buf_tmp, rmn_len);
+            break;
+        case CMD_GET_SIG_WORD_REQ:
+            /* parse the command get signal values request, */
+            parse_ret = BPSParseGetSigReq(&(pd->pu.getSigReq), buf_tmp, rmn_len);
+            break;
+        case CMD_GET_SIG_WORD_RSP:
+            /* parse the command get signal values response, */
+            parse_ret = BPSParseGetSigRsp(&(pd->pu.getSigRsp), buf_tmp, rmn_len);
+            break;
+        case CMD_OPEN_NETSET_WORD_REQ:
+            /* parse the command open net setting request, */
+            parse_ret = BPSParseOpenNetsetReq(&(pd->pu.openNetsetReq), buf_tmp, rmn_len);
+            break;
+        case CMD_OPEN_NETSET_WORD_RSP:
+            /* parse the command open net setting response, */
+            parse_ret = BPSParseOpenNetsetRsp(&(pd->pu.openNetsetRsp), buf_tmp, rmn_len);
+            break;
+        case CMD_CONFIG_NETSET_WORD_REQ:
+            /* parse the command configure net setting request, */
+            parse_ret = BPSParseConfigNetsetReq(&(pd->pu.configNetsetReq), buf_tmp, rmn_len);
+            /* because the function will never fail and return 0, so set 'parse_ret = 1' to make the error check to pass through*/
+            parse_ret = 1;
+            break;
+        case CMD_CONFIG_NETSET_WORD_RSP:
+            /* parse the command configure net setting response, */
+            parse_ret = BPSParseConfigNetsetRsp(&(pd->pu.configNetsetRsp), buf_tmp, rmn_len);
+            break;
+        case CMD_NETSTATE_QUERY_WORD_REQ:
+            /* parse the command query net state request, */
+            parse_ret = BPSParseNetstateQueryReq(&(pd->pu.netstateQueryReq), buf_tmp, rmn_len);
+            /* because the function will never fail and return 0, so set 'parse_ret = 1' to make the error check to pass through*/
+            parse_ret = 1;
+            break;
+        case CMD_NETSTATE_QUERY_WORD_RSP:
+            /* parse the command query net state response, */
+            parse_ret = BPSParseNetstateQueryRsp(&(pd->pu.netstateQueryRsp), buf_tmp, rmn_len);
+            break;
+        case CMD_NETADDR_QUERY_WORD_REQ:
+            /* parse the command net address request, */
+            parse_ret = BPSParseNetaddrQueryReq(&(pd->pu.netaddrQueryReq), buf_tmp, rmn_len);
+            break;
+        case CMD_NETADDR_QUERY_WORD_RSP:
+            /* parse the command net address response, */
+            parse_ret = BPSParseNetaddrQueryRsp(&(pd->pu.netaddrQueryRsp), buf_tmp, rmn_len);
+            break;
+        case CMD_PING_WORD_REQ:
+            /* parse the command ping request, */
+            parse_ret = BPSParsePingReq(&(pd->pu.pingReq), buf_tmp, rmn_len);
+            break;
+        case CMD_PING_WORD_RSP:
+            /* parse the command ping response, */
+            parse_ret = BPSParsePingRsp(&(pd->pu.pingRsp), buf_tmp, rmn_len);
+            break;
+#endif
+            /** Command Set O */
         case CMD_SYSTEM_PARA_WORD_REQ: // 0xEE
             /* parse the command "configure system parameter" request, */
             parse_ret = BPSParseSystemParaReq(&(pd->pu.sysParaReq), buf_tmp, rmn_len);

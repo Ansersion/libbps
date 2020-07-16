@@ -32,6 +32,7 @@ extern "C"
 
 using namespace std;
 
+#if (BPS_CMD_SET == BPS_CMD_SET_B || BPS_CMD_SET == BPS_CMD_SET_T || BPS_CMD_SET == BPS_CMD_SET_C)
 /** launch update */
 static const int MSG_BUF_SIZE = 256;
 static BPS_UINT8 buf[MSG_BUF_SIZE];
@@ -140,3 +141,4 @@ TEST(COMMAND_LAUNCH_UPDATE, ParseResponseDyn)
     EXPECT_EQ(data.retCode, RET_CODE);
     BPSFreeMemLnchUpdateRsp(&data);
 }
+#endif
