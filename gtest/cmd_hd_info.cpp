@@ -1,4 +1,4 @@
-//   Copyright 2019 Ansersion
+//   Copyright 2019-2020 Ansersion
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
 //   you may not use this file except in compliance with the License.
@@ -44,9 +44,9 @@ static const int MCU_ADDR = 0;
 static const int MODULE_ADDR = 1;
 static const BPS_WORD HEADER_SIZE = BPS_HEADER_SIZE - BPS_VERSION_SIZE - BPS_ADDR_SIZE - BPS_REMAIN_LEN_SIZE;
 static const BPSCmdHDInfoField FIELD_ARRAY[] = {
-    {SN_RST_HD_INFO,    sizeof("ABCDEFGHIJKLMNOP") - 1,     (BPS_UINT8 *)"ABCDEFGHIJKLMNOP"},
-    {HARD_V_RST_HD_INFO,  sizeof("1.0.0.0") - 1,              (BPS_UINT8 *)"1.0.0.0"},
-    {SOFT_V_RST_HD_INFO,  sizeof("2.0.0.0") - 1,              (BPS_UINT8 *)"2.0.0.0"},
+    {SN_RST_HD_INFO,    sizeof("ABCDEFGHIJKLMNOP") - 1,     (BPS_UINT8 *)"ABCDEFGHIJKLMNOP", 0},
+    {HARD_V_RST_HD_INFO,  sizeof("1.0.0.0") - 1,              (BPS_UINT8 *)"1.0.0.0", 0},
+    {SOFT_V_RST_HD_INFO,  sizeof("2.0.0.0") - 1,              (BPS_UINT8 *)"2.0.0.0", 0},
 };
 
 static BPS_UINT8 REQ_MSG[] = 
