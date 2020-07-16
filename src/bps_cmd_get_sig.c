@@ -67,7 +67,7 @@ BPS_UINT16 BPSPackGetSigRsp(BPSCmdGetSigRsp * rsp, BPS_UINT8 * buf, BPS_WORD siz
         return 0;
     }
     BPS_ASSERT_SIZE_UINT8(size);
-    buf[i++] = CMD_GET_SIG_WORD_REQ;
+    buf[i++] = CMD_GET_SIG_WORD_RSP;
 
     BPS_ASSERT_SIZE_UINT8(size);
     buf[i++] = rsp->retCode;

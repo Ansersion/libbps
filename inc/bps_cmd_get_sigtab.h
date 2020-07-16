@@ -87,7 +87,7 @@ EXPORT_API BPS_UINT16 BPSParseGetSigtabReq(BPSCmdGetSigtabReq * req, const BPS_U
 EXPORT_API BPS_UINT16 BPSParseGetSigtabRsp(BPSCmdGetSigtabRsp * rsp, const BPS_UINT8 * buf, BPS_WORD size);
 
 #ifdef BPS_MEM_DYN
-    #define ParseGetSigtabReqDyn     ParseGetSigtabReq
+    #define BPSParseGetSigtabReqDyn     BPSParseGetSigtabReq
 /** 
   * @Brief BPSParseGetSigtabRsp parse packet of 'get signal table' response
   * @Param rsp the response data struct to store the message.

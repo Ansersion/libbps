@@ -152,4 +152,43 @@ TEST(COMMAND_GET_SIGTAB, ParseResponse)
         }
     }
 }
+
+/** parse(DYN) the get signal table command request
+  * packet flow: MODULE <- MCU */
+TEST(COMMAND_GET_SIGTAB, ParseRequestDyn)
+{
+    BPS_WORD size = sizeof(REQ_MSG);
+    BPSCmdGetSigtabReq data;
+    BPSParseGetSigtabReqDyn(&data, REQ_MSG+BPS_CMD_WORD_POSITION+1, size);
+    BPSFreeMemGetSigtabReq(&data);
+}
+
+/** parse(DYN) the get signal table command response 
+  * packet flow: MCU <- MODULE */
+TEST(COMMAND_GET_SIGTAB, ParseResponseDyn)
+{
+    BPS_WORD size = sizeof(RSP_MSG);
+    BPSCmdGetSigtabRsp data;
+    EXPECT_GT(BPSParseGetSigtabRspDyn(&data, RSP_MSG+BPS_CMD_WORD_POSITION+1, size), 0);
+    EXPECT_EQ(data.fieldNum, sizeof(FIELD_ARRAY)/sizeof(FIELD_ARRAY[0]));
+    for(size_t i = 0; i < data.fieldNum; i++) {
+        BPSCmdGetSigtabField * field = &(data.fieldArray[i]);
+        if(field->signalId == FIELD_ARRAY[0].signalId) {
+            EXPECT_EQ(field->signalType, FIELD_ARRAY[0].signalType);
+            EXPECT_EQ(field->accuracy, FIELD_ARRAY[0].accuracy);
+        } else if(field->signalId == FIELD_ARRAY[1].signalId) {
+            EXPECT_EQ(field->signalType, FIELD_ARRAY[1].signalType);
+            EXPECT_EQ(field->accuracy, FIELD_ARRAY[1].accuracy);
+        } else if(field->signalId == FIELD_ARRAY[2].signalId) {
+            EXPECT_EQ(field->signalType, FIELD_ARRAY[2].signalType);
+            EXPECT_EQ(field->accuracy, FIELD_ARRAY[2].accuracy);
+        } else if(field->signalId == FIELD_ARRAY[3].signalId) {
+            EXPECT_EQ(field->signalType, FIELD_ARRAY[3].signalType);
+            EXPECT_EQ(field->accuracy, FIELD_ARRAY[3].accuracy);
+        } else {
+            ASSERT_FALSE("Unknown signal ID");
+        }
+    }
+    BPSFreeMemGetSigtabRsp(&data);
+}
 #endif

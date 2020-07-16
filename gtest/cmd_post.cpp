@@ -137,4 +137,31 @@ TEST(COMMAND_POST, ParseResponse)
     EXPECT_GT(BPSParsePostRsp(&data, RSP_MSG+BPS_CMD_WORD_POSITION+1, size), 0);
     EXPECT_EQ(data.retCode, BPS_RET_CODE_OK);
 }
+
+/** parse(DYN) the post command request
+  * packet flow: MODULE <- MCU */
+TEST(COMMAND_POST, ParseRequestDyn)
+{
+    BPS_WORD size = sizeof(REQ_MSG);
+    BPSCmdPostReq data;
+
+    EXPECT_GT(BPSParsePostReqDyn(&data, REQ_MSG+BPS_CMD_WORD_POSITION+1, size), 0);
+    EXPECT_EQ(data.fieldNum, 1);
+    EXPECT_EQ(data.fieldArray[0].signalId, SIGNAL_ID);
+    EXPECT_EQ(data.fieldArray[0].signalType, VALUE_TYPE);
+    EXPECT_EQ(data.fieldArray[0].value.t_enm, VALUE.t_enm);
+    BPSFreeMemPostReq(&data);
+}
+
+/** parse(DYN) the post command response 
+  * packet flow: MCU <- MODULE */
+TEST(COMMAND_POST, ParseResponseDyn)
+{
+    BPS_WORD size = sizeof(RSP_MSG);
+    BPSCmdPostRsp data;
+
+    EXPECT_GT(BPSParsePostRspDyn(&data, RSP_MSG+BPS_CMD_WORD_POSITION+1, size), 0);
+    EXPECT_EQ(data.retCode, BPS_RET_CODE_OK);
+    BPSFreeMemPostRsp(&data);
+}
 #endif

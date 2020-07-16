@@ -122,4 +122,24 @@ TEST(COMMAND_NETSTATE_QUERY, ParseResponse)
     EXPECT_EQ(data.state, NET_STATE);
 }
 
+/** parse(DYN) the query net state command request
+  * packet flow: MODULE <- MCU */
+TEST(COMMAND_NETSTATE_QUERY, ParseRequestDyn)
+{
+    BPS_WORD size = sizeof(REQ_MSG);
+    BPSCmdNetstateQueryReq data;
+    BPSParseNetstateQueryReqDyn(&data, REQ_MSG+BPS_CMD_WORD_POSITION+1, size);
+    BPSFreeMemNetstateQueryReq(&data);
+}
+
+/** parse(DYN) the query net state command response 
+  * packet flow: MCU <- MODULE */
+TEST(COMMAND_NETSTATE_QUERY, ParseResponseDyn)
+{
+    BPS_WORD size = sizeof(RSP_MSG);
+    BPSCmdNetstateQueryRsp data;
+    EXPECT_GT(BPSParseNetstateQueryRspDyn(&data, RSP_MSG+BPS_CMD_WORD_POSITION+1, size), 0);
+    EXPECT_EQ(data.state, NET_STATE);
+    BPSFreeMemNetstateQueryRsp(&data);
+}
 #endif

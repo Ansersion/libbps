@@ -34,7 +34,7 @@ using namespace std;
 
 #if (BPS_CMD_SET == BPS_CMD_SET_C)
 
-/** report siangl: signal ID=0x0001, type=0x04(ENUM), value=0x0002 */
+/** report signal: signal ID=0x0001, type=0x04(ENUM), value=0x0002 */
 static const int MSG_BUF_SIZE = 256;
 static BPS_UINT8 buf[MSG_BUF_SIZE];
 static const int MCU_ADDR = 0;
@@ -138,5 +138,37 @@ TEST(COMMAND_REPORT_SIG, ParseResponse)
     BPSCmdReportSigRsp data;
     EXPECT_GT(BPSParseReportSigRsp(&data, RSP_MSG+BPS_CMD_WORD_POSITION+1, size), 0);
     EXPECT_EQ(data.retCode, BPS_RET_CODE_OK);
+}
+
+/** parse(DYN) the report signal values command request
+  * packet flow: MODULE <- MCU */
+TEST(COMMAND_REPORT_SIG, ParseRequestDyn)
+{
+    BPS_WORD size = sizeof(REQ_MSG);
+    BPSCmdReportSigReq data;
+
+    EXPECT_GT(BPSParseReportSigReqDyn(&data, REQ_MSG+BPS_CMD_WORD_POSITION+1, size), 0);
+    EXPECT_EQ(data.fieldNum, sizeof(FIELD_ARRAY)/sizeof(BPSCmdReportSigField));
+    for(size_t i = 0; i < data.fieldNum; i++) {
+        BPSCmdReportSigField * field = &(data.fieldArray[i]);
+        if(FIELD_ARRAY[0].signalId == field->signalId) {
+            EXPECT_EQ(field->signalType, FIELD_ARRAY[0].signalType);
+            EXPECT_EQ(field->value.t_enm, FIELD_ARRAY[0].value.t_enm);
+        } else {
+            ASSERT_FALSE("Unknown Hardware info type");
+        }
+    }
+    BPSFreeMemReportSigReq(&data);
+}
+
+/** parse(DYN) the report signal values command response 
+  * packet flow: MCU <- MODULE */
+TEST(COMMAND_REPORT_SIG, ParseResponseDyn)
+{
+    BPS_WORD size = sizeof(RSP_MSG);
+    BPSCmdReportSigRsp data;
+    EXPECT_GT(BPSParseReportSigRspDyn(&data, RSP_MSG+BPS_CMD_WORD_POSITION+1, size), 0);
+    EXPECT_EQ(data.retCode, BPS_RET_CODE_OK);
+    BPSFreeMemReportSigRsp(&data);
 }
 #endif

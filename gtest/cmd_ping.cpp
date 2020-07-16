@@ -123,4 +123,26 @@ TEST(COMMAND_PING, ParseResponse)
     EXPECT_GT(BPSParsePingRsp(&data, RSP_MSG+BPS_CMD_WORD_POSITION+1, size), 0);
     EXPECT_EQ(data.interval, INTERVAL);
 }
+
+/** parse(DYN) the ping command request
+  * packet flow: MODULE <- MCU */
+TEST(COMMAND_PING, ParseRequestDyn)
+{
+    BPS_WORD size = sizeof(REQ_MSG);
+    BPSCmdPingReq data;
+    EXPECT_GT(BPSParsePingReqDyn(&data, REQ_MSG+BPS_CMD_WORD_POSITION+1, size), 0);
+    EXPECT_EQ(data.type, REQ_TYPE);
+    BPSFreeMemPingReq(&data);
+}
+
+/** parse(DYN) the ping command response 
+  * packet flow: MCU <- MODULE */
+TEST(COMMAND_PING, ParseResponseDyn)
+{
+    BPS_WORD size = sizeof(RSP_MSG);
+    BPSCmdPingRsp data;
+    EXPECT_GT(BPSParsePingRspDyn(&data, RSP_MSG+BPS_CMD_WORD_POSITION+1, size), 0);
+    EXPECT_EQ(data.interval, INTERVAL);
+    BPSFreeMemPingRsp(&data);
+}
 #endif

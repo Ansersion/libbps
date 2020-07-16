@@ -123,4 +123,26 @@ TEST(COMMAND_OPEN_NETSET, ParseResponse)
     EXPECT_GT(BPSParseOpenNetsetRsp(&data, RSP_MSG+BPS_CMD_WORD_POSITION+1, size), 0);
     EXPECT_EQ(data.retCode, BPS_RET_CODE_OK);
 }
+
+/** parse(DYN) the open net settings command request
+  * packet flow: MODULE <- MCU */
+TEST(COMMAND_OPEN_NETSET, ParseRequestDyn)
+{
+    BPS_WORD size = sizeof(REQ_MSG);
+    BPSCmdOpenNetsetReq data;
+    EXPECT_GT(BPSParseOpenNetsetReqDyn(&data, REQ_MSG+BPS_CMD_WORD_POSITION+1, size), 0);
+    EXPECT_EQ(data.type, REQ_TYPE);
+    BPSFreeMemOpenNetsetReq(&data);
+}
+
+/** parse(DYN) the open net settings command response 
+  * packet flow: MCU <- MODULE */
+TEST(COMMAND_OPEN_NETSET, ParseResponseDyn)
+{
+    BPS_WORD size = sizeof(RSP_MSG);
+    BPSCmdOpenNetsetRsp data;
+    EXPECT_GT(BPSParseOpenNetsetRspDyn(&data, RSP_MSG+BPS_CMD_WORD_POSITION+1, size), 0);
+    EXPECT_EQ(data.retCode, BPS_RET_CODE_OK);
+    BPSFreeMemOpenNetsetRsp(&data);
+}
 #endif

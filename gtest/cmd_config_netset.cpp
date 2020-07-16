@@ -130,4 +130,26 @@ TEST(COMMAND_CONFIG_NETSET, ParseResponse)
     EXPECT_EQ(data.mode, NET_MODE);
 }
 
+/** parse(DYN) the configure net setting command request
+  * packet flow: MODULE <- MCU */
+TEST(COMMAND_CONFIG_NETSET, ParseRequestDyn)
+{
+    BPS_WORD size = sizeof(REQ_MSG);
+    BPSCmdConfigNetsetReq data;
+    EXPECT_GT(BPSParseConfigNetsetReqDyn(&data, REQ_MSG+BPS_CMD_WORD_POSITION+1, size), 0);
+    EXPECT_EQ(data.type, REQ_TYPE);
+    BPSFreeMemConfigNetsetReq(&data);
+}
+
+/** parse(DYN) the configure net setting command response 
+  * packet flow: MCU <- MODULE */
+TEST(COMMAND_CONFIG_NETSET, ParseResponseDyn)
+{
+    BPS_WORD size = sizeof(RSP_MSG);
+    BPSCmdConfigNetsetRsp data;
+    EXPECT_GT(BPSParseConfigNetsetRspDyn(&data, RSP_MSG+BPS_CMD_WORD_POSITION+1, size), 0);
+    EXPECT_EQ(data.commType, COMM_TYPE);
+    EXPECT_EQ(data.mode, NET_MODE);
+    BPSFreeMemConfigNetsetRsp(&data);
+}
 #endif

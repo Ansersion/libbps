@@ -123,6 +123,9 @@ TEST(COMMAND_NETADDR_QUERY, ParseResponse)
 {
     BPS_WORD size = sizeof(RSP_MSG);
     BPSCmdNetaddrQueryRsp data;
+    BPS_UINT8 buf[6];
+    data.maxLen = sizeof(buf);
+    data.data = buf;
     EXPECT_GT(BPSParseNetaddrQueryRsp(&data, RSP_MSG+BPS_CMD_WORD_POSITION+1, size), 0);
     EXPECT_EQ(data.len, sizeof(NET_ADDR_MAC));
     for(int i = 0; i < data.len; i++) {
@@ -130,4 +133,27 @@ TEST(COMMAND_NETADDR_QUERY, ParseResponse)
     }
 }
 
+/** parse(DYN) the query net address command request
+  * packet flow: MODULE <- MCU */
+TEST(COMMAND_NETADDR_QUERY, ParseRequestDyn)
+{
+    BPS_WORD size = sizeof(REQ_MSG);
+    BPSCmdNetaddrQueryReq data;
+    BPSParseNetaddrQueryReqDyn(&data, REQ_MSG+BPS_CMD_WORD_POSITION+1, size);
+    EXPECT_EQ(data.type, NET_ADDR_TYPE);
+}
+
+/** parse(DYN) the query net address command response 
+  * packet flow: MCU <- MODULE */
+TEST(COMMAND_NETADDR_QUERY, ParseResponseDyn)
+{
+    BPS_WORD size = sizeof(RSP_MSG);
+    BPSCmdNetaddrQueryRsp data;
+    EXPECT_GT(BPSParseNetaddrQueryRspDyn(&data, RSP_MSG+BPS_CMD_WORD_POSITION+1, size), 0);
+    EXPECT_EQ(data.len, sizeof(NET_ADDR_MAC));
+    for(int i = 0; i < data.len; i++) {
+        EXPECT_EQ(data.data[i], NET_ADDR_MAC[i]);
+    }
+    BPSFreeMemNetaddrQueryRsp(&data);
+}
 #endif
