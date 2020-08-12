@@ -1,0 +1,61 @@
+##################################################################
+# Makefile for Cortex-M3 platform.
+# Use arm gcc compiler with size optimization.
+# Compiler tools link: 
+# https://developer.arm.com/tools-and-software/open-source-software/developer-tools/gnu-toolchain/gnu-rm
+##################################################################
+
+COMPILE_OPTS =		$(INCLUDES) -I. -c
+COMPILE_OPTS += -mthumb
+COMPILE_OPTS += -mcpu=cortex-m0plus
+COMPILE_OPTS += -Wl,--start-group -lc -lm -Wl,--end-group
+COMPILE_OPTS += -specs=nano.specs -specs=nosys.specs 
+COMPILE_OPTS += -static
+COMPILE_OPTS += -Os
+
+CC = arm-none-eabi-gcc
+
+ALL = 
+SRC =
+OBJ =
+INCLUDES =
+MACRO 	= -DBPS_CPU32
+LINK_OPTS =		
+
+INCLUDES += -Iinc
+
+SRC_DIR = src
+
+
+CFLAGS +=		-Wall
+CFLAGS +=		-Wundef
+CFLAGS +=		-Wpointer-arith
+CFLAGS +=		$(COMPILE_OPTS) 
+CFLAGS +=		$(MACRO) 
+
+LIBRARY_LINK =		arm-none-eabi-ar ru
+
+SRC 	+= ${wildcard $(SRC_DIR)/*.c}
+OBJ 	+= ${patsubst %.c, %.o, $(SRC)}
+
+TARGET_STATIC_LIB = libbps.a
+
+ALL += $(TARGET_STATIC_LIB) 
+
+all: $(ALL)
+
+$(TARGET_STATIC_LIB): $(OBJ) 
+	$(LIBRARY_LINK) $(LINK_OPTS) $@ $(OBJ)
+	# cscope: for vim editor searching
+	# cscope -Rbq
+
+$(OBJ):%.o:%.c
+	$(CC) $(CFLAGS) $< -o $@ -MMD -MF $*.d -MP
+
+clean:
+	-rm -rf $(OBJ) $(ALL) core *.core *~ inc/*~ src/*.d cscope.*
+
+install:
+	@echo "install not supported\n"
+
+##### Any additional, platform-specific rules come here:
