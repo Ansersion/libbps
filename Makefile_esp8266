@@ -1,4 +1,12 @@
+##################################################################
+# Makefile for ESP8266 platform.
+# Use xtensa lx106 compiler tools with size optimization.
+# Compiler tools link: 
+# https://dl.espressif.com/dl/xtensa-lx106-elf-linux64-1.22.0-92-g8facf4c-5.2.0.tar.gz
+##################################################################
+
 COMPILE_OPTS =		$(INCLUDES) -I. -c
+COMPILE_OPTS += -fPIC
 COMPILE_OPTS += -Os
 COMPILE_OPTS += -Wpointer-arith -Wundef -Werror -Wl,-EL -fno-inline-functions -nostdlib -mlongcalls -mtext-section-literals -ffunction-sections -fdata-sections -fno-builtin-printf -fno-jump-tables
 CC = xtensa-lx106-elf-gcc
@@ -7,42 +15,32 @@ ALL =
 SRC =
 OBJ =
 INCLUDES =
-MACRO 	=
-LINK_OPTS =		
-LIBRARY_SHARE_LINK =
-SHARE_LINK_OPTS =
+MACRO 	= -DBPS_CPU32
+LINK_OPTS = ru
 
 INCLUDES += -Iinc
 
 SRC_DIR = src
 
 
-MACRO 	+= -DBPS_CPU32
-MACRO 	+= -DBPS_USE_STD
-
 CFLAGS +=		$(COMPILE_OPTS) 
 CFLAGS +=		$(MACRO) 
 
-LIBRARY_LINK =		xtensa-lx106-elf-ar ru
+LIBRARY_LINK =		xtensa-lx106-elf-ar
 
 SRC 	+= ${wildcard $(SRC_DIR)/*.c}
 OBJ 	+= ${patsubst %.c, %.o, $(SRC)}
 
 TARGET_STATIC_LIB = libbps.a
-TARGET_SHARE_LIB = libbps.so
 
 ALL += $(TARGET_STATIC_LIB) 
-#ALL += $(TARGET_SHARE_LIB)
 
 all: $(ALL)
 
 $(TARGET_STATIC_LIB): $(OBJ) 
 	$(LIBRARY_LINK) $(LINK_OPTS) $@ $(OBJ)
-	cscope -Rbq
-
-$(TARGET_SHARE_LIB): $(OBJ) 
-	$(LIBRARY_SHARE_LINK) $@ $(LIBRARY_SHARE_LINK_OPTS) $(OBJ)
-	cscope -Rbq
+	# cscope: for vim editor searching
+	# cscope -Rbq
 
 $(OBJ):%.o:%.c
 	$(CC) $(CFLAGS) $< -o $@ -MMD -MF $*.d -MP

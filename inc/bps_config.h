@@ -45,16 +45,17 @@
 ***************************************************************************************************************/
 
 /** 
-  * @Brief: BPS_CPU64/32/16/8 uncomment one of the following line to indicate the CPU type.
+  * @Brief: BPS_CPU64/32/16/8 uncomment one of the following line to indicate the CPU type. 
+  * You can also define it in your compiler options.
  */
-#define BPS_CPU64
+// #define BPS_CPU64
 // #define BPS_CPU32
 // #define BPS_CPU16
 // #define BPS_CPU8
 
 /** 
   * @Brief: BPS_MEM_DYN for system that can alloc memory dynamically(malloc/free)
-  * it will enable to compile functions 'ParseXXXReqDyn/ParseXXXRspDyn', 
+  * it will enable to compile functions  'ParseXXXReqDyn/ParseXXXRspDyn', 
   * which are more efficient for memory usage.
  */
 #define BPS_MEM_DYN

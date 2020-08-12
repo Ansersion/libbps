@@ -25,9 +25,10 @@
 #ifndef __BPS_CMD_BAUDRATE_SET_H
 #define __BPS_CMD_BAUDRATE_SET_H
 
+#include <bps_public.h>
+
 #if (BPS_CMD_SET == BPS_CMD_SET_B || BPS_CMD_SET == BPS_CMD_SET_T || BPS_CMD_SET == BPS_CMD_SET_C)
 
-#include <bps_public.h>
 #include <bps_cwords.h>
 
 

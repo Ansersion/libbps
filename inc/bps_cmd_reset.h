@@ -25,9 +25,10 @@
 #ifndef __BPS_CMD_RESET_H
 #define __BPS_CMD_RESET_H
 
+#include <bps_public.h>
+
 #if (BPS_CMD_SET == BPS_CMD_SET_B || BPS_CMD_SET == BPS_CMD_SET_T || BPS_CMD_SET == BPS_CMD_SET_C)
 
-#include <bps_public.h>
 #include <bps_cwords.h>
 
 #define SECURITY_WORD_RESET     0xBCBC

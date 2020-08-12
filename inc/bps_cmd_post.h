@@ -25,9 +25,10 @@
 #ifndef __BPS_CMD_POST_H
 #define __BPS_CMD_POST_H
 
+#include <bps_public.h>
+
 #if (BPS_CMD_SET == BPS_CMD_SET_C)
 
-#include <bps_public.h>
 #include <bps_cwords.h>
 
 typedef struct BPSCmdPostField {

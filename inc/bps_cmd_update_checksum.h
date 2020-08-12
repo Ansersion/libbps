@@ -25,9 +25,10 @@
 #ifndef __BPS_CMD_UPDATE_CHECKSUM_H
 #define __BPS_CMD_UPDATE_CHECKSUM_H
 
+#include <bps_public.h>
+
 #if (BPS_CMD_SET == BPS_CMD_SET_B || BPS_CMD_SET == BPS_CMD_SET_T || BPS_CMD_SET == BPS_CMD_SET_C)
 
-#include <bps_public.h>
 #include <bps_cwords.h>
 
 #define SECURITY_WORD_UPDATE_CHKSUM     0xCBBC
