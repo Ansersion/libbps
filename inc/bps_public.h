@@ -182,10 +182,10 @@ EXPORT_API const BPS_UINT8 * BPS_GetNet16(const BPS_UINT8 * src, BPS_UINT16 * va
 EXPORT_API const BPS_UINT8 * BPS_GetNet32(const BPS_UINT8 * src, BPS_UINT32 * val);
 
 EXPORT_API const BPS_UINT8 * BPS_Get2ByteField(BPS_UINT8 * pack, BPS_UINT8 * field_buf, BPS_UINT16 * field_len);
-EXPORT_API BPS_WORD BPS_GetSigValueLen(BPSSigType type, BPSSigTypeU value);
+EXPORT_API BPS_WORD BPS_GetSigValueLen(BPSSigType type, BPSSigTypeU * value);
 /* except BPS_SIG_TYPE_STR */
 EXPORT_API BPS_WORD BPS_GetSigValueLen2(BPSSigType type);
-EXPORT_API BPS_UINT8 * BPS_SetSigValue(BPS_UINT8 * pack, BPSSigType type, BPSSigTypeU value);
+EXPORT_API BPS_UINT8 * BPS_SetSigValue(BPS_UINT8 * pack, BPSSigType type, BPSSigTypeU * value);
 EXPORT_API const BPS_UINT8 * BPS_GetSigValue(const BPS_UINT8 * pack, BPSSigType type, BPSSigTypeU * value, BPS_WORD len);
 
 /** 

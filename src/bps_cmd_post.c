@@ -59,9 +59,9 @@ BPS_UINT16 BPSPackPostReq(BPSCmdPostReq * req, BPS_UINT8 * buf, BPS_WORD size)
         BPS_ASSERT_SIZE_UINT8(size);
         buf[i++] = field_tmp->signalType;
 
-        len = BPS_GetSigValueLen(field_tmp->signalType, field_tmp->value);
+        len = BPS_GetSigValueLen(field_tmp->signalType, &(field_tmp->value));
         BPS_ASSERT_SIZE(size, len);
-        BPS_SetSigValue(buf+i, field_tmp->signalType, field_tmp->value);
+        BPS_SetSigValue(buf+i, field_tmp->signalType, &(field_tmp->value));
         i += len;
     }
 

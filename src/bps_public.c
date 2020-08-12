@@ -146,9 +146,13 @@ const BPS_UINT8 * BPS_Get2ByteField(BPS_UINT8 * pack, BPS_UINT8 * field_buf, BPS
 	return p_pack+(*field_len);
 }
 
-BPS_WORD BPS_GetSigValueLen(BPSSigType type, BPSSigTypeU value)
+BPS_WORD BPS_GetSigValueLen(BPSSigType type, BPSSigTypeU * value)
 {
     BPS_WORD len;
+    if(BPS_NULL == value) {
+        return 0;
+    }
+
     switch(type) {
         case BPS_SIG_TYPE_U32:
             len = 4;
@@ -169,8 +173,8 @@ BPS_WORD BPS_GetSigValueLen(BPSSigType type, BPSSigTypeU value)
             len = 4;
             break;
         case BPS_SIG_TYPE_STR: 
-            if(BPS_NULL != value.t_str) {
-                len = strlen_bps((const char *)value.t_str);
+            if(BPS_NULL != value->t_str) {
+                len = strlen_bps((const char *)value->t_str);
             } else {
                 len = 0;
             }
@@ -235,46 +239,49 @@ BPS_WORD BPS_GetSigValueLen2(BPSSigType type)
     return len;
 }
 
-BPS_UINT8 * BPS_SetSigValue(BPS_UINT8 * pack, BPSSigType type, BPSSigTypeU value)
+BPS_UINT8 * BPS_SetSigValue(BPS_UINT8 * pack, BPSSigType type, BPSSigTypeU * value)
 {
 	BPS_UINT8 * p_pack = pack;
     BPS_UINT8 str_len;
 	if(BPS_NULL == pack) {
 		return BPS_NULL;
 	}
+	if(BPS_NULL == value) {
+		return BPS_NULL;
+	}
     switch(type) {
         case BPS_SIG_TYPE_U32:
-            p_pack = BPS_SetBig32(p_pack, value.t_u32);
+            p_pack = BPS_SetBig32(p_pack, value->t_u32);
             break;
         case BPS_SIG_TYPE_U16:
-            p_pack = BPS_SetBig16(p_pack, value.t_u16);
+            p_pack = BPS_SetBig16(p_pack, value->t_u16);
             break;
         case BPS_SIG_TYPE_I32:
-            p_pack = BPS_SetBig32(p_pack, value.t_i32);
+            p_pack = BPS_SetBig32(p_pack, value->t_i32);
             break;
         case BPS_SIG_TYPE_I16:
-            p_pack = BPS_SetBig16(p_pack, value.t_i16);
+            p_pack = BPS_SetBig16(p_pack, value->t_i16);
             break;
         case BPS_SIG_TYPE_ENM:
-            p_pack = BPS_SetBig16(p_pack, value.t_enm);
+            p_pack = BPS_SetBig16(p_pack, value->t_enm);
             break;
         case BPS_SIG_TYPE_FLT:
-            p_pack = BPS_SetBig32(p_pack, value.t_flt);
+            p_pack = BPS_SetBig32(p_pack, value->t_flt);
             break;
         case BPS_SIG_TYPE_STR: 
-            str_len = strlen_bps((const char *)value.t_str);
+            str_len = strlen_bps((const char *)value->t_str);
             *p_pack++ = str_len;
-            memcpy_bps(p_pack, value.t_str, str_len);
+            memcpy_bps(p_pack, value->t_str, str_len);
             p_pack += str_len;
             break;
         case BPS_SIG_TYPE_BOOLEAN:
-            *p_pack++ = value.t_bool;
+            *p_pack++ = value->t_bool;
             break;
         case BPS_SIG_TYPE_TIME:
-            p_pack = BPS_SetBig32(p_pack, value.t_time);
+            p_pack = BPS_SetBig32(p_pack, value->t_time);
             break;
         case BPS_SIG_TYPE_DATE:
-            p_pack = BPS_SetBig32(p_pack, value.t_date);
+            p_pack = BPS_SetBig32(p_pack, value->t_date);
             break;
         default:
             return BPS_NULL;

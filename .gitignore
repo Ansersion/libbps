@@ -327,3 +327,8 @@ __pycache__/
 
 .depend
 tags
+
+# sdcc mcs51
+*.asm
+*.lst
+*.sym

@@ -1,0 +1,54 @@
+##################################################################
+# Makefile for 8051 platform.
+# Use SDCC compiler tools with size optimization.
+# Compiler tools link: 
+# http://sdcc.sourceforge.net/snap.php
+##################################################################
+
+COMPILE_OPTS =		$(INCLUDES) -I. -c
+COMPILE_OPTS += --opt-code-size
+COMPILE_OPTS += --nostdlib
+COMPILE_OPTS += -mmcs51
+CC = sdcc
+
+ALL = 
+SRC =
+OBJ =
+INCLUDES =
+MACRO 	= -DBPS_CPU8
+LINK_OPTS = -rc
+
+INCLUDES += -Iinc
+
+SRC_DIR = src
+
+
+CFLAGS +=		$(COMPILE_OPTS) 
+CFLAGS +=		$(MACRO) 
+
+LIBRARY_LINK =		sdar
+
+SRC 	+= ${wildcard $(SRC_DIR)/*.c}
+OBJ 	+= ${patsubst %.c, %.o, $(SRC)}
+
+TARGET_STATIC_LIB = libbps.lib
+
+ALL += $(TARGET_STATIC_LIB) 
+
+all: $(ALL)
+
+$(TARGET_STATIC_LIB): $(OBJ) 
+	$(LIBRARY_LINK) $(LINK_OPTS) $@ $(OBJ)
+	# cscope: for vim editor searching
+	# cscope -Rbq
+
+$(OBJ):%.o:%.c
+	$(CC) $(CFLAGS) $< -o $@
+
+clean:
+	-rm -rf $(OBJ) $(ALL) core *.core *~ inc/*~ src/*.asm src/*.lst src/*sym cscope.* 
+
+install:
+	@echo "install not supported\n"
+
+##### Any additional, platform-specific rules come here:
