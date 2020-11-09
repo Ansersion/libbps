@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////////
-/// Copyright 2019 Ansersion
+/// Copyright 2019-2020 Ansersion
 /// 
 /// Licensed under the Apache License, Version 2.0 (the "License");
 /// you may not use this file except in compliance with the License.
@@ -249,3 +249,231 @@ BPSPacketData * BPSParseNoCheck(BPS_UINT8 * buf, BPSPacketData * pd)
     return pd;
 
 }
+
+#ifdef BPS_MEM_DYN
+BPSPacketData * BPSParseNoCheckDyn(BPS_UINT8 * buf, BPSPacketData * pd)
+{
+    const BPS_UINT8 * buf_tmp;
+    BPS_UINT16 rmn_len = 0;
+    BPS_UINT16 parse_ret = 0;
+
+    /* check the input parameters */
+    if(BPS_NULL == buf || BPS_NULL == pd) {
+        return BPS_NULL;
+    } 
+    buf_tmp = buf + BPS_REMAIN_LEN_POSITION;
+
+    /* check remaining length at least is 2 bytes for "command word" and "checksum" */
+    buf_tmp = BPS_GetNet16(buf_tmp, &rmn_len);
+    if(rmn_len < BPS_CMD_WORD_SIZE) {
+        return BPS_NULL;
+    }
+
+    /* get the command word and switch to the parsing routine */
+    pd->cmdWord = *buf_tmp++;
+    /* the following parsing routing will not parse command and the checksum*/
+    rmn_len -= BPS_CMD_WORD_SIZE;
+    switch(pd->cmdWord) {
+#if (BPS_CMD_SET == BPS_CMD_SET_B || BPS_CMD_SET == BPS_CMD_SET_T || BPS_CMD_SET == BPS_CMD_SET_C)
+        case CMD_COMM_TEST_WORD_REQ:
+            /* parse the command "commnication test" request. */
+            parse_ret = BPSParseCommTestReqDyn(&(pd->pu.commTestReq), buf_tmp, rmn_len);
+            /* because the function will never fail and return 0, so set 'parse_ret = 1' to make the error check to pass through*/
+            parse_ret = 1;
+            break;
+        case CMD_COMM_TEST_WORD_RSP:
+            /* parse the command "commnication test" response, */
+            parse_ret = BPSParseCommTestRspDyn(&(pd->pu.commTestRsp), buf_tmp, rmn_len);
+            /* because the function will never fail and return 0, so set 'parse_ret = 1' to make the error check to pass through*/
+            parse_ret = 1;
+            break;
+        case CMD_HD_INFO_WORD_REQ:
+            /* parse the command "query hardware info" request, */
+            parse_ret = BPSParseHDInfoReqDyn(&(pd->pu.hdInfoReq), buf_tmp, rmn_len);
+            /* because the function will never fail and return 0, so set 'parse_ret = 1' to make the error check to pass through*/
+            parse_ret = 1;
+            break;
+        case CMD_HD_INFO_WORD_RSP:
+            /* parse the command "query hardware info" response, */
+            parse_ret = BPSParseHDInfoRspDyn(&(pd->pu.hdInfoRsp), buf_tmp, rmn_len);
+            break;
+        case CMD_BAUDRATE_SET_WORD_REQ:
+            /* parse the command "set/query baudrate" request, */
+            parse_ret = BPSParseBaudrateSetReqDyn(&(pd->pu.baudrateSetReq), buf_tmp, rmn_len);
+            break;
+        case CMD_BAUDRATE_SET_WORD_RSP:
+            /* parse the command "set/query baudrate" response, */
+            parse_ret = BPSParseBaudrateSetRspDyn(&(pd->pu.baudrateSetRsp), buf_tmp, rmn_len);
+            break;
+        case CMD_LAUNCH_UPDATE_WORD_REQ:
+            /* parse the command "launching update" request, */
+            parse_ret = BPSParseLnchUpdateReqDyn(&(pd->pu.lnchUpdateReq), buf_tmp, rmn_len);
+            break;
+        case CMD_LAUNCH_UPDATE_WORD_RSP:
+            /* parse the command "launching update" response, */
+            parse_ret = BPSParseLnchUpdateRspDyn(&(pd->pu.lnchUpdateRsp), buf_tmp, rmn_len);
+            break;
+        case CMD_CLEAR_SPACE_WORD_REQ:
+            /* parse the command "clear space" request, */
+            parse_ret = BPSParseClearSpaceReqDyn(&(pd->pu.clearSpaceReq), buf_tmp, rmn_len);
+            break;
+        case CMD_CLEAR_SPACE_WORD_RSP:
+            /* parse the command "clear space" response, */
+            parse_ret = BPSParseClearSpaceRspDyn(&(pd->pu.clearSpaceRsp), buf_tmp, rmn_len);
+            break;
+        case CMD_WRITE_FRMW_WORD_REQ:
+            /* parse the command "write update firmware" request, */
+            parse_ret = BPSParseWriteFrmwReqDyn(&(pd->pu.writeFrmwReq), buf_tmp, rmn_len);
+            break;
+        case CMD_WRITE_FRMW_WORD_RSP:
+            /* parse the command "write update firmware" response, */
+            parse_ret = BPSParseWriteFrmwRspDyn(&(pd->pu.writeFrmwRsp), buf_tmp, rmn_len);
+            break;
+        case CMD_UPDATE_CHECKSUM_WORD_REQ:
+            /* parse the command "check the update firmware" request, */
+            parse_ret = BPSParseUpdateChecksumReqDyn(&(pd->pu.updateChksumReq), buf_tmp, rmn_len);
+            break;
+        case CMD_UPDATE_CHECKSUM_WORD_RSP:
+            /* parse the command "check the update firmware" response, */
+            parse_ret = BPSParseUpdateChecksumRspDyn(&(pd->pu.updateChksumRsp), buf_tmp, rmn_len);
+            break;
+        case CMD_RESET_WORD_REQ:
+            /* parse the command "reset the system" request, */
+            parse_ret = BPSParseResetReqDyn(&(pd->pu.resetReq), buf_tmp, rmn_len);
+            break;
+        case CMD_RESET_WORD_RSP:
+            /* parse the command "reset the system" response, */
+            parse_ret = BPSParseResetRspDyn(&(pd->pu.resetRsp), buf_tmp, rmn_len);
+            break;
+        case CMD_FAC_RESTORE_WORD_REQ:
+            /* parse the command "restore to factory settings" request, */
+            parse_ret = BPSParseFacRestoreReqDyn(&(pd->pu.facRestoreReq), buf_tmp, rmn_len);
+            break;
+        case CMD_FAC_RESTORE_WORD_RSP:
+            /* parse the command "restore to factory settings" response, */
+            parse_ret = BPSParseFacRestoreRspDyn(&(pd->pu.facRestoreRsp), buf_tmp, rmn_len);
+            break;
+        case CMD_ADDR_SET_WORD_REQ:
+            /* parse the command "set the BPS address" request, */
+            parse_ret = BPSParseAddrSetReqDyn(&(pd->pu.addrSetReq), buf_tmp, rmn_len);
+            break;
+        case CMD_ADDR_SET_WORD_RSP:
+            /* parse the command "set the BPS address" response, */
+            parse_ret = BPSParseAddrSetRspDyn(&(pd->pu.addrSetRsp), buf_tmp, rmn_len);
+            break;
+#endif
+
+#if (BPS_CMD_SET == BPS_CMD_SET_T || BPS_CMD_SET == BPS_CMD_SET_C)
+        case CMD_TRANS_BYTES_WORD_REQ: // 0x40
+            /* parse the command 'transmit bytes' request, */
+            parse_ret = BPSParseTransBytesReqDyn(&(pd->pu.transBytesReq), buf_tmp, rmn_len);
+            break;
+        case CMD_TRANS_BYTES_WORD_RSP: // 0x41
+            /* parse the command 'transmit bytes' response, */
+            parse_ret = BPSParseTransBytesRspDyn(&(pd->pu.transBytesRsp), buf_tmp, rmn_len);
+            break;
+#endif
+
+#if (BPS_CMD_SET == BPS_CMD_SET_C)
+        case CMD_GET_SIGTAB_WORD_REQ:
+            /* parse the command get signal table request, */
+            parse_ret = BPSParseGetSigtabReqDyn(&(pd->pu.getSigtabReq), buf_tmp, rmn_len);
+            /* because the function will never fail and return 0, so set 'parse_ret = 1' to make the error check to pass through*/
+            parse_ret = 1;
+            break;
+        case CMD_GET_SIGTAB_WORD_RSP:
+            /* parse the command get signal table response, */
+            parse_ret = BPSParseGetSigtabRspDyn(&(pd->pu.getSigtabRsp), buf_tmp, rmn_len);
+            break;
+        case CMD_REPORT_SIG_WORD_REQ:
+            /* parse the command report signal values request, */
+            parse_ret = BPSParseReportSigReqDyn(&(pd->pu.reportSigReq), buf_tmp, rmn_len);
+            break;
+        case CMD_REPORT_SIG_WORD_RSP:
+            /* parse the command report signal values response, */
+            parse_ret = BPSParseReportSigRspDyn(&(pd->pu.reportSigRsp), buf_tmp, rmn_len);
+            break;
+        case CMD_POST_WORD_REQ:
+            /* parse the command post signal request, */
+            parse_ret = BPSParsePostReqDyn(&(pd->pu.postReq), buf_tmp, rmn_len);
+            break;
+        case CMD_POST_WORD_RSP:
+            /* parse the command post signal response, */
+            parse_ret = BPSParsePostRspDyn(&(pd->pu.postRsp), buf_tmp, rmn_len);
+            break;
+        case CMD_GET_SIG_WORD_REQ:
+            /* parse the command get signal values request, */
+            parse_ret = BPSParseGetSigReqDyn(&(pd->pu.getSigReq), buf_tmp, rmn_len);
+            break;
+        case CMD_GET_SIG_WORD_RSP:
+            /* parse the command get signal values response, */
+            parse_ret = BPSParseGetSigRspDyn(&(pd->pu.getSigRsp), buf_tmp, rmn_len);
+            break;
+        case CMD_OPEN_NETSET_WORD_REQ:
+            /* parse the command open net setting request, */
+            parse_ret = BPSParseOpenNetsetReqDyn(&(pd->pu.openNetsetReq), buf_tmp, rmn_len);
+            break;
+        case CMD_OPEN_NETSET_WORD_RSP:
+            /* parse the command open net setting response, */
+            parse_ret = BPSParseOpenNetsetRspDyn(&(pd->pu.openNetsetRsp), buf_tmp, rmn_len);
+            break;
+        case CMD_CONFIG_NETSET_WORD_REQ:
+            /* parse the command configure net setting request, */
+            parse_ret = BPSParseConfigNetsetReqDyn(&(pd->pu.configNetsetReq), buf_tmp, rmn_len);
+            /* because the function will never fail and return 0, so set 'parse_ret = 1' to make the error check to pass through*/
+            parse_ret = 1;
+            break;
+        case CMD_CONFIG_NETSET_WORD_RSP:
+            /* parse the command configure net setting response, */
+            parse_ret = BPSParseConfigNetsetRspDyn(&(pd->pu.configNetsetRsp), buf_tmp, rmn_len);
+            break;
+        case CMD_NETSTATE_QUERY_WORD_REQ:
+            /* parse the command query net state request, */
+            parse_ret = BPSParseNetstateQueryReqDyn(&(pd->pu.netstateQueryReq), buf_tmp, rmn_len);
+            /* because the function will never fail and return 0, so set 'parse_ret = 1' to make the error check to pass through*/
+            parse_ret = 1;
+            break;
+        case CMD_NETSTATE_QUERY_WORD_RSP:
+            /* parse the command query net state response, */
+            parse_ret = BPSParseNetstateQueryRspDyn(&(pd->pu.netstateQueryRsp), buf_tmp, rmn_len);
+            break;
+        case CMD_NETADDR_QUERY_WORD_REQ:
+            /* parse the command net address request, */
+            parse_ret = BPSParseNetaddrQueryReqDyn(&(pd->pu.netaddrQueryReq), buf_tmp, rmn_len);
+            break;
+        case CMD_NETADDR_QUERY_WORD_RSP:
+            /* parse the command net address response, */
+            parse_ret = BPSParseNetaddrQueryRspDyn(&(pd->pu.netaddrQueryRsp), buf_tmp, rmn_len);
+            break;
+        case CMD_PING_WORD_REQ:
+            /* parse the command ping request, */
+            parse_ret = BPSParsePingReqDyn(&(pd->pu.pingReq), buf_tmp, rmn_len);
+            break;
+        case CMD_PING_WORD_RSP:
+            /* parse the command ping response, */
+            parse_ret = BPSParsePingRspDyn(&(pd->pu.pingRsp), buf_tmp, rmn_len);
+            break;
+#endif
+            /** Command Set O */
+        case CMD_SYSTEM_PARA_WORD_REQ: // 0xEE
+            /* parse the command "configure system parameter" request, */
+            parse_ret = BPSParseSystemParaReqDyn(&(pd->pu.sysParaReq), buf_tmp, rmn_len);
+            break;
+        case CMD_SYSTEM_PARA_WORD_RSP: // 0xEF
+            /* parse the command "configure system parameter" response, */
+            parse_ret = BPSParseSystemParaRspDyn(&(pd->pu.sysParaRsp), buf_tmp, rmn_len);
+            break;
+        default:
+            /* unknown command word */
+            parse_ret = 0;
+    }
+
+    /* error check */
+    if(!parse_ret) {
+        return BPS_NULL;
+    }
+
+    return pd;
+
+}
+#endif

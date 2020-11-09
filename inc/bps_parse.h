@@ -125,5 +125,19 @@ typedef struct BPSPacketData {
 EXPORT_API BPSPacketData * BPSParseNoCheck(BPS_UINT8 * buf, BPSPacketData * pd);
 
 
+#ifdef BPS_MEM_DYN
+/** 
+  * @Brief BPSParseNoCheckDyn parse the BPS packet without checkout the header and checksum, using dynamicly 
+  *        memory alloction APIs, which means you don't need to set the buffer for parameter 'pd' previously.
+  *        It is easier and more efficient than 'BPSParseNocheck'. 
+  *        However you have to free the parameter 'pd' manually to free the memory when it is no use for you.
+  * @Param buf   the message buffer
+  * @Param pd    the data struct to store the message
+  * @return Success     the pointer to data passed
+  *         Failed      BPS_NULL
+ */
+EXPORT_API BPSPacketData * BPSParseNoCheckDyn(BPS_UINT8 * buf, BPSPacketData * pd);
+#endif
+
 #endif
 
